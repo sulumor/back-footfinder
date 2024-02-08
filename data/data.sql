@@ -1,12 +1,12 @@
 
-BEGIN
+BEGIN;
 
 
-DROP TABLE IF EXISTS 'role','utilisateur', 'joueur', 'recruteur', 'poste', 'equipe', 'match', 'statistique', 'rattacher', 'suivre', 'rencontrer';
+DROP TABLE IF EXISTS "role","utilisateur", "poste", "joueur", "recruteur", "equipe","rencontrer", "match", "rattacher", "statistique", "suivre";
 
 
 CREATE TABLE "role" (
-  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
   "libellé" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
@@ -18,7 +18,15 @@ CREATE TABLE "utilisateur" (
   "prénom" TEXT NOT NULL,
   "email" TEXT NOT NULL,
   "mot_de_passe" TEXT NOT NULL,
-  "role_id" int REFERENCES role(id),
+  "role_id" INT NOT NULL REFERENCES role(id),
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMPTZ
+);
+
+
+CREATE TABLE "poste" (
+  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "libellé" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
@@ -31,7 +39,7 @@ CREATE TABLE "joueur" (
   "genre" TEXT NOT NULL,
   "pied_fort" TEXT NOT NULL,
   "nombre_de_match_joué" INT NOT NULL DEFAULT 0,
-  "utilisateur_id" INT REFERENCES utilisateur(id) NOT NULL,
+  "utilisateur_id" INT NOT NULL REFERENCES utilisateur(id),
   "poste_id" INT REFERENCES poste(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
@@ -48,12 +56,6 @@ CREATE TABLE "recruteur" (
 );
 
 
-CREATE TABLE "poste" (
-  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "libellé" TEXT NOT NULL,
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
-);
 
 CREATE TABLE "equipe" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -61,18 +63,27 @@ CREATE TABLE "equipe" (
   "logo" TEXT NOT NULL,
   "adresse" TEXT NOT NULL,
   "code_postal" TEXT NOT NULL CHECK(
-    "code_postal" ~ '/^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/'),
+    "code_postal" ~ '^\d{5}$'),
   "ville" TEXT NOT NULL,
-  "latitude" NUMERIC 4 NOT NULL,
-  "longitude" NUMERIC 4 NOT NULL,
+  "latitude" NUMERIC(8,6) NOT NULL,
+  "longitude" NUMERIC(8,6) NOT NULL,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMPTZ
+);
+
+
+CREATE TABLE "rencontrer" (
+  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
+  "equipe_id_comme_domicile" INT REFERENCES equipe(id),
+  "equipe_id_comme_extérieur" INT REFERENCES equipe(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "match" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "score" INT TEXT NOT NULL,
-  "rencontre_id" INT REFERENCES rencontrer(id),
+  "score" INT NOT NULL,
+  "rencontre_id" INT NOT NULL REFERENCES rencontrer(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
@@ -105,14 +116,6 @@ CREATE TABLE "suivre" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "joueur_id" INT REFERENCES joueur(id),
   "recruteur" INT REFERENCES recruteur(id),
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
-);
-
-CREATE TABLE "rencontrer" (
-  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "equipe_id_comme_domicile" INT REFERENCES equipe(id),
-  "equipe_id_comme_extérieur" INT REFERENCES equipe(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
