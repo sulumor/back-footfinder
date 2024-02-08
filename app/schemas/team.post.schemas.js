@@ -1,42 +1,54 @@
 import Joi from "joi";
 
 const schema = Joi.object({
-    username: Joi.string()
+    team: Joi.string()
         .alphanum()
         .min(3)
         .max(30)
         .required(),
 
-        password: Joi.string()
-        .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};:\\\'",.<>\\/?]{8,}$'))
-        .message('Le mot de passe doit contenir au moins 8 caractères et inclure des lettres majuscules, minuscules, des chiffres et des caractères spéciaux.'),
-
-    repeat_password: Joi.ref('password'),
-
-    
-    code_players: Joi.number()
+    code_team: Joi.number()
         .integer()
         .min(1)
         .max(1000),
 
-        nationality: Joi .string(),
+        club_name: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .required(),
 
-        gender: Joi .string(),
+        logo: Joi.string(),
 
-        number_of_matches_played: Joi .number()
+        address: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .required(),
+
+        number_of_matches_played: Joi.number()
             .integer()
             .min(0)
             .max(100),
 
+            postal_code: Joi.string()
+            .pattern(/^\d{5}$/)
+            .message('Le code postal doit être composé de 5 chiffres.')
+            .required(),
 
+            town: Joi.string(),
+      
+            longitude: Joi.number()
+            .min(-90)
+            .max(90)
+            .required(),
 
-    birth_year: Joi.number()
-        .integer()
-        .min(1900)
-        .max(2090),
+            latitude: Joi.number()
+            .min(-90)
+            .max(90)
+            .required(),
 
-    email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+        
 
         access_token: Joi.string()
         .alphanum(3)
@@ -45,9 +57,7 @@ const schema = Joi.object({
         .required()
         .message('Le jeton d\'accès doit être une chaîne alphanumérique d\'une longueur minimale de 10 caractères et maximale de 100 caractères.')
 })
-    .with('username', 'birth_year')
-    .xor('password', 'access_token')
-    .with('password', 'repeat_password');
+    
 
 
 schema.validate({ username: 'abc', birth_year: 1994 });

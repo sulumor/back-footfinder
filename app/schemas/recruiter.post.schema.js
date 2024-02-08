@@ -8,12 +8,13 @@ const schema = Joi.object({
         .required(),
 
         password: Joi.string()
-        .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};:\\\'",.<>\\/?]{8,}$')),
+        .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};:\\\'",.<>\\/?]{8,}$'))
+        .message('Le mot de passe doit contenir au moins 8 caractères et inclure des lettres majuscules, minuscules, des chiffres et des caractères spéciaux.'),
 
     repeat_password: Joi.ref('password'),
 
     
-    code_scouters: Joi.number()
+    code_recruiter: Joi.number()
         .integer()
         .min(1)
         .max(1000),
@@ -25,7 +26,17 @@ const schema = Joi.object({
         
 
     email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+
+
+        access_token: Joi.string()
+        .alphanum()
+        .min(10)
+        .max(100)
+        .required()
+        .message('Le jeton d\'accès doit être une chaîne alphanumérique d\'une longueur minimale de 10 caractères et maximale de 100 caractères.')
+
+
 })
     .with('username', 'birth_year')
     .xor('password', 'access_token')
@@ -43,4 +54,7 @@ schema.validate({});
 try {
     const value = await schema.validateAsync({ username: 'abc', birth_year: 1994 });
 }
-catch (err) { }
+catch (err) { 
+    console.error('Une erreur de validation est survenue :', err);
+
+}
