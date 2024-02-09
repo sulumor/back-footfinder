@@ -1,7 +1,7 @@
 /**
  * @typedef {object} ApiJsonError - Error response
  * @property {string} error.required - Error message
- * @example
+ * @example 
  * {
  *  "error": "Bad request"
  * }
@@ -11,7 +11,7 @@ export default class ApiError extends Error {
   /**
    * Personnalizes Error Constructor to personnalized user response
    * @param {string} message contains literal message to communicate
-   * @param {object} info dynamic object to add more informations to the error (ex: http status)
+   * @param {object} infos dynamic object to add more informations to the error (ex: http status)
    */
   constructor(message, infos) {
     super(message);
