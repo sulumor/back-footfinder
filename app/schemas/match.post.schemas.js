@@ -7,7 +7,7 @@ const schema = Joi.object({
         .max(30)
         .required(),
     
-    score: Joi.number()
+    score: Joi.string()
         .integer()
         .min(1)
         .max(1000),

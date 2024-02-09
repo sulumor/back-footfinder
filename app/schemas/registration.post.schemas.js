@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const schema = Joi.object({
-    name: Joi.string(),
+    last_name: Joi.string(),
 
     first_name: Joi.string(),
 
@@ -12,18 +12,15 @@ const schema = Joi.object({
 
     repeat_password: Joi.ref('password'),
 
-    access_token: [
-        Joi.string(),
-        Joi.number()
-    ],
+    
 
     
 
     email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net','io','fr','org','eu'] } })
 })
     
-    .xor('password', 'access_token')
+    
     .with('password', 'repeat_password');
 
 
