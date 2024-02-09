@@ -1,12 +1,14 @@
 import express from "express";
-// import apiRouter from "./api/index.router.js";
+import authRouter from "./auth/index.router.js";
+import playerRouter from "./player/index.router.js";
+import scoutRouter from "./scout/index.router.js";
 
 
 const router = express.Router();
 
-router.use("/", (_, res) => {
-  res.json({texte : 'Hello world!'})
-})
+router.use("/player", playerRouter);
+router.use("/scout", scoutRouter);
+router.use("/", authRouter);
 // router.use("/api", apiRouter);
 
 export default router;
