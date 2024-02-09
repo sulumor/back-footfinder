@@ -1,10 +1,6 @@
 BEGIN;
 
-TRUNCATE TABLE "role","user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow" RESTART IDENTITY CASCADE;
-
-INSERT INTO role(label) VALUES
-('joueur'),
-('recruteur');
+TRUNCATE TABLE "user", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow" RESTART IDENTITY CASCADE;
 
 
 INSERT INTO "user"(name, firstname, email, password, role_id) VALUES
@@ -14,13 +10,6 @@ INSERT INTO "user"(name, firstname, email, password, role_id) VALUES
 ('Barnett', 'Jonathan', 'jonh.barnett@mail.io', '3E62gp8Sn9KeHf', 2),
 ('Maradona', 'Diego', 'elpibedeoro@mail.io', 'tNs7PcBwp4556E', 1);
 
-
-INSERT INTO position(label) VALUES 
-('attaquant'),
-('défenseur'),
-('gardien'),
-('ailier'),
-('milieu de terrain');
 
 INSERT INTO player(birth_date, nationality, avatar, genre, strong_foot, number_of_matches_played, user_id, position_id) VALUES
 ('19/06/1982', 'français', 'SVG', 'masculin', 'gauche', 20, 1, 1),
