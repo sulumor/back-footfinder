@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "dev": "npx nodemon",
     "star": "node .",
     "db:create": "psql -d foofinder -f data/data.sql",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "jest": "^29.7.0",
     "supertest": "^6.3.4"
   }
