@@ -60,7 +60,7 @@ const schema = Joi.object({
     
 
 
-schema.validate({ username: 'abc', birth_year: 1994 });
+schema.validate({ club_name: 'psg', number_of_matches_played: 15 });
 // -> { value: { username: 'abc', birth_year: 1994 } }
 
 schema.validate({});
@@ -69,7 +69,9 @@ schema.validate({});
 // Also -
 
 try {
-    const value = await schema.validateAsync({ username: 'abc', birth_year: 1994 });
+    const value = await schema.validateAsync({ club_name: 'psg', number_of_matches_played: 15 });
+
+    console.log("Validation réussie :", value);
 }
 catch (err) { 
 console.error('Une erreur de validation est survenue :', err);
