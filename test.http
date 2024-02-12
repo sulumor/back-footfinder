@@ -19,4 +19,9 @@ Content-Type: application/json
 
 
 ###
-GET {{endpoint}}/scout/1
+PATCH {{endpoint}}/player/1
+Content-Type: application/json
+
+{
+  
+}

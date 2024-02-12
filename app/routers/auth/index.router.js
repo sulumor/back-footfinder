@@ -2,8 +2,8 @@ import { Router } from "express";
 import controllerWrapper from "../../helpers/controller.wrapper.js";
 import AuthController from "../../controllers/auth.controller.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
-import loginSchema from "../../schemas/login.post.schemas.js";
-import registrationSchema from "../../schemas/registration.post.schemas.js";
+import loginSchema from "../../schemas/post/login.post.schemas.js";
+import registrationSchema from "../../schemas/post/registration.post.schemas.js";
 
 const authRouter = Router();
 
@@ -47,8 +47,10 @@ authRouter.post(
  *  "error": "Internal Server Error"
  * }
  */
-authRouter.post("/register",
+authRouter.post(
+  "/register",
   validationMiddleware("body", registrationSchema),
-  controllerWrapper(AuthController.register.bind(AuthController)));
+  controllerWrapper(AuthController.register.bind(AuthController)),
+);
 
 export default authRouter;
