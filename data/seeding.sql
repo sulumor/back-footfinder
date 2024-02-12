@@ -3,7 +3,7 @@ BEGIN;
 TRUNCATE TABLE "user", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow" RESTART IDENTITY CASCADE;
 
 
-INSERT INTO "user"(name, firstname, email, password, role_id) VALUES
+INSERT INTO "user"(firstname,lastname, email, password, role_id) VALUES
 ('Dujardin', 'Jean', 'jean.dujardin@mail.io','yjjk8E676a9JQZ', 1),
 ('Dupont', 'Nicolas', 'nicolas.dupon@mail.io','X346Dc5V7kfYmv', 2),
 ('Ronaldo', 'Cristiano', 'cr7@mail.io', '629Mc9Jh7KEepk', 1),
@@ -29,8 +29,8 @@ INSERT INTO meet(team_id_as_home, team_id_as_outside) VALUES
 (2, 1);
 
 INSERT INTO match(score, meet_id) VALUES
-('2', 1),
-('3', 2);
+('2-3', 1),
+('3-1', 2);
 
 
 INSERT INTO play(player_id, match_id) VALUES
@@ -38,7 +38,7 @@ INSERT INTO play(player_id, match_id) VALUES
 (3, 2),
 (2, 1);
 
-INSERT INTO statistics(decisive_passes, goals_scored, minutes_played, red_card, yellow_card, arrêts, goals_conceded, physical_form, match_id) VALUES
+INSERT INTO statistics(assists, goals_scored, minutes_played, red_card, yellow_card, stops, goals_conceded, fitness, match_id) VALUES
 ('12', '2', '70', '0', '1', '0', '1', 'En forme', 1),
 ('7', '1', '93', '1', '2', '0', '2', 'En forme', 2);
 
