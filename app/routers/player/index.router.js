@@ -7,6 +7,9 @@ import idSchemas from "../../schemas/get/id.schemas.js";
 
 const playerRouter = Router();
 
+playerRouter.route("/:id/match")
+  .get();
+
 playerRouter.route("/:id")
   /**
    * GET /player/:id
@@ -32,7 +35,8 @@ playerRouter.route("/:id")
    */
   .get(
     validationMiddleware("params", idSchemas),
-    controllerWrapper(PlayerController.getByPk.bind(PlayerController)))
+    controllerWrapper(PlayerController.getWithUser.bind(PlayerController)),
+  )
 
   /**
    * PATCH /player/:id
@@ -60,7 +64,7 @@ playerRouter.route("/:id")
   .patch(
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", patchPlayerSchema),
-    controllerWrapper(PlayerController.update.bind(PlayerController))
+    controllerWrapper(PlayerController.updateAllInfos.bind(PlayerController)),
   );
 
 export default playerRouter;

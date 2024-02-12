@@ -9,5 +9,5 @@ export default Joi.object({
   nationality: Joi.string(),
   avatar: Joi.string(),
   genre: Joi.string(),
-  strong_foot: Joi.string
+  strong_foot: Joi.string(),
 }).min(1).required();

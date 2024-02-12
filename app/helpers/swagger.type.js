@@ -95,5 +95,5 @@
  * @property { string } avatar
  * @property { string } genre
  * @property { string } strong_foot
- * 
+ *
  */

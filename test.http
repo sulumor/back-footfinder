@@ -19,9 +19,13 @@ Content-Type: application/json
 
 
 ###
+GET {{endpoint}}/player/1
+
+###
 PATCH {{endpoint}}/player/1
 Content-Type: application/json
 
 {
-  
+  "lastname": "Jean Claude",
+  "genre": "non binaire"
 }
