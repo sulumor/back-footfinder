@@ -14,8 +14,8 @@ CREATE TABLE "role" (
 
 CREATE TABLE "user" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "name" TEXT NOT NULL,
   "firstname" TEXT NOT NULL,
+  "lastname" TEXT NOT NULL,
   "email" TEXT NOT NULL,
   "password" TEXT NOT NULL,
   "role_id" INT NOT NULL REFERENCES role(id),
@@ -77,7 +77,7 @@ CREATE TABLE "meet" (
 
 CREATE TABLE "match" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "score" INT NOT NULL,
+  "score" TEXT NOT NULL,
   "meet_id" INT REFERENCES meet(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
@@ -93,14 +93,14 @@ CREATE TABLE "play" (
 
 CREATE TABLE "statistics" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "decisive_passes" INT NULL,
+  "assists" INT NULL,
   "goals_scored" INT NULL,
   "minutes_played" INT NULL,
   "red_card" INT NULL,
   "yellow_card" INT NULL,
-  "arrêts" INT NULL,
+  "stops" INT NULL,
   "goals_conceded" INT NOT NULL,
-  "physical_form" TEXT NOT NULL,
+  "fitness" TEXT NOT NULL,
   "match_id" INT REFERENCES match(id) NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
