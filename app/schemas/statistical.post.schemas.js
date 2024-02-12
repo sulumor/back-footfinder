@@ -45,6 +45,9 @@ const schema = Joi.object({
         .message('Le jeton d\'accès doit être une chaîne alphanumérique d\'une longueur minimale de 10 caractères et maximale de 100 caractères.')
 });
 
-schema.validate({ code_stats: 10, assists: 5, goals_scored: 20, minutes_played: 60, red_card: 'Yes', red_yellow: 'No', stops: 15, goals_conceded: 2, fitness: 'Good', access_token: 'ABC123xyz' })
-    .then(value => console.log("Validation réussie :", value))
-    .catch(error => console.error("Erreur de validation :", error.message));
+try {
+    const value = await schema.validateAsync({ code_stats: 10, assists: 5, goals_scored: 20, minutes_played: 60, red_card: 'Yes', red_yellow: 'No', stops: 15, goals_conceded: 2, fitness: 'Good', access_token: 'ABC123xyz' });
+    console.log("Validation réussie :", value);
+} catch (error) {
+    console.error("Erreur de validation :", error.message);
+}

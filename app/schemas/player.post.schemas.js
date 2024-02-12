@@ -51,15 +51,14 @@ const schema = Joi.object({
 
 
 schema.validate({ username: 'abc', birth_year: 1994 });
-// -> { value: { username: 'abc', birth_year: 1994 } }
 
 schema.validate({});
-// -> { value: {}, error: '"username" is required' }
 
-// Also -
 
 try {
     const value = await schema.validateAsync({ username: 'abc', birth_year: 1994 });
+
+    console.log("Validation réussie :", value);
 }
 catch (err) { 
 console.error('Une erreur de validation est survenue :', err);
