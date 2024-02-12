@@ -3,7 +3,6 @@ import authRouter from "./auth/index.router.js";
 import playerRouter from "./player/index.router.js";
 import scoutRouter from "./scout/index.router.js";
 
-
 const router = express.Router();
 
 router.use("/player", playerRouter);

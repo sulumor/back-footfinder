@@ -1,4 +1,4 @@
-//? Types liés à la BDD
+// ? Types liés à la BDD
 /**
  @typedef { object } User
  * @property { number } id
@@ -36,7 +36,7 @@
  * @property { number } expiresAt
  */
 
-//? Types spécifiques
+// ? Types spécifiques
 
 /**
  * @typedef { object } LoginBody - Body to receive a login
@@ -45,10 +45,10 @@
  */
 
 /**
- * @typedef { object } Data 
- * @property { number } id 
- * @property { string } lastname 
- * @property { string } firstname 
+ * @typedef { object } Data
+ * @property { number } id
+ * @property { string } lastname
+ * @property { string } firstname
  * @property { string } email
  * @property { string } role
  * @property { number } role_id
@@ -67,7 +67,7 @@
 
 /**
  * @typedef { object } LoginResponse - Response after a login request
- * @property { Data } data 
+ * @property { Data } data
  */
 
 /**
@@ -81,6 +81,6 @@
 
 /**
  * @typedef { object } RegisterResponse - Response after a login request
- * @property { User } data 
- * @property { Token } token 
+ * @property { User } data
+ * @property { Token } token
  */
