@@ -2,7 +2,7 @@
 /**
  @typedef { object } User
  * @property { number } id
- * @property { string } name
+ * @property { string } lastname
  * @property { string } firstname
  * @property { string } email
  * @property { number } role_id
