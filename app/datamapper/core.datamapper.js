@@ -28,7 +28,7 @@ export default class CoreDatamapper {
       });
       filter = `WHERE ${filters.join(" AND ")}`;
     }
-    const result = await client.query(`SELECT * FROM "${this.tableName}" ${filter}`, [values]);
+    const result = await client.query(`SELECT * FROM "${this.tableName}" ${filter}`, values);
     return result.rows;
   }
 

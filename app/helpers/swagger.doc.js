@@ -6,8 +6,8 @@ const dirname = url.fileURLToPath(new URL("..", import.meta.url));
 const options = {
   info: {
     version: "1.0.0",
-    title: "New API",
-    description: "",
+    title: "FootFinder API",
+    description: "Api de la plateform FootFinder",
   },
 
   // Base directory which we use to locate your JSDOC files
