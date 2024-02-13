@@ -26,8 +26,20 @@ PATCH {{endpoint}}/player/1
 Content-Type: application/json
 
 {
-  "firstname": "Pierre",
+  "firstname": "Jean Jacques",
   "lastname": "Dujardin",
   "birth_date":"12/06/1990",
-  "position": "gardien"
+  "position": "attaquant"
+}
+
+###
+GET {{endpoint}}/scout/1
+
+###
+PATCH {{endpoint}}/scout/1
+Content-Type: application/json
+
+{
+  "firstname": "Jean Jacque",
+  "lastname": "Dujardin",
 }

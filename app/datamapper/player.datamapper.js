@@ -15,7 +15,7 @@ export default class PlayerDatamapper extends CoreDatamapper {
 
   static async updateSQL(json) {
     // eslint-disable-next-line quotes
-    const result = await client.query(`SELECT * FROM update_player ('${JSON.stringify(json)}');`);
+    const result = await client.query(`SELECT * FROM update_player($1)`, [json]);
     return result.rows[0];
   }
 }
