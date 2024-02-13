@@ -26,6 +26,8 @@ PATCH {{endpoint}}/player/1
 Content-Type: application/json
 
 {
-  "lastname": "Jean Claude",
-  "genre": "non binaire"
+  "firstname": "Pierre",
+  "lastname": "Dujardin",
+  "birth_date":"12/06/1990",
+  "position": "gardien"
 }

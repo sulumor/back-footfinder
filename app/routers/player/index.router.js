@@ -64,7 +64,7 @@ playerRouter.route("/:id")
   .patch(
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", patchPlayerSchema),
-    controllerWrapper(PlayerController.updateAllInfos.bind(PlayerController)),
+    controllerWrapper(PlayerController.updateAllInfosSQL.bind(PlayerController)),
   );
 
 export default playerRouter;

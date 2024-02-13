@@ -5,9 +5,10 @@ export default Joi.object({
   lastname: Joi.string(),
   email: Joi.string()
     .email({ minDomainSegments: 1 }),
-  birth_date: Joi.date().timestamp(),
+  birth_date: Joi.string(),
   nationality: Joi.string(),
   avatar: Joi.string(),
   genre: Joi.string(),
   strong_foot: Joi.string(),
+  position: Joi.string(),
 }).min(1).required();

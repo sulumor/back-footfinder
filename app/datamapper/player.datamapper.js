@@ -12,4 +12,10 @@ export default class PlayerDatamapper extends CoreDatamapper {
       WHERE "${this.tableName}".user_id=$1`, [id]);
     return result.rows[0];
   }
+
+  static async updateSQL(json) {
+    // eslint-disable-next-line quotes
+    const result = await client.query(`SELECT * FROM update_player ('${JSON.stringify(json)}');`);
+    return result.rows[0];
+  }
 }
