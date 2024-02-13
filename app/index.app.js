@@ -1,5 +1,4 @@
 import express from "express";
-import path from "node:path";
 import router from "./routers/index.router.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import createDoc from "./helpers/swagger.doc.js";

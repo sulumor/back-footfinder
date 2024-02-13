@@ -1,4 +1,4 @@
-@endpoint=http://localhost:8000
+@endpoint=http://localhost:3000
 
 POST {{ endpoint }}/login
 Content-Type: application/json
@@ -15,4 +15,19 @@ Content-Type: application/json
 {
   "email":"jean.dujardin@mail.io",
   "password": "yjjk8E676a9JQZ"
+}
+
+
+###
+GET {{endpoint}}/player/1
+
+###
+PATCH {{endpoint}}/player/1
+Content-Type: application/json
+
+{
+  "firstname": "Pierre",
+  "lastname": "Dujardin",
+  "birth_date":"12/06/1990",
+  "position": "gardien"
 }

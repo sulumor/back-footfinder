@@ -1,7 +1,7 @@
 /**
  * @typedef {object} ApiJsonError - Error response
  * @property {string} error.required - Error message
- * @example 
+ * @example
  * {
  *  "error": "Bad request"
  * }
