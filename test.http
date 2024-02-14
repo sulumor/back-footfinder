@@ -16,3 +16,30 @@ Content-Type: application/json
   "email":"jean.dujardin@mail.io",
   "password": "yjjk8E676a9JQZ"
 }
+
+
+###
+GET {{endpoint}}/player/1
+
+###
+PATCH {{endpoint}}/player/1
+Content-Type: application/json
+
+{
+  "firstname": "Jean Jacques",
+  "lastname": "Dujardin",
+  "birth_date":"12/06/1990",
+  "position": "attaquant"
+}
+
+###
+GET {{endpoint}}/scout/1
+
+###
+PATCH {{endpoint}}/scout/1
+Content-Type: application/json
+
+{
+  "firstname": "Jean Jacque",
+  "lastname": "Dujardin",
+}
