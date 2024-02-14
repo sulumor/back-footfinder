@@ -1,4 +1,4 @@
-@endpoint=http://localhost:7000
+@endpoint=http://localhost:6000
 
 POST {{ endpoint }}/login
 Content-Type: application/json
@@ -33,13 +33,13 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/scout/1
+GET {{endpoint}}/scout/2
 
 ###
-PATCH {{endpoint}}/scout/1
+PATCH {{endpoint}}/scout/2
 Content-Type: application/json
 
 {
   "firstname": "Jean Jacque",
-  "lastname": "Dujardin",
+  "lastname": "Dujardin"
 }
