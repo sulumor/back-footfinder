@@ -1,3 +1,4 @@
+-- SQLBook: Code
 BEGIN;
 
 TRUNCATE TABLE "user", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow" RESTART IDENTITY CASCADE;
