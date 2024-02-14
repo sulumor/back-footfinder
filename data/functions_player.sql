@@ -1,7 +1,7 @@
 BEGIN;
 
-DROP FUNCTION "update_player";
-DROP TYPE "fullPlayer";
+DROP FUNCTION IF EXISTS "update_player";
+DROP TYPE IF EXISTS "fullPlayer";
 
 CREATE TYPE "fullPlayer" as (
   "id" int,
@@ -26,6 +26,7 @@ CREATE FUNCTION "update_player"(json) RETURNS "fullPlayer" AS $$
     "password" = COALESCE($1->>'password', "password")
   WHERE id = ($1->>'id')::int;
 
+-- VOIR POUR MODIFIER BIRTH DATE CAR SOUCIS DE TIMEZONE
   UPDATE "player" SET 
     "birth_date" = COALESCE(($1->>'birth_date')::timestamp, "birth_date"),
     "nationality" = COALESCE($1->>'nationality', "nationality"),
