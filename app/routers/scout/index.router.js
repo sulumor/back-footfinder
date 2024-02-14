@@ -11,10 +11,10 @@ scoutRouter.route("/:id")
 scoutRouter.route("/search")
 .get(controllerWrapper(ScoutController.getAll.bind(ScoutController)));
 
-scoutRouter.route("/:id/player:/id")
-.get(controllerWrapper(ScoutController.getByPk.bind(ScoutController)));
+scoutRouter.route("/:id/player/:playerId")
+.get(controllerWrapper(ScoutController.getFindOnePlayer.bind(ScoutController)));
 
-scoutRouter.route("/:id/player/:id/match/:id")
+scoutRouter.route("/:id/player/:playerId/match/:matchId")
 .get(controllerWrapper(ScoutController.getByPk.bind(ScoutController)));
 
 

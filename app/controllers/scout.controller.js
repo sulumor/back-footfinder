@@ -17,6 +17,13 @@ export default class ScoutController extends CoreController {
     const { password: dontKeep, ...data } = user;
     return res.status(200).json({ ...data });
   }
+
+  static async getFindOnePlayer( {params} , res, next) {
+    const findPlayer = await this.datamapper.findByPlayer(params.playerId);
+    if (!findPlayer) return next(new ApiError("Player not found", { httpStatus: 404 }));
+    const { password: dontKeep, ...data } = findPlayer;
+    return res.status(200).json({ ...data });
+  }
 };
 
 

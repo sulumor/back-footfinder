@@ -20,5 +20,12 @@ export default class ScoutDatamapper extends CoreDatamapper {
     return result.rows[0];
   }
   
-
+  static async findByPlayer(playerId) {
+    const result = await client.query(` 
+      SELECT * FROM "player"
+      JOIN "user" ON "player".user_id = "user".id
+      WHERE "player".user_id=$1`, [playerId]);
+    return result.rows[0];
+  }
+ 
 };
