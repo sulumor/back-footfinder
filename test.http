@@ -1,4 +1,4 @@
-@endpoint=http://localhost:8000
+@endpoint=http://localhost:7000
 
 POST {{ endpoint }}/login
 Content-Type: application/json
@@ -16,3 +16,23 @@ Content-Type: application/json
   "email":"jean.dujardin@mail.io",
   "password": "yjjk8E676a9JQZ"
 }
+
+###
+GET {{ endpoint }}/scout/2
+
+###
+PATCH {{ endpoint }}/scout/2
+Content-Type: application/json
+
+{
+  "club":"OM"
+}
+
+###
+GET {{ endpoint }}/search/genre=masculin
+
+###
+GET {{ endpoint }}scout/1/player/2
+
+###
+GET {{ endpoint }}scout/1/player/2/match/1

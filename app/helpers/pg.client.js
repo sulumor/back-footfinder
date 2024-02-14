@@ -6,4 +6,5 @@ const client = new pg.Pool({
   database: process.env.PGDATABASE,
 });
 
+
 export default client;

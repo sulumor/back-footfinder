@@ -56,8 +56,8 @@ export default class CoreDatamapper {
     const result = await client.query(`
       UPDATE "${this.tableName}"
       SET ${placeholderFields},
-      "update_at"= now()
-      WHERE id = $${fields.lenght + 1}
+      "updated_at"= now()
+      WHERE id = $${fields.length + 1}
       RETURNING *
     `, [...values, id]);
     return result.rows[0];

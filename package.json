@@ -8,7 +8,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "dev": "npx nodemon",
     "star": "node .",
-    "db:create": "psql -d footfinder -f data/data.sql",
+    "db:create": "psql -d footfinder -f data/data.sql && psql -d footfinder -f data/function_scout.sql",
     "db:seed": "psql -d footfinder -f data/seeding.template.sql",
     "db:seeding": "psql -d footfinder -f data/seeding.sql",
     "db:reset": "npm run db:create && npm run db:seed && npm run db:seeding"
