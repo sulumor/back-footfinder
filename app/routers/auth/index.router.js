@@ -5,7 +5,6 @@ import validationMiddleware from "../../middlewares/validation.middleware.js";
 import loginSchema from "../../schemas/post/login.post.schemas.js";
 import registrationSchema from "../../schemas/post/registration.post.schemas.js";
 
-
 const authRouter = Router();
 
 /**
