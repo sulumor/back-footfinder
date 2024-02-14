@@ -1,3 +1,4 @@
+-- SQLBook: Code
 BEGIN;
 
 TRUNCATE TABLE "role", "position" RESTART IDENTITY CASCADE;
