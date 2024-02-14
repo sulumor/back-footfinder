@@ -1,3 +1,5 @@
+import ApiError from "../errors/api.error.js";
+
 export default class CoreController {
   static datamapper;
 
@@ -9,7 +11,7 @@ export default class CoreController {
   static async getByPk({ params }, res, next) {
     const { id } = params;
     const row = await this.datamapper.findByPk(id);
-    if (!row) return next();
+    if (!row) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
     return res.status(200).json(row);
   }
 
@@ -21,14 +23,14 @@ export default class CoreController {
   static async update({ params, body }, res, next) {
     const { id } = params;
     const row = await this.datamapper.update(id, body);
-    if (!row) return next();
+    if (!row) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
     return res.status(200).json(row);
   }
 
   static async delete({ params }, res, next) {
     const { id } = params;
     const deleted = await this.datamapper.delete(id);
-    if (!deleted) return next();
+    if (!deleted) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
     return res.status(204).end();
   }
 }

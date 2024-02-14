@@ -1,6 +1,9 @@
 import { Router } from "express";
 import controllerWrapper from "../../helpers/controller.wrapper.js";
 import AuthController from "../../controllers/auth.controller.js";
+import validationMiddleware from "../../middlewares/validation.middleware.js";
+import loginSchema from "../../schemas/post/login.post.schemas.js";
+import registrationSchema from "../../schemas/post/registration.post.schemas.js";
 
 
 const authRouter = Router();
@@ -22,14 +25,18 @@ const authRouter = Router();
  *  "error": "Internal Server Error"
  * }
  */
-authRouter.post("/login", controllerWrapper(AuthController.login.bind(AuthController)));
+authRouter.post(
+  "/login",
+  validationMiddleware("body", loginSchema),
+  controllerWrapper(AuthController.login.bind(AuthController)),
+);
 
 /**
  * POST /register
  * @summary New user registration
  * @tags Authentification
- * @param {RegisterBody} request.body.required - Registration information
- * @return {RegisterResponse} 201 - Create success - application/json
+ * @param { RegisterBody } request.body.required - Registration information
+ * @return { RegisterResponse } 201 - Create success - application/json
  * @return { ApiJsonError } 400 - Bad request response - application/json
  * @example response - 400 - example error response
  * {
@@ -41,6 +48,10 @@ authRouter.post("/login", controllerWrapper(AuthController.login.bind(AuthContro
  *  "error": "Internal Server Error"
  * }
  */
-authRouter.post("/register", controllerWrapper(AuthController.register.bind(AuthController)));
+authRouter.post(
+  "/register",
+  validationMiddleware("body", registrationSchema),
+  controllerWrapper(AuthController.register.bind(AuthController)),
+);
 
 export default authRouter;
