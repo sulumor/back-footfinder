@@ -8,11 +8,9 @@ export default class AuthController extends CoreController {
   static datamapper = AuthDatamapper;
 
   static async login({ body }, res, next) {
-  
     const [user] = await this.datamapper.findAll({ where: { email: body.email } });
     const errorMessage = "Authentification failed";
     const errorInfos = { httpStatus: 401 };
-
 
     if (!user) return next(new ApiError(errorMessage, errorInfos));
 
@@ -22,7 +20,6 @@ export default class AuthController extends CoreController {
 
     //* Ligne suvante à supprimer lorsque les 2 du dessus seront décommentées
     if (body.password !== user.password) return next(new ApiError(errorMessage, errorInfos));
-  
 
     const person = await this.datamapper.findByRole(user);
 

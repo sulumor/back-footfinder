@@ -45,12 +45,14 @@ INSERT INTO statistics(assists, goals_scored, minutes_played, red_card, yellow_c
 
 
 INSERT INTO link(player_id, team_id, season) VALUES
-(1, 1, 2023),
-(2, 2, 2023),
-(3, 1, 2023);
+(1, 1, '2023-2024'),
+(1, 2, '2022-2023'),
+(2, 2, '2023-2024'),
+(3, 1, '2023-2024');
 
 INSERT INTO follow(player_id, scout_id) VALUES
 (1, 2),
+(1, 1),
 (3, 1),
 (2, 1);
 

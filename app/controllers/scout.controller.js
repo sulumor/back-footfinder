@@ -1,5 +1,5 @@
 import ScoutDatamapper from "../datamapper/scout.datamapper.js";
-import CoreController from "../controllers/core.controller.js";
+import CoreController from "./core.controller.js";
 import ApiError from "../errors/api.error.js";
 
 export default class ScoutController extends CoreController {
@@ -17,6 +17,4 @@ export default class ScoutController extends CoreController {
     const { password: dontKeep, ...data } = user;
     return res.status(200).json({ ...data });
   }
-};
-
-
+}
