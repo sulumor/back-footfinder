@@ -45,3 +45,13 @@ Content-Type: application/json
 
 ###
 GET {{endpoint}}/player/1/match
+
+###
+POST {{endpoint}}/player/1/match
+Content-Type: application/json
+
+{
+  "homeTeam": 2,
+  "awayTeam": 1,
+  "score": "3-3"
+}

@@ -113,11 +113,18 @@
  */
 
 /**
- * @typedef { object } UpdatePlayer - Body to update a player Min one input is required
+ * @typedef { object } UpdatePlayer - Body to update a player minimum one input is required
  * @property { string } birth_date
  * @property { string } nationality
  * @property { string } avatar
  * @property { string } genre
  * @property { string } strong_foot
  *
+ */
+
+/**
+ * @typedef { object } PostMatch - Body to insert a match
+ * @property { number } homeTeam
+ * @property { number } awayTeam
+ * @property { string } score
  */
