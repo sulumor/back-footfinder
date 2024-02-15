@@ -42,3 +42,6 @@ Content-Type: application/json
   "firstname": "Jean Jacques",
   "lastname": "Dujardin"
 }
+
+###
+GET {{endpoint}}/player/1/match

@@ -1,6 +1,6 @@
 // ? Types liés à la BDD
 /**
- @typedef { object } User
+ * @typedef { object } User
  * @property { number } id
  * @property { string } lastname
  * @property { string } firstname
@@ -37,6 +37,30 @@
  * @typedef { object } Token
  * @property { string } jwt
  * @property { number } expiresAt
+ */
+
+/**
+ * @typedef { object } Team
+ * @property { number } team_id
+ * @property { string } club_name
+ * @property { string } logo
+ * @property { string } adress
+ * @property { string } zip_code
+ * @property { string } city
+ * @property { string } latitude
+ * @property { string } longitude
+ * @property { string } season
+ * @property { number } player_id
+ */
+
+// ? Types view
+/**
+ * @typedef { object } Match
+ * @property { number } id
+ * @property { number } match_id
+ * @property { string } score
+ * @property { Team } team_id_as_home
+ * @property { Team } team_id_as_outside
  */
 
 // ? Types spécifiques

@@ -8,7 +8,29 @@ import idSchemas from "../../schemas/get/id.schemas.js";
 const playerRouter = Router();
 
 playerRouter.route("/:id/match")
-  .get();
+  /**
+   * GET /player/:id/match
+   * @summary Get all player's matches
+   * @tags Player
+   * @param { number } id.path.required - User id
+   * @return { Match[] } 200 - Success response - aplication/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
+   * @example response - 400 - example error response
+   * {
+   *  "error": "Bad request"
+   * }
+   * @return { ApiJsonError } 404 - Not found response - application/json
+   * @example response - 404 - example error response
+   * {
+   *  "error": "Not Found"
+   * }
+   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+   * @example response - 500 - example error response
+   * {
+   *  "error": "Internal Server Error"
+   * }
+   */
+  .get(validationMiddleware("params", idSchemas), controllerWrapper(PlayerController.getAllMatches.bind(PlayerController)));
 
 playerRouter.route("/:id")
   /**

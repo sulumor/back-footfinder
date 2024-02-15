@@ -34,4 +34,14 @@ export default class PlayerDatamapper extends CoreDatamapper {
     const result = await client.query(`SELECT * FROM ${this.updateTableName}($1)`, [json]);
     return result.rows[0];
   }
+
+  static async getMatches(id) {
+    const result = await client.query("SELECT * FROM match_view WHERE id=$1", [id]);
+    return result.rows;
+  }
+
+  static async getTeamInfos(id) {
+    const result = await client.query("SELECT * FROM team_view WHERE team_id=$1", [id]);
+    return result.rows[0];
+  }
 }

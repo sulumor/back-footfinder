@@ -1,3 +1,5 @@
+BEGIN;
+
 CREATE VIEW team_view AS
 SELECT
     "team"."id" AS "team_id",
@@ -13,3 +15,5 @@ SELECT
 FROM
     "team" 
 JOIN "link"  ON "link"."team_id" = "team"."id";
+
+COMMIT;

@@ -1,14 +1,9 @@
 
 BEGIN;
 
-DROP FUNCTION IF EXISTS "update_player";
-DROP FUNCTION IF EXISTS "update_scout";
-DROP VIEW IF EXISTS "player_view";
-DROP VIEW IF EXISTS "scout_view";
-DROP VIEW IF EXISTS "match_view";
-DROP VIEW IF EXISTS "team_view";
+DROP FUNCTION IF EXISTS "update_player", "update_scout";
+DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view";
 DROP TABLE IF EXISTS "role","user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow";
-
 
 CREATE TABLE "role" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
