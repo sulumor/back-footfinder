@@ -16,7 +16,7 @@ export default class PlayerController extends CoreController {
       const promise = TeamDatamapper.findAll({ where: { team_id: team } });
       teamPromises.push(promise);
     });
-    const teamResult = await Promise.all(teamPromises);
+    const teamResult = (await Promise.all(teamPromises)).map((team) => team[0]);
 
     const scoutPromises = [];
     user.scout_id.forEach((scout) => {
@@ -28,10 +28,10 @@ export default class PlayerController extends CoreController {
     return res.status(200).json({ ...data, team_id: teamResult, scout_id: scoutResult });
   }
 
-  static async updateAllInfosSQL({ params, body }, res) {
+  static async updateAllInfosSQL({ params, body }, res, next) {
     const updateInfos = { id: params.id, ...body };
     const player = await this.datamapper.updateSQL(updateInfos);
-
+    if (!player) return next(new ApiError("No player found with this id", { httpStatus: 404 }));
     return res.status(200).json(player);
   }
 
@@ -48,8 +48,8 @@ export default class PlayerController extends CoreController {
       awayPromise.push(away);
     });
 
-    const homeTeams = await Promise.all(homePromise);
-    const awayTeams = await Promise.all(awayPromise);
+    const homeTeams = (await Promise.all(homePromise)).map((m) => m[0]);
+    const awayTeams = (await Promise.all(awayPromise)).map((m) => m[0]);
     const results = [];
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < matches.length; i++) {
