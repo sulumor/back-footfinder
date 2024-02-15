@@ -1,6 +1,6 @@
-/* eslint-disable camelcase */
+import MatchDatamapper from "../datamapper/match.datamapper.js";
 import PlayerDatamapper from "../datamapper/player.datamapper.js";
-// import AuthDatamapper from "../datamapper/auth.datamapper.js";
+import TeamDatamapper from "../datamapper/team.datamapper.js";
 import ApiError from "../errors/api.error.js";
 import CoreController from "./core.controller.js";
 
@@ -13,7 +13,7 @@ export default class PlayerController extends CoreController {
 
     const teamPromises = [];
     user.team_id.forEach((team) => {
-      const promise = this.datamapper.getTeamInfos(team);
+      const promise = TeamDatamapper.findAll({ where: { team_id: team } });
       teamPromises.push(promise);
     });
     const teamResult = await Promise.all(teamPromises);
@@ -36,15 +36,15 @@ export default class PlayerController extends CoreController {
   }
 
   static async getAllMatches({ params }, res, next) {
-    const matches = await this.datamapper.getMatches(params.id);
+    const matches = await MatchDatamapper.findAll({ where: { id: params.id } });
     if (!matches) return next(new ApiError("No matches for this player", { httpStatus: 404 }));
 
     const homePromise = [];
     const awayPromise = [];
     matches.forEach((match) => {
-      const home = this.datamapper.getTeamInfos(match.team_id_as_home);
+      const home = TeamDatamapper.findAll({ where: { team_id: match.team_id_as_home } });
       homePromise.push(home);
-      const away = this.datamapper.getTeamInfos(match.team_id_as_outside);
+      const away = TeamDatamapper.findAll({ where: { team_id: match.team_id_as_outside } });
       awayPromise.push(away);
     });
 

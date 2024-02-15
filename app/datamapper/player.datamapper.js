@@ -19,16 +19,6 @@ export default class PlayerDatamapper extends CoreDatamapper {
     return result.rows[0];
   }
 
-  static async getMatches(id) {
-    const result = await client.query("SELECT * FROM match_view WHERE id=$1", [id]);
-    return result.rows;
-  }
-
-  static async getTeamInfos(id) {
-    const result = await client.query("SELECT * FROM team_view WHERE team_id=$1", [id]);
-    return result.rows[0];
-  }
-
   static async getScoutInfo(id) {
     const result = await client.query("SELECT * FROM scout_view WHERE scout_id=$1", [id]);
     return result.rows[0];
