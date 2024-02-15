@@ -14,7 +14,7 @@ export default class PlayerDatamapper extends CoreDatamapper {
 
     const teamPromises = [];
     result.rows[0].team_id.forEach((team) => {
-      const promise = client.query("SELECT * FROM team WHERE id=$1", [team]);
+      const promise = client.query("SELECT * FROM team_view WHERE team_id=$1", [team]);
       teamPromises.push(promise);
     });
     const teamResult = (await Promise.all(teamPromises)).map((t) => t.rows[0]);
