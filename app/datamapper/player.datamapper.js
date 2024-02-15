@@ -9,24 +9,8 @@ export default class PlayerDatamapper extends CoreDatamapper {
   static updateTableName = "update_player";
 
   static async joinWithUser(id) {
-    const result = await client.query(`
-      SELECT * FROM "${this.readTableName}" WHERE id=$1`, [id]);
-
-    const teamPromises = [];
-    result.rows[0].team_id.forEach((team) => {
-      const promise = client.query("SELECT * FROM team_view WHERE team_id=$1", [team]);
-      teamPromises.push(promise);
-    });
-    const teamResult = (await Promise.all(teamPromises)).map((t) => t.rows[0]);
-
-    const scoutPromises = [];
-    result.rows[0].scout_id.forEach((scout) => {
-      const promise = client.query("SELECT * FROM scout_view WHERE scout_id=$1", [scout]);
-      scoutPromises.push(promise);
-    });
-    const scoutResult = (await Promise.all(scoutPromises)).map((s) => s.rows[0]);
-
-    return { ...result.rows[0], team: teamResult, scout: scoutResult };
+    const result = await client.query(`SELECT * FROM "${this.readTableName}" WHERE id=$1`, [id]);
+    return result.rows[0];
   }
 
   static async updateSQL(json) {
@@ -42,6 +26,11 @@ export default class PlayerDatamapper extends CoreDatamapper {
 
   static async getTeamInfos(id) {
     const result = await client.query("SELECT * FROM team_view WHERE team_id=$1", [id]);
+    return result.rows[0];
+  }
+
+  static async getScoutInfo(id) {
+    const result = await client.query("SELECT * FROM scout_view WHERE scout_id=$1", [id]);
     return result.rows[0];
   }
 }

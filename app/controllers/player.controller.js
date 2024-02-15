@@ -10,8 +10,22 @@ export default class PlayerController extends CoreController {
   static async getWithUser({ params }, res, next) {
     const user = await this.datamapper.joinWithUser(params.id);
     if (!user) return next(new ApiError("Ressource not found", { httpStatus: 404 }));
+
+    const teamPromises = [];
+    user.team_id.forEach((team) => {
+      const promise = this.datamapper.getTeamInfos(team);
+      teamPromises.push(promise);
+    });
+    const teamResult = await Promise.all(teamPromises);
+
+    const scoutPromises = [];
+    user.scout_id.forEach((scout) => {
+      const promise = this.datamapper.getScoutInfo(scout);
+      scoutPromises.push(promise);
+    });
+    const scoutResult = await Promise.all(scoutPromises);
     const { password: dontKeep, ...data } = user;
-    return res.status(200).json({ ...data });
+    return res.status(200).json({ ...data, team_id: teamResult, scout_id: scoutResult });
   }
 
   static async updateAllInfosSQL({ params, body }, res) {
