@@ -29,13 +29,11 @@ export default class ScoutDatamapper extends CoreDatamapper {
     return result.rows[0];
   }
 
-  static async findStatsPlayerByMatch(playerId) {
-    const result = await client.query(` 
-      SELECT * FROM "player"
-      JOIN "user" ON "player".user_id = "user".id
-      JOIN "match" ON "player".match_id = "match".id
-      JOIN "statistics" ON "player".statistics_id = "match".id
-      WHERE "player".user_id=$1`, [playerId]);
+  static async findStatsPlayerByMatch(playId) {
+    const result = await client.query(`
+    SELECT * FROM "play"
+    JOIN "statistics" ON "play".id = "statistics".id
+    WHERE "play".player_id=$1`, [playId]);
     return result.rows[0];
   }
 }

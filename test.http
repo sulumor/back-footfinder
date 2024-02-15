@@ -48,6 +48,4 @@ Content-Type: application/json
 GET {{ endpoint }}/scout/2/player/1
 
 ###
-GET {{ endpoint }}/scout/2/player/1/match/1
-
-/:id/player/:playerId  /match/:matchId
+GET {{ endpoint }}/scout/2/player/3/match/1
