@@ -9,6 +9,7 @@ import matchPatchSchemas from "../../schemas/patch/match.schemas.js";
 import MatchController from "../../controllers/match.controller.js";
 import matchIdsSchemas from "../../schemas/patch/matchIds.schemas.js";
 import StatisticsController from "../../controllers/statistics.controller.js";
+import statisticsPostSchemas from "../../schemas/post/statistics.post.schemas.js";
 
 const playerRouter = Router();
 
@@ -38,9 +39,38 @@ playerRouter.route("/:id/match/:matchId/stats")
    */
   .get(
     validationMiddleware("params", matchIdsSchemas),
-    controllerWrapper(StatisticsController.getOneMatch.bind(StatisticsController)),
+    controllerWrapper(StatisticsController.getOneMatchStats.bind(StatisticsController)),
+  )
+  /**
+   * POST /player/:id/match/:matchId/stats
+   * @summary Add statistics in one match
+   * @tags Player
+   * @param { number } id.path.required - User id
+   * @param { number } matchId.path.required - Match id
+   * @param { PostStats } request.body.required - Stats
+   *  to add in one match
+   * @return { Stats } 200 - Success response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
+   * @example response - 400 - example error response
+   * {
+   *  "error": "Bad request"
+   * }
+   * @return { ApiJsonError } 404 - Not found response - application/json
+   * @example response - 404 - example error response
+   * {
+   *  "error": "Not Found"
+   * }
+   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+   * @example response - 500 - example error response
+   * {
+   *  "error": "Internal Server Error"
+   * }
+   */
+  .post(
+    validationMiddleware("params", matchIdsSchemas),
+    validationMiddleware("body", statisticsPostSchemas),
+    controllerWrapper(StatisticsController.postOneMatchStats.bind(StatisticsController)),
   );
-
 playerRouter.route("/:id/match/stats")
   /**
      * GET /player/:id/match/stats

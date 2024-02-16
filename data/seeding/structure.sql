@@ -2,7 +2,7 @@
 
 BEGIN;
 
-DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match";
+DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics";
 DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view";
 DROP TABLE IF EXISTS "role","user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow";
 
@@ -94,14 +94,14 @@ CREATE TABLE "play" (
 
 CREATE TABLE "statistics" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "assists" INT NULL,
-  "goals_scored" INT NULL,
-  "minutes_played" INT NULL,
-  "red_card" INT NULL,
-  "yellow_card" INT NULL,
-  "stops" INT NULL,
-  "goals_conceded" INT NOT NULL,
-  "fitness" TEXT NOT NULL,
+  "assists" INT DEFAULT NULL,
+  "goals_scored" INT DEFAULT NULL,
+  "minutes_played" INT DEFAULT NULL,
+  "red_card" INT DEFAULT NULL,
+  "yellow_card" INT DEFAULT NULL,
+  "stops" INT DEFAULT NULL,
+  "goals_conceded" INT DEFAULT NULL,
+  "fitness" TEXT DEFAULT NULL,
   "match_id" INT REFERENCES match(id) NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ

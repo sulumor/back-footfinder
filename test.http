@@ -77,3 +77,12 @@ GET {{ endpoint }}/player/1/match/stats
 
 ###
 GET {{ endpoint }}/player/1/match/2/stats
+
+###
+POST {{ endpoint }}/player/1/match/5/stats
+Content-Type: application/json
+
+{
+  "assists": 2,
+  "fitness": "dfdfe"
+}

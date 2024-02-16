@@ -145,3 +145,15 @@
  * @property { number } awayTeam
  * @property { string } score
  */
+
+/**
+ * @typedef { object } PostStats - Body to insert a statistic
+ * @property { number } assists
+ * @property { number } goals_scored
+ * @property { number } minutes_played
+ * @property { number } red_card
+ * @property { number } yellow_card
+ * @property { number } stop
+ * @property { number } goals_conceed
+ * @property { string } fitness
+ */
