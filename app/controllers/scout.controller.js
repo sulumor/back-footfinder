@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
+// eslint-disable-next-line import/no-named-as-default
 import ScoutDatamapper from "../datamapper/scout.datamapper.js";
 import CoreController from "./core.controller.js";
 import ApiError from "../errors/api.error.js";
@@ -36,6 +35,7 @@ export default class ScoutController extends CoreController {
   }
 
   static async getSearchSpecificationPlayer({ query }, res, next) {
+    // eslint-disable-next-line max-len
     const searchPlayer = await PlayerDatamapper.findAll({ where: query }); // Récupérez une préference du joueur depuis les paramètres d'itinéraire
     const player = await PlayerDatamapper.joinWithUser(searchPlayer[0].id);
     if (!player) return next(new ApiError("Player with this search not found", { httpStatus: 404 })); // Gérez le cas où le joueur n'est pas trouvé
