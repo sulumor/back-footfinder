@@ -3,6 +3,7 @@ BEGIN;
 
 CREATE FUNCTION "update_scout"(json) RETURNS "scout_view" AS $$
     UPDATE "user" SET
+    "avatar" = COALESCE($1->>'avatar', "avatar"),
     "firstname" = COALESCE($1->>'firstname', "firstname"),
     "lastname" = COALESCE($1->>'lastname', "lastname"),
     "email" = COALESCE($1->>'email', "email"),

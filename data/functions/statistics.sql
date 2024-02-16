@@ -11,7 +11,7 @@ CREATE FUNCTION "add_statistics"(json) RETURNS "statistics_view" AS $$
       COALESCE(($1->>'yellow_card')::int, 0), 
       COALESCE(($1->>'stops')::int, 0), 
       COALESCE(($1->>'goals_conceded')::int, 0), 
-      COALESCE($1->>'fitness', "absent"), 
+      COALESCE($1->>'fitness', 'absent'), 
       ($1->>'matchId')::int
     );
 

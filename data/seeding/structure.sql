@@ -15,6 +15,7 @@ CREATE TABLE "role" (
 
 CREATE TABLE "user" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "avatar" TEXT NOT NULL,
   "firstname" TEXT NOT NULL,
   "lastname" TEXT NOT NULL,
   "email" TEXT NOT NULL,
@@ -35,7 +36,6 @@ CREATE TABLE "player" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "birth_date" TIMESTAMP NOT NULL,
   "nationality" TEXT NOT NULL,
-  "avatar" TEXT NOT NULL,
   "genre" TEXT NOT NULL,
   "strong_foot" TEXT NOT NULL,
   "number_of_matches_played" INT NOT NULL DEFAULT 0,

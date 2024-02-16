@@ -2,6 +2,7 @@
 /**
  * @typedef { object } User
  * @property { number } id
+ * @property { string } avatar
  * @property { string } lastname
  * @property { string } firstname
  * @property { string } email
@@ -15,7 +16,6 @@
  * @property { number } id
  * @property { string } birth_date
  * @property { string } nationality
- * @property { string } avatar
  * @property { string } genre
  * @property { string } strong_foot
  * @property { number } number_of_matches_played
@@ -131,9 +131,12 @@
 
 /**
  * @typedef { object } UpdatePlayer - Body to update a player minimum one input is required
+ * @property { string } avatar
+ * @property { string } lastname
+ * @property { string } firstname
+ * @property { string } email
  * @property { string } birth_date
  * @property { string } nationality
- * @property { string } avatar
  * @property { string } genre
  * @property { string } strong_foot
  *

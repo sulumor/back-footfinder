@@ -17,8 +17,8 @@ export default class MatchController extends CoreController {
   static async updateSQL({ params, body }, res, next) {
     const updateInfos = { ...params, ...body };
     const updatedMatch = await this.datamapper.updateSQL(updateInfos);
-    if (!updatedMatch) return next(new ApiError("Ressources not Found", { httpStatus: 404 }));
-    console.log(updatedMatch);
+    // eslint-disable-next-line no-bitwise
+    if (!updatedMatch.id | !updatedMatch.match_id) return next(new ApiError("Ressources not Found", { httpStatus: 404 }));
     const result = await getHomeAndAwayTeamsInfos(updatedMatch);
     return res.status(201).json(result);
   }
