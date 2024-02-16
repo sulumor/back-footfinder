@@ -12,6 +12,35 @@ import StatisticsController from "../../controllers/statistics.controller.js";
 
 const playerRouter = Router();
 
+playerRouter.route("/:id/match/:matchId/stats")
+  /**
+   * GET /player/:id/match/:matchId/stats
+   * @summary Get one match statistics
+   * @tags Player
+   * @param { number } id.path.required - User id
+   * @param { number } matchId.path.required - Match id
+   * @return { Stats } 200 - Success response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
+   * @example response - 400 - example error response
+   * {
+   *  "error": "Bad request"
+   * }
+   * @return { ApiJsonError } 404 - Not found response - application/json
+   * @example response - 404 - example error response
+   * {
+   *  "error": "Not Found"
+   * }
+   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+   * @example response - 500 - example error response
+   * {
+   *  "error": "Internal Server Error"
+   * }
+   */
+  .get(
+    validationMiddleware("params", matchIdsSchemas),
+    controllerWrapper(StatisticsController.getOneMatch.bind(StatisticsController)),
+  );
+
 playerRouter.route("/:id/match/stats")
   /**
      * GET /player/:id/match/stats

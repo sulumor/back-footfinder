@@ -10,4 +10,9 @@ export default class StatisticsDatamapper extends CoreDatamapper {
     const result = await client.query(`SELECT * FROM ${this.readTableName} WHERE id=$1`, [id]);
     return result.rows;
   }
+
+  static async getOneMatch({ id, matchId }) {
+    const result = await client.query(`SELECT * FROM ${this.readTableName} WHERE id=$1 AND match_id=$2`, [id, matchId]);
+    return result.rows;
+  }
 }

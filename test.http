@@ -74,3 +74,6 @@ GET {{ endpoint }}/search?player=1
 
 ###
 GET {{ endpoint }}/player/1/match/stats
+
+###
+GET {{ endpoint }}/player/1/match/2/stats
