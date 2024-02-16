@@ -8,8 +8,37 @@ import matchPostSchemas from "../../schemas/post/match.post.schemas.js";
 import matchPatchSchemas from "../../schemas/patch/match.schemas.js";
 import MatchController from "../../controllers/match.controller.js";
 import matchIdsSchemas from "../../schemas/patch/matchIds.schemas.js";
+import StatisticsController from "../../controllers/statistics.controller.js";
 
 const playerRouter = Router();
+
+playerRouter.route("/:id/match/stats")
+  /**
+     * GET /player/:id/match/stats
+     * @summary Get all one player's statistics
+     * @tags Player
+     * @param { number } id.path.required - User id
+     * @return { Stats[] } 200 - Success response - application/json
+     * @return { ApiJsonError } 400 - Bad request response - application/json
+     * @example response - 400 - example error response
+     * {
+     *  "error": "Bad request"
+     * }
+     * @return { ApiJsonError } 404 - Not found response - application/json
+     * @example response - 404 - example error response
+     * {
+     *  "error": "Not Found"
+     * }
+     * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+     * @example response - 500 - example error response
+     * {
+     *  "error": "Internal Server Error"
+     * }
+     */
+  .get(
+    validationMiddleware("params", idSchemas),
+    controllerWrapper(StatisticsController.getStatsByPlayer.bind(StatisticsController)),
+  );
 
 playerRouter.route("/:id/match/:matchId")
   /**
@@ -20,7 +49,7 @@ playerRouter.route("/:id/match/:matchId")
    * @param { number } matchId.path.required - Match id
    * @param { PostMatch } request.body.required - Match information
    *  to update one minimum is required
-   * @return { Match } 200 - Success response - aplication/json
+   * @return { Match } 200 - Success response - application/json
    * @return { ApiJsonError } 400 - Bad request response - application/json
    * @example response - 400 - example error response
    * {
