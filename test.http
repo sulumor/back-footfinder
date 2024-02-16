@@ -57,7 +57,7 @@ Content-Type: application/json
 
 
 ###
-PATCH {{endpoint}}/player/1/match/3
+PATCH {{endpoint}}/player/1/match/4
 Content-Type: application/json
 
 {
