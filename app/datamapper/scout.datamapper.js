@@ -4,10 +4,8 @@ import client from "../helpers/pg.client.js";
 export default class ScoutDatamapper extends CoreDatamapper {
   static tableName = "scout";
 
-  // mettre à jour les infos des recruteurs
-  // ecrire une fonction avec des params
-  // faire la requête pour la modification des données necessaires
-  // retourner les données mise à jour
+  static readTable = "player";
+
   static async updateSQL(json) {
     const result = await client.query(`SELECT * FROM update_scout ('${JSON.stringify(json)}');`);
     return result.rows[0];
@@ -23,9 +21,9 @@ export default class ScoutDatamapper extends CoreDatamapper {
 
   static async findByPlayer(playerId) {
     const result = await client.query(` 
-      SELECT * FROM "player"
-      JOIN "user" ON "player".user_id = "user".id
-      WHERE "player".user_id=$1`, [playerId]);
+      SELECT * FROM "${this.readTable}"
+      JOIN "user" ON "${this.readTable}".user_id = "user".id
+      WHERE "${this.readTable}".user_id=$1`, [playerId]);
     return result.rows[0];
   }
 
@@ -37,11 +35,11 @@ export default class ScoutDatamapper extends CoreDatamapper {
     return result.rows[0];
   }
 
-  static async searchSpecificationPlayer(playerId) {
+  static async searchSpecificationPlayer(PlayerId) {
     const result = await client.query(`
-    SELECT * FROM "player"
-    JOIN "user" ON "player".user_id = "user".id 
-    WHERE "player".position_id=$1`, [playerId]);
+    SELECT * FROM "${this.readTable}"
+    JOIN "user" ON "${this.readTable}".user_id = "user".id 
+    WHERE "${this.readTable}".position_id=$1`, [PlayerId]);
     return result.rows[0];
   }
 }

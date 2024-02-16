@@ -11,6 +11,7 @@ export default class MatchDatamapper extends CoreDatamapper {
 
   static async updateSQL(json) {
     const result = await client.query("SELECT * FROM \"update_match\"($1)", [json]);
+    console.log(result);
     return result.rows[0];
   }
 }
