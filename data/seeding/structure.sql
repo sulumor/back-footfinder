@@ -2,7 +2,10 @@
 
 BEGIN;
 
-
+DROP FUNCTION IF EXISTS "update_player";
+DROP FUNCTION IF EXISTS "update_scout";
+DROP VIEW IF EXISTS "player_view";
+DROP VIEW IF EXISTS "scout_view";
 DROP TABLE IF EXISTS "role","user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow";
 
 

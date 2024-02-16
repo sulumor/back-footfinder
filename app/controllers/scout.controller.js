@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
 import ScoutDatamapper from "../datamapper/scout.datamapper.js";
 import CoreController from "./core.controller.js";
 import ApiError from "../errors/api.error.js";
