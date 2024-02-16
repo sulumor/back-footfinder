@@ -2,15 +2,15 @@ import { Router } from "express";
 import controllerWrapper from "../../helpers/controller.wrapper.js";
 import PlayerController from "../../controllers/player.controller.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
-import patchPlayerSchema from "../../schemas/patch/player.schemas.js";
+import patchPlayerSchema from "../../schemas/patch/player.patch.schemas.js";
 import idSchemas from "../../schemas/get/id.schemas.js";
 import matchPostSchemas from "../../schemas/post/match.post.schemas.js";
-import matchPatchSchemas from "../../schemas/patch/match.schemas.js";
+import matchPatchSchemas from "../../schemas/patch/match.patch.schemas.js";
 import MatchController from "../../controllers/match.controller.js";
-import matchIdsSchemas from "../../schemas/patch/matchIds.schemas.js";
+import matchIdsSchemas from "../../schemas/patch/matchIds.patch.schemas.js";
 import StatisticsController from "../../controllers/statistics.controller.js";
 import statisticsPostSchemas from "../../schemas/post/statistics.post.schemas.js";
-import statisticsPatchSchemas from "../../schemas/patch/statistics.schemas.js";
+import statisticsPatchSchemas from "../../schemas/patch/statistics.patch.schemas.js";
 
 const playerRouter = Router();
 
