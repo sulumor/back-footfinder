@@ -63,13 +63,10 @@ Content-Type: application/json
 {
   "score": "10-10"
 }
-
-###
 GET {{ endpoint }}/scout/2/player/1
 
 ###
 GET {{ endpoint }}/scout/2/player/3/match/1
 
 ###
-GET {{ endpoint }}/scout/search/?strong_foot=gauche
-
+GET {{ endpoint }}/search?player=1

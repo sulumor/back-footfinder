@@ -5,26 +5,26 @@ TRUNCATE TABLE "role", "position" RESTART IDENTITY CASCADE;
 
 
 INSERT INTO role(label) VALUES
-('joueur'),
-('recruteur');
+('Joueur'),
+('Recruteur');
 
 
 INSERT INTO position(label) VALUES 
-('gardien'),
-('libéro'),
-('défenseur gauche'),
-('défenseur droit'),
-('milieu défensif gauche'),
-('milieu défensif droit'),
-('milieu défensif central'),
-('milieu gauche'),
-('milieu droit'),
-('milieu offensif'),
-('ailier gauche'),
-('ailier droit'),
-('attaquant'),
-('avant-centre'),
-('remplaçant');
+('Gardien'),
+('Libéro'),
+('Défenseur gauche'),
+('Défenseur droit'),
+('Milieu défensif gauche'),
+('Milieu défensif droit'),
+('Milieu défensif central'),
+('Milieu gauche'),
+('Milieu droit'),
+('Milieu offensif'),
+('Ailier gauche'),
+('Ailier droit'),
+('Attaquant'),
+('Avant-centre'),
+('Remplaçant');
 
 
 COMMIT;

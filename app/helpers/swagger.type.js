@@ -63,6 +63,23 @@
  * @property { Team } team_id_as_outside
  */
 
+/**
+ * @typedef { object } Stats
+ * @property { number } id
+ * @property { number } match_id
+ * @property { string } score
+ * @property { Team } team_id_as_home
+ * @property { Team } team_id_as_outside
+ * @property { number } assists
+ * @property { number } goals_scored
+ * @property { number } minutes_played
+ * @property { number } red_card
+ * @property { number } yellow_card
+ * @property { number } stop
+ * @property { number } goals_conceed
+ * @property { string } fitness
+ */
+
 // ? Types spécifiques
 
 /**
@@ -127,4 +144,16 @@
  * @property { number } homeTeam
  * @property { number } awayTeam
  * @property { string } score
+ */
+
+/**
+ * @typedef { object } PostStats - Body to insert a statistic
+ * @property { number } assists
+ * @property { number } goals_scored
+ * @property { number } minutes_played
+ * @property { number } red_card
+ * @property { number } yellow_card
+ * @property { number } stop
+ * @property { number } goals_conceed
+ * @property { string } fitness
  */
