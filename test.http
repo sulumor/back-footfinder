@@ -44,6 +44,25 @@ Content-Type: application/json
 }
 
 ###
+GET {{endpoint}}/player/1/match
+
+###
+POST {{endpoint}}/player/1/match
+Content-Type: application/json
+
+{
+  "homeTeam": 1,
+  "awayTeam": 2
+}
+
+
+###
+PATCH {{endpoint}}/player/1/match/4
+Content-Type: application/json
+
+{
+  "score": "10-10"
+}
 GET {{ endpoint }}/scout/2/player/1
 
 ###

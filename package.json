@@ -10,8 +10,8 @@
     "lint": "eslint --fix .",
     "star": "node .",
     "db:create": "psql -d footfinder -f data/seeding/structure.sql && npm run db:views && npm run db:functions ",
-    "db:functions": "psql -d footfinder -f data/functions/scout.sql && psql -d footfinder -f data/functions/player.sql",
-    "db:views" : "psql -d footfinder -f data/views/player.sql && psql -d footfinder -f data/views/scout.sql",
+    "db:functions": "psql -d footfinder -f data/functions/scout.sql && psql -d footfinder -f data/functions/player.sql && psql -d footfinder -f data/functions/match.sql",
+    "db:views" : "psql -d footfinder -f data/views/player.sql && psql -d footfinder -f data/views/scout.sql && psql -d footfinder -f data/views/statistics.sql && psql -d footfinder -f data/views/team.sql && psql -d footfinder -f data/views/match.sql",
     "db:seeding": "psql -d footfinder -f data/seeding/seeding.sql && psql -d footfinder -f data/seeding/seeding.fakers.sql ",
     "db:reset": "npm run db:create && npm run db:seeding",
     "prepare": "husky"
