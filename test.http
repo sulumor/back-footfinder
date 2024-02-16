@@ -35,14 +35,13 @@ Content-Type: application/json
 GET {{endpoint}}/scout/2
 
 ###
-PATCH {{endpoint}}/scout/2
+PATCH {{endpoint}}/scout/4
 Content-Type: application/json
 
 {
-  "firstname": "Jean Jacque",
+  "firstname": "Jean Jacques",
   "lastname": "Dujardin"
 }
-
 
 ###
 GET {{ endpoint }}/scout/2/player/1
