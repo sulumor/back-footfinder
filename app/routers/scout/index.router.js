@@ -5,6 +5,9 @@ import ScoutController from "../../controllers/scout.controller.js";
 
 const scoutRouter = Router();
 
+scoutRouter.route("/search")
+  .get(controllerWrapper(ScoutController.getSearchSpecificationPlayer.bind(ScoutController)));
+
 scoutRouter.route("/:id")
 /**
  * GET /scout/:id
@@ -29,9 +32,6 @@ scoutRouter.route("/:id")
    * @return { ApiJsonError } 500 - Internal Server Error response - application/json
    */
   .patch(controllerWrapper(ScoutController.updateInfos.bind(ScoutController)));
-
-scoutRouter.route("/search")
-  .get(controllerWrapper(ScoutController.getSearchSpecificationPlayer.bind(ScoutController)));
 
 scoutRouter.route("/:id/player/:playerId")
 /**
