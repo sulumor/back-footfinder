@@ -44,7 +44,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/player/1/match
+GET {{endpoint}}/player/2/match
 
 ###
 POST {{endpoint}}/player/1/match

@@ -186,7 +186,7 @@ playerRouter.route("/:id/match/:matchId")
   .patch(
     validationMiddleware("params", matchIdsSchemas),
     validationMiddleware("body", matchPatchSchemas),
-    controllerWrapper(MatchController.updateSQL.bind(MatchController)),
+    controllerWrapper(MatchController.updateMatch.bind(MatchController)),
   );
 
 playerRouter.route("/:id/match")
@@ -214,7 +214,7 @@ playerRouter.route("/:id/match")
    */
   .get(
     validationMiddleware("params", idSchemas),
-    controllerWrapper(PlayerController.getAllMatches.bind(PlayerController)),
+    controllerWrapper(MatchController.getAllMatchesByUserId.bind(PlayerController)),
   )
   /**
    * POST /player/:id/match
@@ -242,7 +242,7 @@ playerRouter.route("/:id/match")
   .post(
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", matchPostSchemas),
-    controllerWrapper(MatchController.createSQL.bind(MatchController)),
+    controllerWrapper(MatchController.createMatch.bind(MatchController)),
   );
 playerRouter.route("/:id")
   /**
@@ -269,7 +269,7 @@ playerRouter.route("/:id")
    */
   .get(
     validationMiddleware("params", idSchemas),
-    controllerWrapper(PlayerController.getWithUser.bind(PlayerController)),
+    controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
   )
 
   /**
@@ -298,7 +298,7 @@ playerRouter.route("/:id")
   .patch(
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", patchPlayerSchema),
-    controllerWrapper(PlayerController.updateAllInfosSQL.bind(PlayerController)),
+    controllerWrapper(PlayerController.updateSQL.bind(PlayerController)),
   );
 
 export default playerRouter;

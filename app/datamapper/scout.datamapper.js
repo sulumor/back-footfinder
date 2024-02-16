@@ -4,6 +4,8 @@ import client from "../helpers/pg.client.js";
 export default class ScoutDatamapper extends CoreDatamapper {
   static tableName = "scout";
 
+  static readTableName = "scout_view";
+
   // mettre à jour les infos des recruteurs
   // ecrire une fonction avec des params
   // faire la requête pour la modification des données necessaires

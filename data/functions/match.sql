@@ -6,9 +6,9 @@ CREATE FUNCTION "add_match"(json) RETURNS "match_view" AS $$
 
   INSERT INTO "match" (meet_id, score) VALUES ((SELECT "id" FROM "meet" ORDER BY "id" DESC LIMIT 1), COALESCE($1->>'score', '-'));
 
-  INSERT INTO "play" (match_id, player_id) VALUES ((SELECT id FROM "match" ORDER BY "id" DESC LIMIT 1), ($1->>'id')::int);
+  INSERT INTO "play" (match_id, player_id) VALUES ((SELECT "id" FROM "match" ORDER BY "id" DESC LIMIT 1), (SELECT "id" FROM "player" WHERE "user_id" = ($1->>'id')::int));
 
-  SELECT * FROM "match_view" WHERE "match_id" = (SELECT id FROM "match" ORDER BY "id" DESC LIMIT 1);
+  SELECT * FROM "match_view" WHERE "match_id" = (SELECT "id" FROM "match" ORDER BY "id" DESC LIMIT 1);
  
 $$ LANGUAGE sql STRICT;
 

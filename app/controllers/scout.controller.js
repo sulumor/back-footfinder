@@ -6,6 +6,15 @@ import ApiError from "../errors/api.error.js";
 export default class ScoutController extends CoreController {
   static datamapper = ScoutDatamapper;
 
+  static async getScoutInfos(scoutId) {
+    const allScoutPromises = [];
+    scoutId.forEach((id) => {
+      const scoutPromise = this.datamapper.findAll({ where: { scout_id: id } });
+      allScoutPromises.push(scoutPromise);
+    });
+    return (await Promise.all(allScoutPromises)).map((scout) => scout[0]);
+  }
+
   static async updateInfos({ params, body }, res) {
     const updateInfos = { id: params.id, ...body };
     const scout = await this.datamapper.updateSQL(updateInfos);
