@@ -10,6 +10,5 @@
  */
 export default (err, _, res, __) => {
   if (err.httpStatus === 500) console.error(err);
-
-  return res.status(err.httpStatus).json({ error: err.message });
+  return res.status(err.statusCode).json({ error: err.message });
 };

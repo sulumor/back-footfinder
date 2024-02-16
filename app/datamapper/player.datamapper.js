@@ -4,18 +4,34 @@ import CoreDatamapper from "./core.datamapper.js";
 export default class PlayerDatamapper extends CoreDatamapper {
   static tableName = "player";
 
+  static readTableName = "player_view";
+
+  static updateTableName = "update_player";
+
   static async joinWithUser(id) {
     const result = await client.query(`
-      SELECT * FROM "${this.tableName}" 
-      JOIN "user" ON "${this.tableName}".user_id = "user".id
-      JOIN "position" ON "${this.tableName}".position_id = "position".id
-      WHERE "${this.tableName}".user_id=$1`, [id]);
-    return result.rows[0];
+      SELECT * FROM "${this.readTableName}" WHERE id=$1`, [id]);
+
+    const teamPromises = [];
+    result.rows[0].team_id.forEach((team) => {
+      const promise = client.query("SELECT * FROM team WHERE id=$1", [team]);
+      teamPromises.push(promise);
+    });
+    const teamResult = (await Promise.all(teamPromises)).map((t) => t.rows[0]);
+
+    const scoutPromises = [];
+    result.rows[0].scout_id.forEach((scout) => {
+      const promise = client.query("SELECT * FROM scout_view WHERE scout_id=$1", [scout]);
+      scoutPromises.push(promise);
+    });
+    const scoutResult = (await Promise.all(scoutPromises)).map((s) => s.rows[0]);
+
+    return { ...result.rows[0], team: teamResult, scout: scoutResult };
   }
 
   static async updateSQL(json) {
     // eslint-disable-next-line quotes
-    const result = await client.query(`SELECT * FROM update_player($1)`, [json]);
+    const result = await client.query(`SELECT * FROM ${this.updateTableName}($1)`, [json]);
     return result.rows[0];
   }
 }

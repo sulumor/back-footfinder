@@ -1,24 +1,6 @@
 BEGIN;
 
-DROP FUNCTION IF EXISTS "update_player";
-DROP TYPE IF EXISTS "fullPlayer";
-
-CREATE TYPE "fullPlayer" as (
-  "id" int,
-  "firstname" text,
-  "lastname" text,
-  "email" text,
-  "birth_date" timestamp,
-  "nationality" text,
-  "avatar" text,
-  "genre" text,
-  "strong_foot" text,
-  "club_name" text,
-  "position" text,
-  "number_of_matches_played" int
-);
-
-CREATE FUNCTION "update_player"(json) RETURNS "fullPlayer" AS $$
+CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
   UPDATE "user" SET 
     "firstname" = COALESCE($1->>'firstname', "firstname"),
     "lastname" = COALESCE($1->>'lastname', "lastname"),
@@ -37,24 +19,7 @@ CREATE FUNCTION "update_player"(json) RETURNS "fullPlayer" AS $$
     "position_id" = COALESCE((SELECT id FROM "position" WHERE "label"=$1->>'position')::int, "position_id")
   WHERE "user_id" = ($1->>'id')::int;
 
-  SELECT "user"."id" AS "id",
-  "firstname",
-  "lastname",
-  "email",
-  "birth_date",
-  "nationality", 
-  "avatar",
-  "genre",
-  "strong_foot", 
-  "team"."club_name",
-  "position"."label" AS "position",
-  "number_of_matches_played" 
-  FROM "player" 
-    JOIN "user" ON "player"."user_id" = "user"."id"
-    JOIN "position" ON "player"."position_id" = "position"."id" 
-    JOIN "link" ON "link"."player_id" = "player"."id"
-    JOIN "team" ON "link"."team_id" = "team"."id"
-  WHERE "player"."user_id" = ($1->>'id')::int;
+  SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
 
 $$ LANGUAGE sql STRICT;
 

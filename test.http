@@ -17,7 +17,6 @@ Content-Type: application/json
   "password": "yjjk8E676a9JQZ"
 }
 
-
 ###
 GET {{endpoint}}/player/1
 
