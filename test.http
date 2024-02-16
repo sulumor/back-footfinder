@@ -57,13 +57,13 @@ Content-Type: application/json
 
 
 ###
-PATCH {{endpoint}}/player/1/match/4
+PATCH {{endpoint}}/player/1/match/3
 Content-Type: application/json
 
 {
   "score": "10-10"
 }
-GET {{ endpoint }}/scout/2/player/1
+
 
 ###
 GET {{ endpoint }}/scout/2/player/3/match/1
@@ -76,13 +76,27 @@ GET {{ endpoint }}/search?player=1
 GET {{ endpoint }}/player/1/match/stats
 
 ###
-GET {{ endpoint }}/player/1/match/2/stats
+GET {{ endpoint }}/player/1/match/3/stats
 
 ###
-POST {{ endpoint }}/player/1/match/5/stats
+POST {{ endpoint }}/player/1/match/3/stats
 Content-Type: application/json
 
 {
   "assists": 2,
-  "fitness": "dfdfe"
+  "goals_scored": 5,
+  "minutes_played": 90,
+  "fitness": "En forme"
 }
+
+
+###
+PATCH {{ endpoint }}/player/1/match/3/stats
+Content-Type: application/json
+
+{
+  "minutes_played": 5
+}
+
+###
+DELETE {{ endpoint }}/player/1/match/3/stats
