@@ -4,6 +4,7 @@ import CoreController from "./core.controller.js";
 import ApiError from "../errors/api.error.js";
 import PlayerController from "./player.controller.js";
 import TeamController from "./team.controller.js";
+import PlayerDatamapper from "../datamapper/player.datamapper.js";
 
 export default class ScoutController extends CoreController {
   static datamapper = ScoutDatamapper;
@@ -43,10 +44,12 @@ export default class ScoutController extends CoreController {
     return res.status(200).json({ ...data });
   }
 
-  static async getSearchSpecificationPlayer({ params }, res, next) {
-    const searchPlayer = await this.datamapper.searchSpecificationPlayer(params);
-    if (!searchPlayer) return next(new ApiError("Player not found", { httpStatus: 404 }));
-    const { password: dontKeep, ...data } = searchPlayer;
+  static async getSearchSpecificationPlayer({ query }, res, next) {
+    // eslint-disable-next-line max-len
+    const searchPlayer = await PlayerDatamapper.findAll({ where: query }); // Récupérez une préference du joueur depuis les paramètres d'itinéraire
+    const player = await PlayerDatamapper.joinWithUser(searchPlayer[0].id);
+    if (!player) return next(new ApiError("Player with this search not found", { httpStatus: 404 })); // Gérez le cas où le joueur n'est pas trouvé
+    const { password: dontKeep, ...data } = player;
     return res.status(200).json({ ...data });
   }
 }

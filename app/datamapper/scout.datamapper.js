@@ -10,9 +10,9 @@ export default class ScoutDatamapper extends CoreDatamapper {
 
   static async findByPlayer(playerId) {
     const result = await client.query(` 
-      SELECT * FROM "player"
-      JOIN "user" ON "player".user_id = "user".id
-      WHERE "player".user_id=$1`, [playerId]);
+      SELECT * FROM "${this.readTable}"
+      JOIN "user" ON "${this.readTable}".user_id = "user".id
+      WHERE "${this.readTable}".user_id=$1`, [playerId]);
     return result.rows[0];
   }
 
@@ -24,11 +24,11 @@ export default class ScoutDatamapper extends CoreDatamapper {
     return result.rows[0];
   }
 
-  static async searchSpecificationPlayer(playerId) {
+  static async searchSpecificationPlayer(PlayerId) {
     const result = await client.query(`
-    SELECT * FROM "player"
-    JOIN "user" ON "player".user_id = "user".id 
-    WHERE "player".position_id=$1`, [playerId]);
+    SELECT * FROM "${this.readTable}"
+    JOIN "user" ON "${this.readTable}".user_id = "user".id 
+    WHERE "${this.readTable}".position_id=$1`, [PlayerId]);
     return result.rows[0];
   }
 }
