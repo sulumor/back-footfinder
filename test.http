@@ -32,7 +32,10 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/scout/2
+GET {{endpoint}}/scout/1
+
+###
+GET {{endpoint}}/scout/2/player/1
 
 ###
 PATCH {{endpoint}}/scout/4
@@ -44,7 +47,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/player/2/match
+GET {{endpoint}}/player/5
 
 ###
 POST {{endpoint}}/player/1/match
@@ -66,7 +69,7 @@ Content-Type: application/json
 
 
 ###
-GET {{ endpoint }}/scout/2/player/3/match/1
+GET {{ endpoint }}/scout/2/player/2/match/1
 
 ###
 GET {{ endpoint }}/search?player=1

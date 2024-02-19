@@ -4,9 +4,9 @@ import TeamDatamapper from "../datamapper/team.datamapper.js";
 export default class TeamController extends CoreController {
   static datamapper = TeamDatamapper;
 
-  static async getTeamInfos(teamId) {
+  static async getTeamInfos(teamIds) {
     const allTeamPromises = [];
-    teamId.forEach((id) => {
+    teamIds.forEach((id) => {
       const teamPromise = this.datamapper.findAll({ where: { team_id: id } });
       allTeamPromises.push(teamPromise);
     });

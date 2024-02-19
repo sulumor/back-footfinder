@@ -159,6 +159,32 @@ playerRouter.route("/:id/match/stats")
 
 playerRouter.route("/:id/match/:matchId")
   /**
+     * GET /player/:id/match
+     * @summary Get one player's match
+     * @tags Player
+     * @param { number } id.path.required - User id
+     * @return { Match } 200 - Success response - aplication/json
+     * @return { ApiJsonError } 400 - Bad request response - application/json
+     * @example response - 400 - example error response
+     * {
+     *  "error": "Bad request"
+     * }
+     * @return { ApiJsonError } 404 - Not found response - application/json
+     * @example response - 404 - example error response
+     * {
+     *  "error": "Not Found"
+     * }
+     * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+     * @example response - 500 - example error response
+     * {
+     *  "error": "Internal Server Error"
+     * }
+     */
+  .get(
+    validationMiddleware("params", matchIdsSchemas),
+    controllerWrapper(MatchController.getOneMatchByUserId.bind(MatchController)),
+  )
+  /**
    * PATCH /player/:id/match/:matchId
    * @summary Update one match
    * @tags Player
@@ -214,7 +240,7 @@ playerRouter.route("/:id/match")
    */
   .get(
     validationMiddleware("params", idSchemas),
-    controllerWrapper(MatchController.getAllMatchesByUserId.bind(PlayerController)),
+    controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
   )
   /**
    * POST /player/:id/match

@@ -1,7 +1,9 @@
-// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
+/* eslint-disable import/no-cycle */
 import ScoutDatamapper from "../datamapper/scout.datamapper.js";
 import CoreController from "./core.controller.js";
 import ApiError from "../errors/api.error.js";
+import PlayerController from "./player.controller.js";
+import TeamController from "./team.controller.js";
 
 export default class ScoutController extends CoreController {
   static datamapper = ScoutDatamapper;
@@ -15,24 +17,23 @@ export default class ScoutController extends CoreController {
     return (await Promise.all(allScoutPromises)).map((scout) => scout[0]);
   }
 
-  static async updateInfos({ params, body }, res) {
-    const updateInfos = { id: params.id, ...body };
-    const scout = await this.datamapper.updateSQL(updateInfos);
-    return res.status(200).json(scout);
-  }
-
-  static async getWithUser({ params }, res, next) {
-    const user = await this.datamapper.joinWithUser(params.id);
-    if (!user) return next(new ApiError("Ressource not found", { httpStatus: 404 }));
-    const { password: dontKeep, ...data } = user;
-    return res.status(200).json({ ...data });
-  }
-
-  static async getFindOnePlayer({ params }, res, next) {
-    const findPlayer = await this.datamapper.findByPlayer(params.playerId);
-    if (!findPlayer) return next(new ApiError("Player not found", { httpStatus: 404 }));
-    const { password: dontKeep, ...data } = findPlayer;
-    return res.status(200).json({ ...data });
+  static async getAllInfos({ params }, res, next) {
+    const scout = await this.datamapper.findByPk(params.id);
+    if (!scout) return next(new ApiError("No scout found", { httpStatus: 404 }));
+    const playersInfos = await PlayerController.getPlayerInfos(scout.player_id);
+    const teamPromises = [];
+    playersInfos.forEach((player) => {
+      const teamPromise = TeamController.getTeamInfos(player.team_id);
+      teamPromises.push(teamPromise);
+    });
+    const teams = await Promise.all(teamPromises);
+    const data = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < playersInfos.length; i++) {
+      const { team_id: teamId, ...playerData } = playersInfos[i];
+      data.push({ ...playerData, teams: teams[i] });
+    }
+    return res.status(200).json(data);
   }
 
   static async getFindStatsPlayerMatch({ params }, res, next) {

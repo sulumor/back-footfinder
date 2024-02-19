@@ -43,8 +43,7 @@ export default class CoreController {
   }
 
   static async updateSQL({ params, body }, res, next) {
-    const datas = { ...params, ...body };
-    const row = await this.datamapper.updateSQL(datas);
+    const row = await this.datamapper.updateSQL({ ...params, ...body });
     if (!row) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
     if (!row[0].id) return next(new ApiError("User not Found", { httpStatus: 404 }));
     return res.status(201).json(row);
