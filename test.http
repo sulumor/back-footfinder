@@ -70,7 +70,7 @@ Content-Type: application/json
 GET {{ endpoint }}/scout/2/player/1
 
 ###
-GET {{ endpoint }}/scout/2/player/1/match/1/stats
+GET {{ endpoint }}/scout/2/player/1/match/2/stats
 
 ###
 GET {{ endpoint }}/scout/search/?strong_foot=gauche&position=Gardien

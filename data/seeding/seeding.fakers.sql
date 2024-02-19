@@ -29,9 +29,9 @@ INSERT INTO meet(team_id_as_home, team_id_as_outside) VALUES
 (1, 2),
 (2, 1);
 
-INSERT INTO match(score, meet_id) VALUES
-('2-3', 1),
-('3-1', 2);
+INSERT INTO match(score, date, meet_id) VALUES
+('2-3','2023-12-28', 1),
+('3-1','2024-01-13', 2);
 
 
 INSERT INTO play(player_id, match_id) VALUES

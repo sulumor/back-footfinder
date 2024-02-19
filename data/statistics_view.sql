@@ -11,6 +11,7 @@ SELECT
     stats.fitness,
     match.id AS match_id,
     match.score,
+    match.date,
     match.meet_id,
     player.id AS player_id,
     player.genre,
