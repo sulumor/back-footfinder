@@ -33,4 +33,19 @@ export default class CoreController {
     if (!deleted) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
     return res.status(204).end();
   }
+
+  static async createSQL({ params, body }, res, next) {
+    const datas = { ...params, ...body };
+    const row = await this.datamapper.insertSQL(datas);
+    if (!row) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
+    if (!row[0].id) return next(new ApiError("User not Found", { httpStatus: 404 }));
+    return res.status(201).json(row);
+  }
+
+  static async updateSQL({ params, body }, res, next) {
+    const row = await this.datamapper.updateSQL({ ...params, ...body });
+    if (!row) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
+    if (!row[0].id) return next(new ApiError("User not Found", { httpStatus: 404 }));
+    return res.status(201).json(row);
+  }
 }

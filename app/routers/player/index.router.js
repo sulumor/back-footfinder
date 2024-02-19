@@ -159,6 +159,32 @@ playerRouter.route("/:id/match/stats")
 
 playerRouter.route("/:id/match/:matchId")
   /**
+     * GET /player/:id/match
+     * @summary Get one player's match
+     * @tags Player
+     * @param { number } id.path.required - User id
+     * @return { Match } 200 - Success response - aplication/json
+     * @return { ApiJsonError } 400 - Bad request response - application/json
+     * @example response - 400 - example error response
+     * {
+     *  "error": "Bad request"
+     * }
+     * @return { ApiJsonError } 404 - Not found response - application/json
+     * @example response - 404 - example error response
+     * {
+     *  "error": "Not Found"
+     * }
+     * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+     * @example response - 500 - example error response
+     * {
+     *  "error": "Internal Server Error"
+     * }
+     */
+  .get(
+    validationMiddleware("params", matchIdsSchemas),
+    controllerWrapper(MatchController.getOneMatchByUserId.bind(MatchController)),
+  )
+  /**
    * PATCH /player/:id/match/:matchId
    * @summary Update one match
    * @tags Player
@@ -186,7 +212,7 @@ playerRouter.route("/:id/match/:matchId")
   .patch(
     validationMiddleware("params", matchIdsSchemas),
     validationMiddleware("body", matchPatchSchemas),
-    controllerWrapper(MatchController.updateSQL.bind(MatchController)),
+    controllerWrapper(MatchController.updateMatch.bind(MatchController)),
   );
 
 playerRouter.route("/:id/match")
@@ -214,7 +240,7 @@ playerRouter.route("/:id/match")
    */
   .get(
     validationMiddleware("params", idSchemas),
-    controllerWrapper(PlayerController.getAllMatches.bind(PlayerController)),
+    controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
   )
   /**
    * POST /player/:id/match
@@ -242,7 +268,7 @@ playerRouter.route("/:id/match")
   .post(
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", matchPostSchemas),
-    controllerWrapper(MatchController.createSQL.bind(MatchController)),
+    controllerWrapper(MatchController.createMatch.bind(MatchController)),
   );
 playerRouter.route("/:id")
   /**
@@ -269,7 +295,7 @@ playerRouter.route("/:id")
    */
   .get(
     validationMiddleware("params", idSchemas),
-    controllerWrapper(PlayerController.getWithUser.bind(PlayerController)),
+    controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
   )
 
   /**
@@ -298,7 +324,7 @@ playerRouter.route("/:id")
   .patch(
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", patchPlayerSchema),
-    controllerWrapper(PlayerController.updateAllInfosSQL.bind(PlayerController)),
+    controllerWrapper(PlayerController.updateSQL.bind(PlayerController)),
   );
 
 export default playerRouter;

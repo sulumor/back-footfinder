@@ -1,8 +1,8 @@
 import PlayDatampper from "../datamapper/play.datamapper.js";
 import StatisticsDatamapper from "../datamapper/statistics.datamapper.js";
 import ApiError from "../errors/api.error.js";
-import getHomeAndAwayTeamsInfos from "../helpers/functions.js";
 import CoreController from "./core.controller.js";
+import TeamController from "./team.controller.js";
 
 export default class StatisticsController extends CoreController {
   static datamapper = StatisticsDatamapper;
@@ -10,14 +10,14 @@ export default class StatisticsController extends CoreController {
   static async getStatsByPlayer({ params }, res, next) {
     const stats = await this.datamapper.getStatsByPlayer(params.id);
     if (!stats) return next(new ApiError("Ressource not found", { httpStatus: 404 }));
-    const results = await getHomeAndAwayTeamsInfos(stats);
+    const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
     return res.status(200).json(results);
   }
 
   static async getOneMatchStats({ params }, res, next) {
     const matchStats = await this.datamapper.getOneMatch(params);
     if (!matchStats[0]) return next(new ApiError("No match Found", { httpStatus: 404 }));
-    const results = await getHomeAndAwayTeamsInfos(matchStats);
+    const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(matchStats);
     return res.status(200).json(results);
   }
 
@@ -28,7 +28,7 @@ export default class StatisticsController extends CoreController {
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const stats = await this.datamapper.postOneMatch(data);
-    const results = await getHomeAndAwayTeamsInfos(stats);
+    const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
     return res.status(201).json(results);
   }
 
@@ -39,7 +39,7 @@ export default class StatisticsController extends CoreController {
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const stats = await this.datamapper.updateOneMatch(data);
-    const results = await getHomeAndAwayTeamsInfos(stats);
+    const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
     return res.status(201).json(results);
   }
 

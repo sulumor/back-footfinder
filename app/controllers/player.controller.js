@@ -1,46 +1,30 @@
-import MatchDatamapper from "../datamapper/match.datamapper.js";
+/* eslint-disable import/no-cycle */
 import PlayerDatamapper from "../datamapper/player.datamapper.js";
-import TeamDatamapper from "../datamapper/team.datamapper.js";
 import ApiError from "../errors/api.error.js";
-import getHomeAndAwayTeamsInfos from "../helpers/functions.js";
 import CoreController from "./core.controller.js";
+import ScoutController from "./scout.controller.js";
+import TeamController from "./team.controller.js";
 
 export default class PlayerController extends CoreController {
   static datamapper = PlayerDatamapper;
 
-  static async getWithUser({ params }, res, next) {
-    const user = await this.datamapper.joinWithUser(params.id);
-    if (!user) return next(new ApiError("Ressource not found", { httpStatus: 404 }));
-
-    const teamPromises = [];
-    user.team_id.forEach((team) => {
-      const promise = TeamDatamapper.findAll({ where: { team_id: team } });
-      teamPromises.push(promise);
+  static async getPlayerInfos(playerIds) {
+    const allPlayerPromises = [];
+    playerIds.forEach((id) => {
+      const playerPromise = this.datamapper.findAll({ where: { player_id: id } });
+      allPlayerPromises.push(playerPromise);
     });
-    const teamResult = (await Promise.all(teamPromises)).map((team) => team[0]);
-
-    const scoutPromises = [];
-    user.scout_id.forEach((scout) => {
-      const promise = this.datamapper.getScoutInfo(scout);
-      scoutPromises.push(promise);
-    });
-    const scoutResult = await Promise.all(scoutPromises);
-    const { password: dontKeep, ...data } = user;
-    return res.status(200).json({ ...data, team_id: teamResult, scout_id: scoutResult });
+    return (await Promise.all(allPlayerPromises)).map((player) => player[0]);
   }
 
-  static async updateAllInfosSQL({ params, body }, res, next) {
-    const updateInfos = { id: params.id, ...body };
-    const player = await this.datamapper.updateSQL(updateInfos);
-    if (!player) return next(new ApiError("No player found with this id", { httpStatus: 404 }));
-    return res.status(200).json(player);
-  }
-
-  static async getAllMatches({ params }, res, next) {
-    const matches = await MatchDatamapper.findAll({ where: { id: params.id } });
-    if (!matches) return next(new ApiError("No matches for this player", { httpStatus: 404 }));
-
-    const results = await getHomeAndAwayTeamsInfos(matches);
-    return res.status(200).json(results);
+  static async getAllInfos({ params }, res, next) {
+    const user = await this.datamapper.findAll({ where: { id: params.id } });
+    if (user.length < 1) return next(new ApiError("User not found", { httpStatus: 404 }));
+    const teamResult = await TeamController.getTeamInfos(user[0].team_id);
+    const scoutResult = await ScoutController.getScoutInfos(user[0].scout_id);
+    const {
+      team_id: teamId, scout_id: scoutId, ...userData
+    } = user[0];
+    return res.status(200).json({ ...userData, teams: teamResult, scouts: scoutResult });
   }
 }

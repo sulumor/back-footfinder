@@ -3,6 +3,12 @@ import client from "../helpers/pg.client.js";
 export default class CoreDatamapper {
   static tableName;
 
+  static readTableName;
+
+  static createTableName;
+
+  static updateTableName;
+
   static async findAll(params) {
     let filter = "";
     const values = [];
@@ -28,12 +34,13 @@ export default class CoreDatamapper {
       });
       filter = `WHERE ${filters.join(" AND ")}`;
     }
-    const result = await client.query(`SELECT * FROM "${this.tableName}" ${filter}`, values);
+    const result = await client.query(`SELECT * FROM "${this.readTableName}" ${filter}`, values);
     return result.rows;
   }
 
   static async findByPk(id) {
-    const result = await client.query(`SELECT * FROM "${this.tableName}" WHERE id=$1`, [id]);
+    console.log(this.readTableName);
+    const result = await client.query(`SELECT * FROM "${this.readTableName}" WHERE id=$1`, [id]);
     return result.rows[0];
   }
 
@@ -66,5 +73,15 @@ export default class CoreDatamapper {
   static async delete(id) {
     const result = await client.query(`DELETE FROM "${this.tableName}" WHERE "id" = $1`, [id]);
     return !!result.rowCount;
+  }
+
+  static async insertSQL(json) {
+    const result = await client.query(`SELECT * FROM ${this.createTableName}($1)`, [json]);
+    return result.rows[0];
+  }
+
+  static async updateSQL(json) {
+    const result = await client.query(`SELECT * FROM ${this.updateTableName}($1)`, [json]);
+    return result.rows;
   }
 }

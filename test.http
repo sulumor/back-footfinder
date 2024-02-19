@@ -32,7 +32,10 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/scout/2
+GET {{endpoint}}/scout/1
+
+###
+GET {{endpoint}}/scout/2/player/1
 
 ###
 PATCH {{endpoint}}/scout/4
@@ -44,7 +47,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/player/1/match
+GET {{endpoint}}/player/5
 
 ###
 POST {{endpoint}}/player/1/match
@@ -57,7 +60,7 @@ Content-Type: application/json
 
 
 ###
-PATCH {{endpoint}}/player/1/match/4
+PATCH {{endpoint}}/player/1/match/3
 Content-Type: application/json
 
 {
@@ -67,7 +70,7 @@ Content-Type: application/json
 GET {{ endpoint }}/scout/2/player/1
 
 ###
-GET {{ endpoint }}/scout/2/player/3/match/1
+GET {{ endpoint }}/scout/2/player/2/match/1
 
 ###
 GET {{ endpoint }}/scout/search/?strong_foot=pied_fort=gauche

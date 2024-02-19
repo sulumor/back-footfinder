@@ -5,6 +5,7 @@ CREATE VIEW scout_view AS
     SELECT
         "user"."id" AS "id",
         "scout"."id" AS "scout_id",
+        "avatar",
         "firstname",
         "lastname",
         "email",
