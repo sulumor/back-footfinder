@@ -21,6 +21,7 @@ export default class AuthController extends CoreController {
     //* Ligne suvante à supprimer lorsque les 2 du dessus seront décommentées
     if (body.password !== user.password) return next(new ApiError(errorMessage, errorInfos));
 
+    console.log(user);
     const person = await this.datamapper.findByRole(user);
 
     const { password: dontKeep, ...data } = person;
