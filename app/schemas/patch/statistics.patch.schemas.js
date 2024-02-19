@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { fitnessRegex } from "../utils/regex.schema.js";
+import { fitnessRegex, scoreRegex } from "../utils/regex.schema.js";
 
 export default Joi.object({
   assists: Joi.number().integer(),
@@ -10,4 +10,5 @@ export default Joi.object({
   stops: Joi.number().integer(),
   goals_conceded: Joi.number().integer(),
   fitness: Joi.string().pattern(fitnessRegex),
+  score: Joi.string().pattern(scoreRegex),
 }).min(1).required();
