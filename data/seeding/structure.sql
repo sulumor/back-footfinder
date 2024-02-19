@@ -34,7 +34,7 @@ CREATE TABLE "position" (
 
 CREATE TABLE "player" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "birth_date" TIMESTAMP NOT NULL,
+  "birth_date" DATE,
   "nationality" TEXT NOT NULL,
   "genre" TEXT NOT NULL,
   "strong_foot" TEXT NOT NULL,

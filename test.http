@@ -27,7 +27,7 @@ Content-Type: application/json
 {
   "firstname": "Jean Jacques",
   "lastname": "Dujardin",
-  "birth_date":"12/06/1990",
+  "birth_date":"06-12-1990",
   "position": "attaquant"
 }
 
