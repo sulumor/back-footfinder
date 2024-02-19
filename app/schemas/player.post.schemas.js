@@ -41,6 +41,17 @@ const schema = Joi.object({
     .max(100)
     .required()
     .message("Le jeton d'accès doit être une chaîne alphanumérique d'une longueur minimale de 10 caractères et maximale de 100 caractères."),
+
+  // ajout de la taille en cm
+  height: Joi.number()
+    .positive()
+    .required(),
+
+  // Ajout du poids en kg
+  weight: Joi.number()
+    .positive()
+    .required(),
+
 })
   .with("username", "birth_year")
   .xor("password", "access_token")

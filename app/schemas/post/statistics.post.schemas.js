@@ -10,4 +10,5 @@ export default Joi.object({
   stops: Joi.number().integer(),
   goals_conceded: Joi.number().integer(),
   fitness: Joi.string().pattern(fitnessRegex),
+
 }).required();

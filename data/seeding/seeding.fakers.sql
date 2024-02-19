@@ -12,10 +12,10 @@ INSERT INTO "user"(avatar,firstname,lastname, email, password, role_id) VALUES
 ('SVG', 'Maradona', 'Diego', 'elpibedeoro@mail.io', 'tNs7PcBwp4556E', 1);
 
 
-INSERT INTO player(birth_date, nationality, genre, strong_foot, number_of_matches_played, user_id, position_id) VALUES
-('19/06/1982', 'français', 'masculin', 'gauche', 20, 1, 1),
-('05/01/1990', 'français', 'masculin', 'droite', 30, 3, 2),
-('11/12/1996', 'français', 'masculin', 'gauche', 12, 5, 4);
+INSERT INTO player(birth_date, nationality, genre, strong_foot,height,weight, number_of_matches_played, user_id, position_id) VALUES
+('19/06/1982', 'français', 'masculin', 'gauche',180,98, 20, 1, 1),
+('05/01/1990', 'français', 'masculin', 'droite',180,90, 30, 3, 2),
+('11/12/1996', 'français', 'masculin', 'gauche',160,90, 12, 5, 4);
 
 INSERT INTO scout(club, city, user_id) VALUES
 ('RCLens', 'Lens', 2),

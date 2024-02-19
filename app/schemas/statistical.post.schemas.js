@@ -43,6 +43,7 @@ const schema = Joi.object({
     .max(100)
     .required()
     .message("Le jeton d'accès doit être une chaîne alphanumérique d'une longueur minimale de 10 caractères et maximale de 100 caractères."),
+
 });
 
 try {
