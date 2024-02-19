@@ -34,7 +34,7 @@ export default class ScoutController extends CoreController {
       const { team_id: teamId, ...playerData } = playersInfos[i];
       data.push({ ...playerData, teams: teams[i] });
     }
-    return res.status(200).json(data);
+    return res.status(200).json({ ...scout, players: data });
   }
 
   static async getFindStatsPlayerMatch({ params }, res, next) {
@@ -45,11 +45,21 @@ export default class ScoutController extends CoreController {
   }
 
   static async getSearchSpecificationPlayer({ query }, res, next) {
-    // eslint-disable-next-line max-len
-    const searchPlayer = await PlayerDatamapper.findAll({ where: query }); // Récupérez une préference du joueur depuis les paramètres d'itinéraire
-    const player = await PlayerDatamapper.joinWithUser(searchPlayer[0].id);
-    if (!player) return next(new ApiError("Player with this search not found", { httpStatus: 404 })); // Gérez le cas où le joueur n'est pas trouvé
-    const { password: dontKeep, ...data } = player;
-    return res.status(200).json({ ...data });
+    // Récupérez une préference du joueur depuis les paramètres d'itinéraire
+    const searchPlayer = await PlayerDatamapper.findAll({ where: query });
+    if (!searchPlayer[0]) return next(new ApiError("Player with this search not found", { httpStatus: 404 })); // Gérez le cas où le joueur n'est pas trouvé
+    const teamPromises = [];
+    searchPlayer.forEach((player) => {
+      const teamPromise = TeamController.getTeamInfos(player.team_id);
+      teamPromises.push(teamPromise);
+    });
+    const teams = await Promise.all(teamPromises);
+    const data = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < searchPlayer.length; i++) {
+      const { team_id: teamId, ...playerData } = searchPlayer[i];
+      data.push({ ...playerData, teams: teams[i] });
+    }
+    return res.status(200).json(data);
   }
 }

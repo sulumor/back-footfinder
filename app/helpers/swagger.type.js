@@ -160,3 +160,14 @@
  * @property { number } goals_conceed
  * @property { string } fitness
  */
+
+/**
+ * @typedef { object } PlayerQuery
+ * @property { string } lastname
+ * @property { string } firstname
+ * @property { string } nationality
+ * @property { string } genre
+ * @property { string } strong_foot
+ * @property { string } position
+ * @property { number } number_of_matches_played
+ */
