@@ -5,6 +5,7 @@ CREATE VIEW match_view AS
     "player"."user_id" AS "id",
     "match"."id" AS "match_id",
     "score",
+    "date",
     "team_id_as_home",
     "team_id_as_outside"
   FROM "match"

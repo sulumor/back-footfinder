@@ -28,17 +28,9 @@ INSERT INTO "user"(avatar,firstname,lastname, email, password, role_id) VALUES
 
 
 INSERT INTO player(birth_date, nationality, genre, strong_foot, number_of_matches_played, user_id, position_id) VALUES
-('1993-05-21', 'Brésilien', 'Homme', 'Droit', 50, 1, 13),
-('1995-08-14', 'Espagnol', 'Homme', 'Gauche', 30, 3, 2),
-('1990-12-03', 'Anglais', 'Homme', 'Droit', 80, 5, 3),
-('1992-04-18', 'Allemand', 'Homme', 'Gauche', 60, 6, 4),
-('1994-09-02', 'Argentin', 'Homme', 'Droit', 45, 8, 5),
-('1996-01-25', 'Italien', 'Homme', 'Gauche', 70, 10, 6),
-('1991-06-08', 'Français', 'Homme', 'Droit', 55, 12, 7),
-('1998-02-15', 'Portugais', 'Homme', 'Gauche', 40, 14, 8),
-('1999-10-30', 'Néerlandais', 'Homme', 'Droit', 65, 16, 9),
-('1997-07-14', 'Belge', 'Homme', 'Gauche', 75, 18, 10),
-('1993-11-28', 'Suédois', 'Homme', 'Droit', 62, 20, 12);;
+('19/06/1982', 'français', 'masculin', 'gauche', 20, 1, 1),
+('05/01/1990', 'français', 'masculin', 'droite', 30, 3, 2),
+('11/12/1996', 'français', 'masculin', 'gauche', 12, 5, 4);
 
 INSERT INTO scout(club, city, user_id) VALUES
 ('RC Lens', 'Lens', 2),
@@ -81,13 +73,8 @@ INSERT INTO meet(team_id_as_home, team_id_as_outside) VALUES
 (12, 1);
 
 INSERT INTO match(score, meet_id) VALUES
-('3-0', 1),
-('1-3', 2),
-('1-3', 3),
-('1-0', 4),
-('2-1', 5),
-('3-3', 6),
-('0-0', 7);
+('2-3', 1),
+('3-1', 2);
 
 
 INSERT INTO play(player_id, match_id) VALUES

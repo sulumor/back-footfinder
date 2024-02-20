@@ -34,7 +34,7 @@ CREATE TABLE "position" (
 
 CREATE TABLE "player" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "birth_date" TIMESTAMP NOT NULL,
+  "birth_date" DATE,
   "nationality" TEXT NOT NULL,
   "genre" TEXT NOT NULL,
   "strong_foot" TEXT NOT NULL,
@@ -80,6 +80,7 @@ CREATE TABLE "meet" (
 CREATE TABLE "match" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "score" TEXT NOT NULL,
+  "date" DATE NOT NULL DEFAULT CURRENT_DATE,
   "meet_id" INT REFERENCES meet(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ

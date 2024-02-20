@@ -5,6 +5,7 @@ CREATE VIEW statistics_view AS
         "player"."id" AS "id",
         "match"."id" AS "match_id",
         "score",
+        "date",
         "team_id_as_home",
         "team_id_as_outside",
         "assists",
