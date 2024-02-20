@@ -32,6 +32,10 @@ CREATE FUNCTION "update_statistics"(json) RETURNS "statistics_view" AS $$
     "fitness" = COALESCE($1->>'fitness', "fitness")
   WHERE "match_id" = ($1->>'matchId')::int;
 
+  UPDATE "match" SET 
+    "score" = COALESCE(($1->>'score'), "score")
+  WHERE "id" = (($1->>'matchId')::int);
+
   SELECT * FROM "statistics_view" WHERE "match_id" = ($1->>'matchId')::int;
 
 $$ LANGUAGE sql STRICT;

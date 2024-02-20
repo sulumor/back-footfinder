@@ -18,17 +18,14 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/player/1
+GET {{endpoint}}/player/1/match
 
 ###
-PATCH {{endpoint}}/player/1
+PATCH {{endpoint}}/player/1/match/2/stats
 Content-Type: application/json
 
 {
-  "firstname": "Jean Jacques",
-  "lastname": "Dujardin",
-  "birth_date":"12/06/1990",
-  "position": "attaquant"
+  "score": "10-10"
 }
 
 ###
