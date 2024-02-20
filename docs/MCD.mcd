@@ -4,9 +4,9 @@ SUIVRE, 0N JOUEUR, 0N RECRUTEUR
 RECRUTEUR:code recruteur, club, ville
 DF , 1N RECRUTEUR, 11 UTILISATEUR
 
-MATCH:id, score
+MATCH:id, score, date
 JOUER, 0N JOUEUR , 1N MATCH
-JOUEUR:code joueur,  date de naissance, nationalité, avatar, genre, pied fort, nb de match joué
+JOUEUR:code joueur,  date de naissance, nationalité, avatar, genre, pied fort, taille, poids, nb de match joué
 DF, 11 JOUEUR, 11 UTILISATEUR
 UTILISATEUR:code user, nom, prénom, email, mot de passe
 
