@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/player/1
+GET {{endpoint}}/player/3/stats
 
 ###
 PATCH {{endpoint}}/player/1
@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/scout/4
+GET {{endpoint}}/player/1/match
 
 ###
 GET {{endpoint}}/scout/4/player/1

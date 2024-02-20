@@ -99,6 +99,18 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId")
     controllerWrapper(MatchController.getOneMatchByUserId.bind(MatchController)),
   );
 
+scoutRouter.route("/:scoutId/player/:id/stats")
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)),
+  );
+
+scoutRouter.route("/:scoutId/player/:id/match")
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
+  );
+
 scoutRouter.route("/:scoutId/player/:id")
   /**
    * GET /scout/:scoutId/player/:id
