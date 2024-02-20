@@ -1,5 +1,3 @@
--- SQLBook: Code
-
 BEGIN;
 
 DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics";

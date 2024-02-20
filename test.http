@@ -33,7 +33,7 @@ Content-Type: application/json
 GET {{endpoint}}/player/1/match
 
 ###
-GET {{endpoint}}/scout/4/player/1
+GET {{endpoint}}/scout/4/player/1/stats
 
 ###
 DELETE {{endpoint}}/scout/4/player/1
