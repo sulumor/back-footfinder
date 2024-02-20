@@ -53,7 +53,7 @@ CREATE VIEW scout_view AS
         ARRAY_AGG( DISTINCT "follow"."player_id") AS "player_id"
     FROM "scout"
         JOIN "user" ON "scout"."user_id" = "user"."id"
-        JOIN "follow" ON "scout"."id" = "follow"."scout_id"
+        LEFT JOIN "follow" ON "scout"."id" = "follow"."scout_id"
     GROUP BY "user"."id", "scout"."club", "scout"."city", "scout"."id";
 
 CREATE VIEW statistics_view AS
