@@ -216,7 +216,11 @@ playerRouter.route("/:id/match/:matchId")
     controllerWrapper(MatchController.updateMatch.bind(MatchController)),
   );
 
-playerRouter.route("/:id/stats").get(controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)));
+playerRouter.route("/:id/stats")
+  .get(
+    validationMiddleware("params", idSchemas),
+    controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)),
+  );
 
 playerRouter.route("/:id/match")
   /**
