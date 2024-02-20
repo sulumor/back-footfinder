@@ -159,10 +159,11 @@ playerRouter.route("/:id/match/stats")
 
 playerRouter.route("/:id/match/:matchId")
   /**
-     * GET /player/:id/match
+     * GET /player/:id/match/:matchId
      * @summary Get one player's match
      * @tags Player
      * @param { number } id.path.required - User id
+     * @param { number } id.path.required - Match id
      * @return { Match } 200 - Success response - aplication/json
      * @return { ApiJsonError } 400 - Bad request response - application/json
      * @example response - 400 - example error response
@@ -214,6 +215,8 @@ playerRouter.route("/:id/match/:matchId")
     validationMiddleware("body", matchPatchSchemas),
     controllerWrapper(MatchController.updateMatch.bind(MatchController)),
   );
+
+playerRouter.route("/:id/stats").get(controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)));
 
 playerRouter.route("/:id/match")
   /**

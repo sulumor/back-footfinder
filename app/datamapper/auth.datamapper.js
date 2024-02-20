@@ -4,6 +4,8 @@ import CoreDatamapper from "./core.datamapper.js";
 export default class AuthDatamapper extends CoreDatamapper {
   static tableName = "user";
 
+  static readTableName = "user";
+
   static async findByRole({ id, role_id: roleId }) {
     const role = await client.query("SELECT * FROM \"role\" WHERE id=$1", [roleId]);
     const roleTable = role.rows[0].label === "joueur" ? "player" : "scout";

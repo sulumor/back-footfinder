@@ -8,14 +8,22 @@ export default class StatisticsController extends CoreController {
   static datamapper = StatisticsDatamapper;
 
   static async getStatsByPlayer({ params }, res, next) {
-    const stats = await this.datamapper.getStatsByPlayer(params.id);
+    const stats = await this.datamapper.findAll({ where: { id: params.id } });
     if (!stats) return next(new ApiError("Ressource not found", { httpStatus: 404 }));
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
     return res.status(200).json(results);
   }
 
+  static async getGlobalStats({ params }, res, next) {
+    const globalStats = await this.datamapper.getGlobalStats(params.id);
+    if (!globalStats) return next(new ApiError("No statistics found", { htppStatus: 404 }));
+    return res.status(200).json(globalStats);
+  }
+
   static async getOneMatchStats({ params }, res, next) {
-    const matchStats = await this.datamapper.getOneMatch(params);
+    const matchStats = await this.datamapper.findAll({
+      where: { id: params.id, match_id: params.matchId },
+    });
     if (!matchStats[0]) return next(new ApiError("No match Found", { httpStatus: 404 }));
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(matchStats);
     return res.status(200).json(results);
@@ -27,7 +35,7 @@ export default class StatisticsController extends CoreController {
       where: { player_id: params.id, match_id: params.matchId },
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
-    const stats = await this.datamapper.postOneMatch(data);
+    const stats = await this.datamapper.insertSQL(data);
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
     return res.status(201).json(results);
   }
@@ -37,8 +45,9 @@ export default class StatisticsController extends CoreController {
     const matchExits = await PlayDatampper.findAll({
       where: { player_id: params.id, match_id: params.matchId },
     });
+
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
-    const stats = await this.datamapper.updateOneMatch(data);
+    const stats = await this.datamapper.updateSQL(data);
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
     return res.status(201).json(results);
   }
@@ -48,7 +57,7 @@ export default class StatisticsController extends CoreController {
       where: { player_id: params.id, match_id: params.matchId },
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
-    const deleted = await this.datamapper.deleteOneMatch(params);
+    const deleted = await this.datamapper.delete(params);
     if (!deleted) return next(new ApiError("No stats found", { httpStatus: 404 }));
     return res.status(204).end();
   }

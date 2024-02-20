@@ -5,8 +5,8 @@ TRUNCATE TABLE "role", "position" RESTART IDENTITY CASCADE;
 
 
 INSERT INTO role(label) VALUES
-('Joueur'),
-('Recruteur');
+('joueur'),
+('recruteur');
 
 
 INSERT INTO position(label) VALUES 
