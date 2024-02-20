@@ -54,4 +54,9 @@ export default class TeamController extends CoreController {
       team_id_as_outside: awayTeam[0],
     };
   }
+
+  static async getAllTeams(_, res) {
+    const rows = await this.datamapper.findAllTeams();
+    return res.status(200).json(rows);
+  }
 }
