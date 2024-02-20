@@ -82,7 +82,7 @@ CREATE TABLE "meet" (
 CREATE TABLE "match" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "score" TEXT NOT NULL,
-  "date" DATE NOT NULL DEFAULT CURRENT_DATE,
+  "date" DATE,
   "meet_id" INT REFERENCES meet(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
@@ -175,18 +175,18 @@ INSERT INTO "user"(avatar,firstname,lastname, email, password, role_id) VALUES
 ('avatar15.jpg', 'Mason', 'Allen', 'mason.allen@email.com', 'hashed_password15', 1);
 
 
-INSERT INTO player(birth_date, nationality, genre, strong_foot, number_of_matches_played, user_id, position_id) VALUES
-('1993-05-21', 'Brésilien', 'Homme', 'Droit', 50, 1, 13),
-('1995-08-14', 'Espagnol', 'Homme', 'Gauche', 30, 3, 2),
-('1990-12-03', 'Anglais', 'Homme', 'Droit', 80, 5, 3),
-('1992-04-18', 'Allemand', 'Homme', 'Gauche', 60, 6, 4),
-('1994-09-02', 'Argentin', 'Homme', 'Droit', 45, 8, 5),
-('1996-01-25', 'Italien', 'Homme', 'Gauche', 70, 10, 6),
-('1991-06-08', 'Français', 'Homme', 'Droit', 55, 12, 7),
-('1998-02-15', 'Portugais', 'Homme', 'Gauche', 40, 14, 8),
-('1999-10-30', 'Néerlandais', 'Homme', 'Droit', 65, 16, 9),
-('1997-07-14', 'Belge', 'Homme', 'Gauche', 75, 18, 10),
-('1993-11-28', 'Suédois', 'Homme', 'Droit', 62, 20, 12);;
+INSERT INTO player(birth_date, nationality, genre, height, weight,  strong_foot, number_of_matches_played, user_id, position_id) VALUES
+('1993-05-21', 'Brésilien', 'Homme', 183, 63, 'Droit', 50, 1, 13),
+('1995-08-14', 'Espagnol', 'Homme', 193, 93,'Gauche', 30, 3, 2),
+('1990-12-03', 'Anglais', 'Homme', 185, 69,'Droit', 80, 5, 3),
+('1992-04-18', 'Allemand', 'Homme', 143, 43,'Gauche', 60, 6, 4),
+('1994-09-02', 'Argentin', 'Homme', 194, 87,'Droit', 45, 8, 5),
+('1996-01-25', 'Italien', 'Homme', 183, 79,'Gauche', 70, 10, 6),
+('1991-06-08', 'Français', 'Homme', 180, 83,'Droit', 55, 12, 7),
+('1998-02-15', 'Portugais', 'Homme',198, 110, 'Gauche', 40, 14, 8),
+('1999-10-30', 'Néerlandais', 'Homme',200, 99, 'Droit', 65, 16, 9),
+('1997-07-14', 'Belge', 'Homme',181, 73, 'Gauche', 75, 18, 10),
+('1993-11-28', 'Suédois', 'Homme', 178, 63,'Droit', 62, 20, 1);
 
 INSERT INTO scout(club, city, user_id) VALUES
 ('RC Lens', 'Lens', 2),
@@ -226,16 +226,18 @@ INSERT INTO meet(team_id_as_home, team_id_as_outside) VALUES
 (8, 1),
 (1, 4),
 (9, 1),
-(12, 1);
+(12, 1),
+(1, 10);
 
-INSERT INTO match(score, meet_id) VALUES
-('3-0', 1),
-('1-3', 2),
-('1-3', 3),
-('1-0', 4),
-('2-1', 5),
-('3-3', 6),
-('0-0', 7);
+INSERT INTO match(score, meet_id, date) VALUES
+('3-0', 1,'2023-09-21T20:00:00Z'),
+('1-3', 2,'2023-09-28T20:00:00Z'),
+('1-3', 3,'2023-10-18T20:00:00Z'),
+('1-0', 4,'2023-10-25T20:00:00Z'),
+('2-1', 5,'2023-11-21T20:00:00Z'),
+('3-3', 6,'2024-01-02T20:00:00Z'),
+('0-0', 7,'2023-02-14T20:00:00Z'),
+('-', 8,'2023-02-28T20:00:00Z');
 
 
 INSERT INTO play(player_id, match_id) VALUES

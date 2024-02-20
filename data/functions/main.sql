@@ -1,5 +1,7 @@
 BEGIN;
 
+DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics";
+
 CREATE FUNCTION "add_match"(json) RETURNS "match_view" AS $$
 
   INSERT INTO "meet" (team_id_as_home, team_id_as_outside) VALUES (($1->>'homeTeam')::int, ($1->>'awayTeam')::int);

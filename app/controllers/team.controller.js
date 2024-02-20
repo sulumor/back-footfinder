@@ -28,7 +28,13 @@ export default class TeamController extends CoreController {
     const results = [];
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < datas.length; i++) {
-      const { team_id_as_home: Home, team_id_as_outside: Away, ...data } = datas[i];
+      const {
+        team_id_as_home: Home,
+        team_id_as_outside: Away,
+        created_at: createdAt,
+        updated_at: updatedAt,
+        ...data
+      } = datas[i];
       const obj = {
         ...data,
         home: homeTeams[i],

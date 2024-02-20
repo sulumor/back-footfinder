@@ -23,7 +23,7 @@ CREATE VIEW player_view AS
         JOIN "follow" ON "player"."id" = "follow"."player_id" 
         JOIN "link" ON "link"."player_id" = "player"."id"
         JOIN "team" ON "link"."team_id" = "team"."id"
-    GROUP BY "user"."id","player"."id", "player"."birth_date", "player"."nationality", "player"."genre", "player"."strong_foot","position"."label", "player"."number_of_matches_played","player"."height","player"."weight";
+    GROUP BY "user"."id","player"."id", "player"."birth_date","player"."weight","player"."height" "player"."nationality", "player"."genre", "player"."strong_foot","position"."label", "player"."number_of_matches_played","player"."height","player"."weight";
 ;
 
 COMMIT;
