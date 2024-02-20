@@ -18,6 +18,8 @@
  * @property { string } nationality
  * @property { string } genre
  * @property { string } strong_foot
+ * @property { number } height
+ * @property { number } weight
  * @property { number } number_of_matches_played
  * @property { number } user_id
  * @property { number } position_id
@@ -59,8 +61,9 @@
  * @property { number } id
  * @property { number } match_id
  * @property { string } score
- * @property { Team } team_id_as_home
- * @property { Team } team_id_as_outside
+ * @property { string } date
+ * @property { Team } homeTeam
+ * @property { Team } awayTeam
  */
 
 /**
@@ -68,15 +71,16 @@
  * @property { number } id
  * @property { number } match_id
  * @property { string } score
- * @property { Team } team_id_as_home
- * @property { Team } team_id_as_outside
+ * @property { string } date
+ * @property { Team } homeTeam
+ * @property { Team } awayTeam
  * @property { number } assists
  * @property { number } goals_scored
  * @property { number } minutes_played
  * @property { number } red_card
  * @property { number } yellow_card
  * @property { number } stop
- * @property { number } goals_conceed
+ * @property { number } goals_conceded
  * @property { string } fitness
  */
 
@@ -103,6 +107,8 @@
  * @property { string } avatar
  * @property { string } genre
  * @property { string } strong_foot
+ * @property { number } height
+ * @property { number } weight
  * @property { number } number_of_matches_played
  * @property { number } user_id
  * @property { number } position_id
@@ -139,6 +145,8 @@
  * @property { string } nationality
  * @property { string } genre
  * @property { string } strong_foot
+ * @property { number } height
+ * @property { number } weight
  *
  */
 
@@ -147,6 +155,7 @@
  * @property { number } homeTeam
  * @property { number } awayTeam
  * @property { string } score
+ * @property { string } date
  */
 
 /**
@@ -157,7 +166,7 @@
  * @property { number } red_card
  * @property { number } yellow_card
  * @property { number } stop
- * @property { number } goals_conceed
+ * @property { number } goals_conceded
  * @property { string } fitness
  */
 
@@ -168,6 +177,8 @@
  * @property { string } nationality
  * @property { string } genre
  * @property { string } strong_foot
+ * @property { number } height
+ * @property { number } weight
  * @property { string } position
  * @property { number } number_of_matches_played
  */
