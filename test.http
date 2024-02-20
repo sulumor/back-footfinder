@@ -21,21 +21,22 @@ Content-Type: application/json
 GET {{endpoint}}/player/1/match/2/stats
 
 ###
-PATCH {{endpoint}}/player/1/match/2/stats
+PATCH {{endpoint}}/player/1
 Content-Type: application/json
 
 {
-  "firstname": "Jean Jacques",
-  "lastname": "Dujardin",
-  "birth_date":"06-12-1990",
-  "position": "attaquant"
+  "height": 210,
+  "weight": 120
 }
 
 ###
-GET {{endpoint}}/scout/4
+GET {{endpoint}}/player/1/match
 
 ###
-GET {{endpoint}}/scout/4/player
+GET {{endpoint}}/scout/4/player/1
+
+###
+DELETE {{endpoint}}/scout/4/player/1
 
 ###
 PATCH {{endpoint}}/scout/4
@@ -74,3 +75,6 @@ GET {{ endpoint }}/scout/2/player/1/match/2/stats
 
 ###
 GET {{ endpoint }}/scout/search/?strong_foot=gauche&position=Gardien
+
+###
+GET {{endpoint}}/datas/teams

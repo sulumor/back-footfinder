@@ -10,6 +10,7 @@ import scoutIdsGetSchemas from "../../schemas/get/scoutIds.get.schemas.js";
 import scoutPlayerMatchIdsGetSchemas from "../../schemas/get/scoutPlayerMatchIds.get.schemas.js";
 import searchGetSchemas from "../../schemas/get/search.get.schemas.js";
 import StatisticsController from "../../controllers/statistics.controller.js";
+import FollowController from "../../controllers/follow.controller.js";
 
 const scoutRouter = Router();
 
@@ -98,6 +99,18 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId")
     controllerWrapper(MatchController.getOneMatchByUserId.bind(MatchController)),
   );
 
+scoutRouter.route("/:scoutId/player/:id/stats")
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)),
+  );
+
+scoutRouter.route("/:scoutId/player/:id/match")
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
+  );
+
 scoutRouter.route("/:scoutId/player/:id")
   /**
    * GET /scout/:scoutId/player/:id
@@ -126,6 +139,10 @@ scoutRouter.route("/:scoutId/player/:id")
   .get(
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
+  )
+  .delete(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(FollowController.deleteOneLine.bind(FollowController)),
   );
 
 scoutRouter.route("/:id")
