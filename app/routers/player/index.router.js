@@ -163,7 +163,7 @@ playerRouter.route("/:id/match/:matchId")
      * @summary Get one player's match
      * @tags Player
      * @param { number } id.path.required - User id
-     * @param { number } id.path.required - Match id
+     * @param { number } matchId.path.required - Match id
      * @return { Match } 200 - Success response - aplication/json
      * @return { ApiJsonError } 400 - Bad request response - application/json
      * @example response - 400 - example error response
