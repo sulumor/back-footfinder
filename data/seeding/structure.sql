@@ -236,8 +236,8 @@ INSERT INTO match(score, meet_id, date) VALUES
 ('1-0', 4,'2023-10-25T20:00:00Z'),
 ('2-1', 5,'2023-11-21T20:00:00Z'),
 ('3-3', 6,'2024-01-02T20:00:00Z'),
-('0-0', 7,'2023-02-14T20:00:00Z'),
-('-', 8,'2023-02-28T20:00:00Z');
+('0-0', 7,'2024-02-14T20:00:00Z'),
+('-', 8,'2024-02-28T20:00:00Z');
 
 
 INSERT INTO play(player_id, match_id) VALUES
@@ -247,7 +247,8 @@ INSERT INTO play(player_id, match_id) VALUES
 (1, 4),
 (1, 5),
 (1, 6),
-(1, 7);
+(1, 7),
+(1,8);
 
 INSERT INTO statistics(assists, goals_scored, minutes_played, red_card, yellow_card, stops, goals_conceded, fitness, match_id) VALUES
 ('1', '2', '70', '0', '0', '0', '0', 'En forme', 1),
