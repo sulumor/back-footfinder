@@ -11,4 +11,5 @@ export default Joi.object({
   strong_foot: Joi.string().pattern(footRegex),
   position: Joi.string().pattern(positionRegex),
   number_of_matches_played: Joi.number().integer(),
+
 }).min(1).required();

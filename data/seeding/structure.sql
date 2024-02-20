@@ -37,6 +37,8 @@ CREATE TABLE "player" (
   "birth_date" DATE,
   "nationality" TEXT NOT NULL,
   "genre" TEXT NOT NULL,
+  "height" INT NOT NULL,
+  "weight" INT NOT NULL,
   "strong_foot" TEXT NOT NULL,
   "number_of_matches_played" INT NOT NULL DEFAULT 0,
   "user_id" INT NOT NULL REFERENCES "user"(id),
