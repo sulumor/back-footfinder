@@ -17,21 +17,22 @@ export default class TeamController extends CoreController {
     const homePromise = [];
     const awayPromise = [];
     datas.forEach((data) => {
-      const home = this.datamapper.findAll({ where: { team_id: data.team_id_as_home } });
+      const home = this.datamapper.findByPk(data.team_id_as_home);
       homePromise.push(home);
-      const away = this.datamapper.findAll({ where: { team_id: data.team_id_as_outside } });
+      const away = this.datamapper.findByPk(data.team_id_as_outside);
       awayPromise.push(away);
     });
 
-    const homeTeams = (await Promise.all(homePromise)).map((team) => team[0]);
-    const awayTeams = (await Promise.all(awayPromise)).map((team) => team[0]);
+    const homeTeams = (await Promise.all(homePromise)).map((team) => team);
+    const awayTeams = (await Promise.all(awayPromise)).map((team) => team);
     const results = [];
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < datas.length; i++) {
+      const { team_id_as_home: Home, team_id_as_outside: Away, ...data } = datas[i];
       const obj = {
-        ...datas[i],
-        team_id_as_home: homeTeams[i],
-        team_id_as_outside: awayTeams[i],
+        ...data,
+        home: homeTeams[i],
+        away: awayTeams[i],
       };
       results.push(obj);
     }
@@ -39,8 +40,8 @@ export default class TeamController extends CoreController {
   }
 
   static async getHomeAndAwayTeamsInfos(data) {
-    const homeTeam = await this.datamapper.findAll({ where: { team_id: data.team_id_as_home } });
-    const awayTeam = await this.datamapper.findAll({ where: { team_id: data.team_id_as_outside } });
+    const homeTeam = await this.datamapper.findByPk(data.team_id_as_home);
+    const awayTeam = await this.datamapper.findByPk(data.team_id_as_outside);
     return {
       ...data,
       team_id_as_home: homeTeam[0],

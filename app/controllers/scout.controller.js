@@ -19,7 +19,7 @@ export default class ScoutController extends CoreController {
   }
 
   static async getAllInfos({ params }, res, next) {
-    const scout = await this.datamapper.findByPk(params.id);
+    const scout = await this.datamapper.findAll({ where: { id: params.id } });
     if (!scout) return next(new ApiError("No scout found", { httpStatus: 404 }));
     const playersInfos = await PlayerController.getPlayerInfos(scout.player_id);
     const teamPromises = [];
