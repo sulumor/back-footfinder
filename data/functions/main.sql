@@ -39,8 +39,10 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
 
 -- VOIR POUR MODIFIER BIRTH DATE CAR SOUCIS DE TIMEZONE
   UPDATE "player" SET 
-    "birth_date" = COALESCE(($1->>'birth_date')::timestamp, "birth_date"),
+    "birth_date" = COALESCE(($1->>'birth_date')::date, "birth_date"),
     "nationality" = COALESCE($1->>'nationality', "nationality"),
+    "height" = COALESCE(($1->>'height')::int, "height"),
+    "weight" = COALESCE(($1->>'weight')::int, "weight"),
     "genre" = COALESCE($1->>'genre', "genre"),
     "strong_foot" = COALESCE($1->>'strong_foot', "strong_foot"),
     "number_of_matches_played" = COALESCE(($1->>'number_of_matches_played')::int, "number_of_matches_played"),

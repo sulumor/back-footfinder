@@ -1,4 +1,4 @@
-@endpoint=http://localhost:4000
+@endpoint=http://localhost:3000
 
 POST {{ endpoint }}/login
 Content-Type: application/json
@@ -18,17 +18,15 @@ Content-Type: application/json
 }
 
 ###
-GET {{endpoint}}/player/1/match
+GET {{endpoint}}/player/1
 
 ###
-PATCH {{endpoint}}/player/1/match/2/stats
+PATCH {{endpoint}}/player/1
 Content-Type: application/json
 
 {
-  "firstname": "Jean Jacques",
-  "lastname": "Dujardin",
-  "birth_date":"06-12-1990",
-  "position": "attaquant"
+  "height": 210,
+  "weight": 120
 }
 
 ###
