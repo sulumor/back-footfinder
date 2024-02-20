@@ -1,4 +1,4 @@
-# Template Serveur Node avec Express
+# Serveur Node avec Express
 
 Ce projet est un template pour démarrer un serveur web en Node.js avec le framework Express.
 Il utilise les technologies suivantes :
