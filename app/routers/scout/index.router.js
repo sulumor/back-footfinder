@@ -140,13 +140,61 @@ scoutRouter.route("/:scoutId/player/:id")
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
   )
-  .get(
-    validationMiddleware("params", scoutIdsGetSchemas),
-    controllerWrapper(FollowController.insertPlayerFollow.bind(FollowController)),
-  )
+  /**
+   * DELETE /scout/:scoutId/player/:id
+   * @summary Delete one line
+   * @tags Scout
+   * @param { number } id.path.required - User id
+   * @param { number } scoutId.path.required - Scout id
+   * @return {} 204 - Success response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
+   * @example response - 400 - example error response
+   * {
+   *  "error": "Bad request"
+   * }
+   * @return { ApiJsonError } 404 - Not found response - application/json
+   * @example response - 404 - example error response
+   * {
+   *  "error": "Not Found"
+   * }
+   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+   * @example response - 500 - example error response
+   * {
+   *  "error": "Internal Server Error"
+   * }
+   */
   .delete(
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(FollowController.deleteOneLine.bind(FollowController)),
+  );
+
+scoutRouter.route("/:id/player/:playerId")
+/**
+   * GET /scout/:id/player/:playerId
+   * @summary Find player's followed
+   * @tags Scout
+   * @param { number } id.path.required - User id
+   * @param { number } playerId.path.required - Player id
+   * @return { Player } 200 - Success response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
+   * @example response - 400 - example error response
+   * {
+   *  "error": "Bad request"
+   * }
+   * @return { ApiJsonError } 404 - Not found response - application/json
+   * @example response - 404 - example error response
+   * {
+   *  "error": "Not Found"
+   * }
+   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+   * @example response - 500 - example error response
+   * {
+   *  "error": "Internal Server Error"
+   * }
+   */
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(FollowController.insertPlayerFollow.bind(FollowController)),
   );
 
 scoutRouter.route("/:id")
