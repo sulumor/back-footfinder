@@ -6,7 +6,7 @@ const datasRouter = Router();
 
 datasRouter.route("/teams")
 /**
- * GET datas/teams
+ * GET /datas/teams
  * @summary Get team's informations
  * @tags Team
  * @param { number } id.path.required - Team id
