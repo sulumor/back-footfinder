@@ -140,6 +140,10 @@ scoutRouter.route("/:scoutId/player/:id")
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
   )
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(FollowController.insertPlayerFollow.bind(FollowController)),
+  )
   .delete(
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(FollowController.deleteOneLine.bind(FollowController)),

@@ -98,6 +98,9 @@ GET {{endpoint}}/scout/4/player/1/stats
 DELETE {{endpoint}}/scout/4/player/1
 
 ###
+GET {{endpoint}}/scout/2/player/1
+
+###
 PATCH {{endpoint}}/scout/4
 Content-Type: application/json
 

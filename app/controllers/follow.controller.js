@@ -10,4 +10,10 @@ export default class FollowController extends CoreController {
     if (!deleted) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
     return res.status(204).end();
   }
+
+  static async insertPlayerFollow({ id, scoutId }, res, next) {
+    const followed = await this.datamapper.followByPlayerId({ id, scoutId });
+    if (!followed) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
+    return res.status(204).end();
+  }
 }
