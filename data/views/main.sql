@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view";
+DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view", "auth_view";
 
 CREATE VIEW match_view AS
   SELECT
@@ -95,5 +95,16 @@ CREATE VIEW team_view AS
         "team" 
     JOIN "link"  ON "link"."team_id" = "team"."id";
 
+CREATE VIEW auth_view AS
+  SELECT 
+    "user"."id", 
+    "avatar", 
+    "firstname", 
+    "lastname",
+    "email",
+    "password",
+    "role"."label" AS "role" 
+  FROM "user" 
+    JOIN "role" ON "user"."role_id" = "role"."id";
 
 COMMIT;

@@ -6,6 +6,8 @@ export default class ScoutDatamapper extends CoreDatamapper {
 
   static readTableName = "scout_view";
 
+  static createTableName = "add_scout";
+
   static updateTableName = "update_scout";
 
   static async findByPlayer(playerId) {

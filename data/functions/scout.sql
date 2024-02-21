@@ -1,6 +1,17 @@
 -- SQLBook: Code
 BEGIN;
 
+CREATE FUNCTION "add_scout"(json) RETURNS "scout_view" AS $$
+    INSERT INTO scout(club, city, user_id) VALUES (
+        $1->>'club',
+        $1->>'city', 
+        ($1->>'id')::int
+    )
+
+    SELECT * FROM "scout_view" WHERE "id" = ($1->>'id')::int;
+
+$$ LANGUAGE sql STRICT;
+
 CREATE FUNCTION "update_scout"(json) RETURNS "scout_view" AS $$
     UPDATE "user" SET
         "avatar" = COALESCE($1->>'avatar', "avatar"),

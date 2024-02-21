@@ -1,7 +1,7 @@
 BEGIN;
 
-DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics";
-DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view";
+DROP FUNCTION IF EXISTS "add_scout", "add_player", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user";
+DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view", "auth_view";
 DROP TABLE IF EXISTS "role","user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow";
 
 CREATE TABLE "role" (
@@ -151,8 +151,8 @@ INSERT INTO position(label) VALUES
   ('Remplaçant');
 
 INSERT INTO "user"(avatar,firstname,lastname, email, password, role_id) VALUES
-('SVG','Jean', 'Dujardin', 'jean.dujardin@mail.io','yjjk8E676a9JQZ', 1),
-('SVG',  'Nicolas', 'Dupont', 'nicolas.dupon@mail.io','X346Dc5V7kfYmv', 2),
+('SVG','Jean', 'Dujardin', 'jean.dujardin@mail.io','$2b$12$jRVrTwaorAHZFzfiNI/ZJeAYKWHvxoYn0fJNtsAMbxL1jVwZ7b3dW', 1),
+('SVG',  'Nicolas', 'Dupont', 'nicolas.dupon@mail.io','$2b$12$Uw9.Ybd93sL7MF.TQwLbzOwOjU9gPsQaM5pj66eOjD4A1C444M5ku', 2),
 ('SVG',  'Cristiano', 'Ronaldo', 'cr7@mail.io', '629Mc9Jh7KEepk', 1),
 ('SVG',  'Jonathan', 'Barnett', 'jonh.barnett@mail.io', '3E62gp8Sn9KeHf', 2),
 ('SVG',  'Diego', 'Maradona','elpibedeoro@mail.io', 'tNs7PcBwp4556E', 1),
