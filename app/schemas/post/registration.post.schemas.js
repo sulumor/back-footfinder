@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { lettersRegex, passwordRegex } from "../utils/regex.schema.js";
+import { lettersRegex, passwordRegex, roleRegex } from "../utils/regex.schema.js";
 
 export default Joi.object({
   lastname: Joi.string()
@@ -18,4 +18,5 @@ export default Joi.object({
     .message("Le mot de passe doit contenir au moins 8 caractères et inclure des lettres majuscules, minuscules, des chiffres et des caractères spéciaux.")
     .required(),
   confirmedPassword: Joi.ref("password"),
+  role: Joi.string().pattern(roleRegex).required(),
 }).required();

@@ -4,9 +4,15 @@ import AuthController from "../../controllers/auth.controller.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
 import loginSchema from "../../schemas/post/login.post.schemas.js";
 import registrationSchema from "../../schemas/post/registration.post.schemas.js";
+import registerRolePostSchemas from "../../schemas/post/registerRole.post.schemas.js";
 
 const authRouter = Router();
 
+authRouter.post(
+  "/register/:role",
+  validationMiddleware("params", registerRolePostSchemas),
+  controllerWrapper(AuthController.signup.bind(AuthController)),
+);
 /**
  * POST /login
  * @summary Login user

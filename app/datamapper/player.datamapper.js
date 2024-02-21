@@ -5,5 +5,7 @@ export default class PlayerDatamapper extends CoreDatamapper {
 
   static readTableName = "player_view";
 
+  static createTableName = "add_player";
+
   static updateTableName = "update_player";
 }
