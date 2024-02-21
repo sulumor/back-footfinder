@@ -31,14 +31,16 @@ CREATE VIEW player_view AS
         ARRAY_AGG( DISTINCT "link"."team_id") AS "team_id",
         ARRAY_AGG( DISTINCT "follow"."scout_id") AS "scout_id", 
         "position"."label" AS "position",
-        "number_of_matches_played" 
+        "number_of_matches_played",
+        "role"."label" AS "role"  
     FROM "player" 
         JOIN "user" ON "player"."user_id" = "user"."id"
         JOIN "position" ON "player"."position_id" = "position"."id"
+        JOIN "role" ON "user"."role_id" = "role"."id"
         FULL JOIN "follow" ON "player"."id" = "follow"."player_id" 
         FULL JOIN "link" ON "link"."player_id" = "player"."id"
         FULL JOIN "team" ON "link"."team_id" = "team"."id"
-    GROUP BY "user"."id","player"."id", "player"."birth_date", "player"."nationality", "player"."genre", "player"."strong_foot","position"."label", "player"."number_of_matches_played","player"."height","player"."weight";
+    GROUP BY "role"."label", "user"."id","player"."id", "player"."birth_date", "player"."nationality", "player"."genre", "player"."strong_foot","position"."label", "player"."number_of_matches_played","player"."height","player"."weight";
 
 CREATE VIEW scout_view AS
     SELECT
@@ -50,11 +52,13 @@ CREATE VIEW scout_view AS
         "email",
         "club",
         "city", 
-        ARRAY_AGG( DISTINCT "follow"."player_id") AS "player_id"
+        ARRAY_AGG( DISTINCT "follow"."player_id") AS "player_id",
+        "role"."label" AS "role"
     FROM "scout"
         JOIN "user" ON "scout"."user_id" = "user"."id"
+        JOIN "role" ON "user"."role_id" = "role"."id"
         LEFT JOIN "follow" ON "scout"."id" = "follow"."scout_id"
-    GROUP BY "user"."id", "scout"."club", "scout"."city", "scout"."id";
+    GROUP BY "user"."id", "scout"."club", "scout"."city", "scout"."id", "role"."label";
 
 CREATE VIEW statistics_view AS
     SELECT

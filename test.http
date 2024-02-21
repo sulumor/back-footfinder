@@ -2,11 +2,11 @@
 
 POST {{ endpoint }}/login
 Content-Type: application/json
-
+git 
 {
   "email":"jean.dujardin@mail.io",
   "password": "yjjk8E676a9JQZ!",
-  "role": "recruteur"
+  "role": "joueur"
 }
 
 ###
