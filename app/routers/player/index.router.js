@@ -11,6 +11,7 @@ import matchIdsSchemas from "../../schemas/patch/matchIds.patch.schemas.js";
 import StatisticsController from "../../controllers/statistics.controller.js";
 import statisticsPostSchemas from "../../schemas/post/statistics.post.schemas.js";
 import statisticsPatchSchemas from "../../schemas/patch/statistics.patch.schemas.js";
+import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
 
 const playerRouter = Router();
 
@@ -39,6 +40,7 @@ playerRouter.route("/:id/match/:matchId/stats")
    * }
    */
   .get(
+    authenticateToken,
     validationMiddleware("params", matchIdsSchemas),
     controllerWrapper(StatisticsController.getOneMatchStats.bind(StatisticsController)),
   )
