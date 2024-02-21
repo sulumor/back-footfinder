@@ -11,6 +11,6 @@ export default Joi.object({
   genre: Joi.string(),
   strong_foot: Joi.string(),
   position: Joi.string(),
-  height: Joi.number().positive().required(),
-  weight: Joi.number().positive().required(),
+  height: Joi.number().integer(),
+  weight: Joi.number().integer(),
 }).min(1).required();

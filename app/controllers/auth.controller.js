@@ -1,34 +1,32 @@
-import jwt from "jsonwebtoken";
-//* import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import ApiError from "../errors/api.error.js";
-import AuthDatamapper from "../datamapper/auth.datamapper.js";
 import CoreController from "./core.controller.js";
+import AuthDatamapper from "../datamapper/auth.datamapper.js";
+import PlayerDatamapper from "../datamapper/player.datamapper.js";
+import ScoutDatamapper from "../datamapper/scout.datamapper.js";
+import createJWT from "../helpers/jwt.function.js";
 
 export default class AuthController extends CoreController {
   static datamapper = AuthDatamapper;
 
   static async login({ body }, res, next) {
-    const [user] = await this.datamapper.findAll({ where: { email: body.email } });
     const errorMessage = "Authentification failed";
     const errorInfos = { httpStatus: 401 };
 
+    const [user] = await this.datamapper.findAll({ where: { email: body.email, role: body.role } });
     if (!user) return next(new ApiError(errorMessage, errorInfos));
 
-    //* a mettre en place après insertion des users avec mdp crypté
-    // const isPasswordCorrect = await bcrypt.compare(body.password, user.password)
-    // if (!isPasswordCorrect) return next(new ApiError(errorMessage, { httpStatus: 401 }));
+    const isPasswordCorrect = await bcrypt.compare(body.password, user.password);
+    if (!isPasswordCorrect) return next(new ApiError(errorMessage, errorInfos));
 
-    //* Ligne suvante à supprimer lorsque les 2 du dessus seront décommentées
-    if (body.password !== user.password) return next(new ApiError(errorMessage, errorInfos));
+    let data;
+    if (body.role === "joueur") data = await PlayerDatamapper.findAll({ where: { email: body.email } });
+    if (body.role === "recruteur") data = await ScoutDatamapper.findAll({ where: { email: body.email } });
+    if (!data[0]) return res.status(200).json(user);
 
-    const person = await this.datamapper.findByRole(user);
+    const token = createJWT(data[0]);
 
-    const { password: dontKeep, ...data } = person;
-    const expiresIn = parseInt(process.env.JWT_EXPIRE_IN, 10) || 60;
-    const expiresAt = Math.round((new Date().getTime() / 1000) + expiresIn);
-    const token = jwt.sign({ ...data }, process.env.JWT_PRIVATE_KEY);
-
-    return res.status(200).json({ data: { ...data }, token: { jwt: token, expiresAt } });
+    return res.status(200).json({ data: data[0], token });
   }
 
   static async register({ body }, res, next) {
@@ -36,17 +34,25 @@ export default class AuthController extends CoreController {
     if (existsUser) return next(new ApiError("User already exists", { httpStatus: 400 }));
     const { confirmedPassword: dontKeep, ...data } = body;
 
-    const user = await this.datamapper.insert(...data);
-    // TODO voir pour l'insertion du rôle
+    data.password = await bcrypt.hash(data.password, Number.parseInt(process.env.BCRYPT_SALT, 10));
+    const user = await this.datamapper.insertSQL(data);
+    return res.status(201).json(user);
+  }
 
-    const { password: dontKeeped, ...userWithoutPassword } = user;
-    const expiresIn = parseInt(process.env.JWT_EXPIRE_IN, 10) || 60;
-    const expiresAt = Math.round((new Date().getTime() / 1000) + expiresIn);
-    const token = jwt.sign({ ...data }, process.env.JWT_PRIVATE_KEY);
-
-    return res.status(201).json({
-      data: { ...userWithoutPassword },
-      token: { jwt: token, expiresAt },
+  static async signup({ params, body }, res, next) {
+    const [existsUser] = await this.datamapper.findAll({
+      where: {
+        email: body.email,
+        role: params.role,
+      },
     });
+    if (!existsUser) return next(new ApiError("Authentification failed", { httpStatus: 401 }));
+    let person;
+    if (params.role === "joueur") person = await PlayerDatamapper.insertSQL(body);
+    if (params.role === "recruteur") person = await ScoutDatamapper.insertSQL(body);
+
+    const token = createJWT(person);
+
+    return res.status(201).json({ data: person, token });
   }
 }

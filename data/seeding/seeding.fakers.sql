@@ -1,39 +1,42 @@
--- SQLBook: Code
 BEGIN;
 
 TRUNCATE TABLE "user", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow" RESTART IDENTITY CASCADE;
 
-
 INSERT INTO "user"(avatar,firstname,lastname, email, password, role_id) VALUES
-('SVG','Dujardin', 'Jean', 'jean.dujardin@mail.io','yjjk8E676a9JQZ', 1),
-('SVG', 'Dupont', 'Nicolas', 'nicolas.dupon@mail.io','X346Dc5V7kfYmv', 2),
-('SVG', 'Ronaldo', 'Cristiano', 'cr7@mail.io', '629Mc9Jh7KEepk', 1),
-('SVG', 'Barnett', 'Jonathan', 'jonh.barnett@mail.io', '3E62gp8Sn9KeHf', 2),
-('SVG', 'Maradona', 'Diego', 'elpibedeoro@mail.io', 'tNs7PcBwp4556E', 1);
+('SVG','Jean', 'Dujardin', 'jean.dujardin@mail.io','yjjk8E676a9JQZ', 1),
+('SVG',  'Nicolas', 'Dupont', 'nicolas.dupon@mail.io','X346Dc5V7kfYmv', 2),
+('SVG',  'Cristiano', 'Ronaldo', 'cr7@mail.io', '629Mc9Jh7KEepk', 1),
+('SVG',  'Jonathan', 'Barnett', 'jonh.barnett@mail.io', '3E62gp8Sn9KeHf', 2),
+('SVG',  'Diego', 'Maradona','elpibedeoro@mail.io', 'tNs7PcBwp4556E', 1),
+('avatar1.jpg', 'John', 'Doe', 'john.doe@email.com', 'hashed_password1', 1),
+('avatar2.jpg', 'Jane', 'Smith', 'jane.smith@email.com', 'hashed_password2', 2),
+('avatar3.jpg', 'Bob', 'Johnson', 'bob.johnson@email.com', 'hashed_password3', 1),
+('avatar4.jpg', 'Alice', 'Williams', 'alice.williams@email.com', 'hashed_password4', 2),
+('avatar5.jpg', 'Charlie', 'Brown', 'charlie.brown@email.com', 'hashed_password5', 1),
+('avatar6.jpg', 'Eva', 'Miller', 'eva.miller@email.com', 'hashed_password6', 2),
+('avatar7.jpg', 'David', 'Jones', 'david.jones@email.com', 'hashed_password7', 1),
+('avatar8.jpg', 'Grace', 'Davis', 'grace.davis@email.com', 'hashed_password8', 2),
+('avatar9.jpg', 'Frank', 'Wilson', 'frank.wilson@email.com', 'hashed_password9', 1),
+('avatar10.jpg', 'Helen', 'Moore', 'helen.moore@email.com', 'hashed_password10', 2),
+('avatar11.jpg', 'Isaac', 'Lee', 'isaac.lee@email.com', 'hashed_password11', 1),
+('avatar12.jpg', 'Olivia', 'Taylor', 'olivia.taylor@email.com', 'hashed_password12', 2),
+('avatar13.jpg', 'Jack', 'Harris', 'jack.harris@email.com', 'hashed_password13', 1),
+('avatar14.jpg', 'Sophie', 'Clark', 'sophie.clark@email.com', 'hashed_password14', 2),
+('avatar15.jpg', 'Mason', 'Allen', 'mason.allen@email.com', 'hashed_password15', 1);
 
 
-INSERT INTO player(birth_date, nationality, genre, strong_foot, number_of_matches_played, user_id, position_id) VALUES
-
-('1993-05-21', 'Brésilien', 'Homme', 'Droit', 50, 1, 13),
-('1995-08-14', 'Espagnol', 'Homme', 'Gauche', 30, 3, 2),
-('1990-12-03', 'Anglais', 'Homme', 'Droit', 80, 5, 3),
-('1992-04-18', 'Allemand', 'Homme', 'Gauche', 60, 6, 4),
-('1994-09-02', 'Argentin', 'Homme', 'Droit', 45, 8, 5),
-('1996-01-25', 'Italien', 'Homme', 'Gauche', 70, 10, 6),
-('1991-06-08', 'Français', 'Homme', 'Droit', 55, 12, 7),
-('1998-02-15', 'Portugais', 'Homme', 'Gauche', 40, 14, 8),
-('1999-10-30', 'Néerlandais', 'Homme', 'Droit', 65, 16, 9),
-('1997-07-14', 'Belge', 'Homme', 'Gauche', 75, 18, 10),
-('1993-11-28', 'Suédois', 'Homme', 'Droit', 62, 20, 1);
-
-//
-('19/06/1982', 'français', 'masculin', 'gauche',180,98, 20, 1, 1),
-('05/01/1990', 'français', 'masculin', 'droite',180,90, 30, 3, 2),
-('11/12/1996', 'français', 'masculin', 'gauche',160,90, 12, 5, 4);
-('19/06/1982', 'français', 'masculin', 'gauche', 20, 1, 1),
-('05/01/1990', 'français', 'masculin', 'droite', 30, 3, 2),
-('11/12/1996', 'français', 'masculin', 'gauche', 12, 5, 4);
-
+INSERT INTO player(birth_date, nationality, genre, height, weight,  strong_foot, number_of_matches_played, user_id, position_id) VALUES
+('1993-05-21', 'Brésilien', 'Homme', 183, 63, 'Droit', 50, 1, 13),
+('1995-08-14', 'Espagnol', 'Homme', 193, 93,'Gauche', 30, 3, 2),
+('1990-12-03', 'Anglais', 'Homme', 185, 69,'Droit', 80, 5, 3),
+('1992-04-18', 'Allemand', 'Homme', 143, 43,'Gauche', 60, 6, 4),
+('1994-09-02', 'Argentin', 'Homme', 194, 87,'Droit', 45, 8, 5),
+('1996-01-25', 'Italien', 'Homme', 183, 79,'Gauche', 70, 10, 6),
+('1991-06-08', 'Français', 'Homme', 180, 83,'Droit', 55, 12, 7),
+('1998-02-15', 'Portugais', 'Homme',198, 110, 'Gauche', 40, 14, 8),
+('1999-10-30', 'Néerlandais', 'Homme',200, 99, 'Droit', 65, 16, 9),
+('1997-07-14', 'Belge', 'Homme',181, 73, 'Gauche', 75, 18, 10),
+('1993-11-28', 'Suédois', 'Homme', 178, 63,'Droit', 62, 20, 1);
 
 INSERT INTO scout(club, city, user_id) VALUES
 ('RC Lens', 'Lens', 2),
@@ -73,11 +76,18 @@ INSERT INTO meet(team_id_as_home, team_id_as_outside) VALUES
 (8, 1),
 (1, 4),
 (9, 1),
-(12, 1);
+(12, 1),
+(1, 10);
 
-INSERT INTO match(score, meet_id) VALUES
-('2-3', 1),
-('3-1', 2);
+INSERT INTO match(score, meet_id, date) VALUES
+('3-0', 1,'2023-09-21T20:00:00Z'),
+('1-3', 2,'2023-09-28T20:00:00Z'),
+('1-3', 3,'2023-10-18T20:00:00Z'),
+('1-0', 4,'2023-10-25T20:00:00Z'),
+('2-1', 5,'2023-11-21T20:00:00Z'),
+('3-3', 6,'2024-01-02T20:00:00Z'),
+('0-0', 7,'2024-02-14T20:00:00Z'),
+('-', 8,'2024-02-28T20:00:00Z');
 
 
 INSERT INTO play(player_id, match_id) VALUES
@@ -87,7 +97,8 @@ INSERT INTO play(player_id, match_id) VALUES
 (1, 4),
 (1, 5),
 (1, 6),
-(1, 7);
+(1, 7),
+(1,8);
 
 INSERT INTO statistics(assists, goals_scored, minutes_played, red_card, yellow_card, stops, goals_conceded, fitness, match_id) VALUES
 ('1', '2', '70', '0', '0', '0', '0', 'En forme', 1),
@@ -113,6 +124,5 @@ INSERT INTO follow(player_id, scout_id) VALUES
 (1, 3),
 (3, 1),
 (2, 1);
-
 
 COMMIT;

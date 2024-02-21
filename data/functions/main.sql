@@ -1,5 +1,7 @@
 BEGIN;
 
+DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_player", "add_scout";
+
 CREATE FUNCTION "add_match"(json) RETURNS "match_view" AS $$
 
   INSERT INTO "meet" (team_id_as_home, team_id_as_outside) VALUES (($1->>'homeTeam')::int, ($1->>'awayTeam')::int);
@@ -26,6 +28,25 @@ CREATE FUNCTION "update_match"(json) RETURNS "match_view" AS $$
   SELECT * FROM "match_view" WHERE "match_id" = ($1->>'matchId')::int;
 $$ LANGUAGE sql STRICT;
 
+CREATE FUNCTION "add_player"(json) RETURNS "player_view" AS $$
+
+  INSERT INTO "player" ("birth_date", "nationality", "genre", "height", "weight", "strong_foot", "number_of_matches_played", "user_id", "position_id") VALUES 
+  (
+    ($1->>'birth_date')::date,
+    $1->>'nationality', 
+    $1->>'genre',
+    ($1->>'height')::int,
+    ($1->>'weight')::int,
+    $1->>'strong_foot',
+    0,
+    ($1->>'id')::int,
+    (SELECT id FROM "position" WHERE "label"= $1->>'position')::int
+  );
+
+  SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
+  
+$$ LANGUAGE sql STRICT;
+
 CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
   UPDATE "user" SET 
     "avatar" = COALESCE($1->>'avatar', "avatar"),
@@ -35,10 +56,11 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
     "password" = COALESCE($1->>'password', "password")
   WHERE id = ($1->>'id')::int;
 
--- VOIR POUR MODIFIER BIRTH DATE CAR SOUCIS DE TIMEZONE
   UPDATE "player" SET 
-    "birth_date" = COALESCE(($1->>'birth_date')::timestamp, "birth_date"),
+    "birth_date" = COALESCE(($1->>'birth_date')::date, "birth_date"),
     "nationality" = COALESCE($1->>'nationality', "nationality"),
+    "height" = COALESCE(($1->>'height')::int, "height"),
+    "weight" = COALESCE(($1->>'weight')::int, "weight"),
     "genre" = COALESCE($1->>'genre', "genre"),
     "strong_foot" = COALESCE($1->>'strong_foot', "strong_foot"),
     "number_of_matches_played" = COALESCE(($1->>'number_of_matches_played')::int, "number_of_matches_played"),
@@ -46,6 +68,17 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
   WHERE "user_id" = ($1->>'id')::int;
 
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
+
+$$ LANGUAGE sql STRICT;
+
+CREATE FUNCTION "add_scout"(json) RETURNS "scout_view" AS $$
+  INSERT INTO scout(club, city, user_id) VALUES (
+      $1->>'club',
+      $1->>'city', 
+      ($1->>'id')::int
+  );
+
+  SELECT * FROM "scout_view" WHERE "id" = ($1->>'id')::int;
 
 $$ LANGUAGE sql STRICT;
 
@@ -105,6 +138,23 @@ CREATE FUNCTION "update_statistics"(json) RETURNS "statistics_view" AS $$
   WHERE "id" = (($1->>'matchId')::int);
 
   SELECT * FROM "statistics_view" WHERE "match_id" = ($1->>'matchId')::int;
+
+$$ LANGUAGE sql STRICT;
+
+
+CREATE FUNCTION "add_user"(json) RETURNS "auth_view" AS $$
+
+INSERT INTO "user" (avatar,firstname,lastname, email, password, role_id) VALUES
+  (
+    COALESCE($1->>'avatar', ''), 
+    $1->>'firstname',
+    $1->>'lastname',
+    $1->>'email',
+    $1->>'password',
+    (SELECT "id" FROM "role" WHERE "label"=$1->>'role')
+  );
+
+  SELECT * FROM "auth_view" WHERE "id"=(SELECT "id" FROM "user" ORDER BY "id" DESC LIMIT 1);
 
 $$ LANGUAGE sql STRICT;
 

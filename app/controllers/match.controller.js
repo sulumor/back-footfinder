@@ -7,7 +7,7 @@ export default class MatchController extends CoreController {
   static datamapper = MatchDatamapper;
 
   static async getAllMatchesByUserId({ params }, res, next) {
-    const matches = await this.datamapper.findAll({ where: params });
+    const matches = await this.datamapper.findAll({ where: { id: params.id } });
     if (!matches[0].id) return next(new ApiError("Player not found", { httpStatus: 404 }));
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(matches);
     return res.status(200).json(results);

@@ -1,9 +1,7 @@
--- SQLBook: Code
-
 BEGIN;
 
-DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics";
-DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view";
+DROP FUNCTION IF EXISTS "add_scout", "add_player", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user";
+DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view", "auth_view";
 DROP TABLE IF EXISTS "role","user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow";
 
 CREATE TABLE "role" (
@@ -82,7 +80,7 @@ CREATE TABLE "meet" (
 CREATE TABLE "match" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "score" TEXT NOT NULL,
-  "date" DATE NOT NULL DEFAULT CURRENT_DATE,
+  "date" DATE,
   "meet_id" INT REFERENCES meet(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
@@ -153,8 +151,8 @@ INSERT INTO position(label) VALUES
   ('Remplaçant');
 
 INSERT INTO "user"(avatar,firstname,lastname, email, password, role_id) VALUES
-('SVG','Jean', 'Dujardin', 'jean.dujardin@mail.io','yjjk8E676a9JQZ', 1),
-('SVG',  'Nicolas', 'Dupont', 'nicolas.dupon@mail.io','X346Dc5V7kfYmv', 2),
+('SVG','Jean', 'Dujardin', 'jean.dujardin@mail.io','$2b$12$jRVrTwaorAHZFzfiNI/ZJeAYKWHvxoYn0fJNtsAMbxL1jVwZ7b3dW', 1),
+('SVG',  'Nicolas', 'Dupont', 'nicolas.dupon@mail.io','$2b$12$Uw9.Ybd93sL7MF.TQwLbzOwOjU9gPsQaM5pj66eOjD4A1C444M5ku', 2),
 ('SVG',  'Cristiano', 'Ronaldo', 'cr7@mail.io', '629Mc9Jh7KEepk', 1),
 ('SVG',  'Jonathan', 'Barnett', 'jonh.barnett@mail.io', '3E62gp8Sn9KeHf', 2),
 ('SVG',  'Diego', 'Maradona','elpibedeoro@mail.io', 'tNs7PcBwp4556E', 1),
@@ -175,18 +173,18 @@ INSERT INTO "user"(avatar,firstname,lastname, email, password, role_id) VALUES
 ('avatar15.jpg', 'Mason', 'Allen', 'mason.allen@email.com', 'hashed_password15', 1);
 
 
-INSERT INTO player(birth_date, nationality, genre, strong_foot, number_of_matches_played, user_id, position_id) VALUES
-('1993-05-21', 'Brésilien', 'Homme', 'Droit', 50, 1, 13),
-('1995-08-14', 'Espagnol', 'Homme', 'Gauche', 30, 3, 2),
-('1990-12-03', 'Anglais', 'Homme', 'Droit', 80, 5, 3),
-('1992-04-18', 'Allemand', 'Homme', 'Gauche', 60, 6, 4),
-('1994-09-02', 'Argentin', 'Homme', 'Droit', 45, 8, 5),
-('1996-01-25', 'Italien', 'Homme', 'Gauche', 70, 10, 6),
-('1991-06-08', 'Français', 'Homme', 'Droit', 55, 12, 7),
-('1998-02-15', 'Portugais', 'Homme', 'Gauche', 40, 14, 8),
-('1999-10-30', 'Néerlandais', 'Homme', 'Droit', 65, 16, 9),
-('1997-07-14', 'Belge', 'Homme', 'Gauche', 75, 18, 10),
-('1993-11-28', 'Suédois', 'Homme', 'Droit', 62, 20, 12);;
+INSERT INTO player(birth_date, nationality, genre, height, weight,  strong_foot, number_of_matches_played, user_id, position_id) VALUES
+('1993-05-21', 'Brésilien', 'Homme', 183, 63, 'Droit', 50, 1, 13),
+('1995-08-14', 'Espagnol', 'Homme', 193, 93,'Gauche', 30, 3, 2),
+('1990-12-03', 'Anglais', 'Homme', 185, 69,'Droit', 80, 5, 3),
+('1992-04-18', 'Allemand', 'Homme', 143, 43,'Gauche', 60, 6, 4),
+('1994-09-02', 'Argentin', 'Homme', 194, 87,'Droit', 45, 8, 5),
+('1996-01-25', 'Italien', 'Homme', 183, 79,'Gauche', 70, 10, 6),
+('1991-06-08', 'Français', 'Homme', 180, 83,'Droit', 55, 12, 7),
+('1998-02-15', 'Portugais', 'Homme',198, 110, 'Gauche', 40, 14, 8),
+('1999-10-30', 'Néerlandais', 'Homme',200, 99, 'Droit', 65, 16, 9),
+('1997-07-14', 'Belge', 'Homme',181, 73, 'Gauche', 75, 18, 10),
+('1993-11-28', 'Suédois', 'Homme', 178, 63,'Droit', 62, 20, 1);
 
 INSERT INTO scout(club, city, user_id) VALUES
 ('RC Lens', 'Lens', 2),
@@ -226,16 +224,18 @@ INSERT INTO meet(team_id_as_home, team_id_as_outside) VALUES
 (8, 1),
 (1, 4),
 (9, 1),
-(12, 1);
+(12, 1),
+(1, 10);
 
-INSERT INTO match(score, meet_id) VALUES
-('3-0', 1),
-('1-3', 2),
-('1-3', 3),
-('1-0', 4),
-('2-1', 5),
-('3-3', 6),
-('0-0', 7);
+INSERT INTO match(score, meet_id, date) VALUES
+('3-0', 1,'2023-09-21T20:00:00Z'),
+('1-3', 2,'2023-09-28T20:00:00Z'),
+('1-3', 3,'2023-10-18T20:00:00Z'),
+('1-0', 4,'2023-10-25T20:00:00Z'),
+('2-1', 5,'2023-11-21T20:00:00Z'),
+('3-3', 6,'2024-01-02T20:00:00Z'),
+('0-0', 7,'2024-02-14T20:00:00Z'),
+('-', 8,'2024-02-28T20:00:00Z');
 
 
 INSERT INTO play(player_id, match_id) VALUES
@@ -245,7 +245,8 @@ INSERT INTO play(player_id, match_id) VALUES
 (1, 4),
 (1, 5),
 (1, 6),
-(1, 7);
+(1, 7),
+(1,8);
 
 INSERT INTO statistics(assists, goals_scored, minutes_played, red_card, yellow_card, stops, goals_conceded, fitness, match_id) VALUES
 ('1', '2', '70', '0', '0', '0', '0', 'En forme', 1),

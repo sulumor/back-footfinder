@@ -20,21 +20,24 @@ export default class ScoutController extends CoreController {
 
   static async getAllInfos({ params }, res, next) {
     const scout = await this.datamapper.findAll({ where: { id: params.id } });
-    if (!scout) return next(new ApiError("No scout found", { httpStatus: 404 }));
-    const playersInfos = await PlayerController.getPlayerInfos(scout.player_id);
-    const teamPromises = [];
-    playersInfos.forEach((player) => {
-      const teamPromise = TeamController.getTeamInfos(player.team_id);
-      teamPromises.push(teamPromise);
-    });
-    const teams = await Promise.all(teamPromises);
-    const data = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < playersInfos.length; i++) {
-      const { team_id: teamId, ...playerData } = playersInfos[i];
-      data.push({ ...playerData, teams: teams[i] });
+    if (!scout[0]) return next(new ApiError("No scout found", { httpStatus: 404 }));
+    let data = "Pas de joueur suivi";
+    if (scout[0].player_id[0] !== null) {
+      const playersInfos = await PlayerController.getPlayerInfos(scout[0].player_id);
+      const teamPromises = [];
+      playersInfos.forEach((player) => {
+        const teamPromise = TeamController.getTeamInfos(player.team_id);
+        teamPromises.push(teamPromise);
+      });
+      const teams = await Promise.all(teamPromises);
+      data = [];
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < playersInfos.length; i++) {
+        const { team_id: teamId, ...playerData } = playersInfos[i];
+        data.push({ ...playerData, teams: teams[i] });
+      }
     }
-    return res.status(200).json({ ...scout, players: data });
+    return res.status(200).json({ ...scout[0], players: data });
   }
 
   static async getFindStatsPlayerMatch({ params }, res, next) {

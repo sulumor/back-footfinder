@@ -1,4 +1,4 @@
-@endpoint=http://localhost:4000
+@endpoint=http://localhost:3000
 
 
 ###
@@ -6,8 +6,9 @@ POST {{ endpoint }}/login
 Content-Type: application/json
 
 {
-  "email":"jean.dujardin@mail.io",
-  "password": "yjjk8E676a9JQZ"
+  "email":"rp@mail.io",
+  "password": "Test123!",
+  "role" : "joueur"
 }
 
 
@@ -29,7 +30,18 @@ GET {{ endpoint }}/scout/2/player/1
 GET {{endpoint}}/player/5
 
 ###
-GET {{endpoint}}/player/1/match
+POST {{ endpoint }}/register
+Content-Type: application/json
+
+{
+  "firstname":"Romuald",
+  "lastname":"Patfoort",
+  "email":"rp@mail.io",
+  "password": "Test123!", 
+  "confirmedPassword": "Test123!", 
+  "role": "joueur"
+}
+
 
 ###
 GET {{endpoint}}/scout/4/player
@@ -50,11 +62,43 @@ Content-Type: application/json
 
 
 {
-  "firstname": "Jean Jacques",
-  "lastname": "Dujardin",
-  "birth_date":"06-12-1990",
-  "position": "attaquant"
+  "id": 21,
+  "email": "rp@mail.io",
+  "role": "joueur",
+  "birth_date": "1990-06-12",
+  "nationality": "Français",
+  "genre": "Homme",
+  "height": 184,
+  "weight": 61,
+  "strong_foot": "Droit",
+  "position": "Attaquant"
 }
+
+###
+POST {{ endpoint }}/register
+Content-Type: application/json
+
+{
+  "firstname":"Romuald",
+  "lastname":"Patfoort",
+  "email":"rp2@mail.io",
+  "password": "Test123!", 
+  "confirmedPassword": "Test123!", 
+  "role": "recruteur"
+}
+
+###
+POST {{ endpoint }}/register/recruteur
+Content-Type: application/json
+
+{
+  "id": 22,
+  "email": "rp2@mail.io",
+  "role": "recruteur",
+  "city": "St Ouen sur Seine",
+  "club": "Red Star"
+}
+
 
 ###
 PATCH {{endpoint}}/scout/4
@@ -94,3 +138,8 @@ POST {{endpoint}}/player/1/match/1/stats
 
 
 
+###
+GET {{ endpoint }}/scout/search/?strong_foot=gauche&position=Gardien
+
+###
+GET {{endpoint}}/datas/teams

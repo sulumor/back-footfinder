@@ -50,7 +50,7 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId/stats")
    * @tags Scout
    * @param { number } id.path.required - User id
    * @param { number } matchId.path.required - Match id
-   * @param { number } ScoutId.path.required - Scout id
+   * @param { number } scoutId.path.required - Scout id
    * @return { Stats } 200 - Success response - application/json
    * @return { ApiJsonError } 400 - Bad request response - application/json
    * @example response - 400 - example error response
@@ -101,13 +101,26 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId")
     controllerWrapper(MatchController.getOneMatchByUserId.bind(MatchController)),
   );
 
+scoutRouter.route("/:scoutId/player/:id/stats")
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)),
+  );
+
+scoutRouter.route("/:scoutId/player/:id/match")
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
+  );
+
 scoutRouter.route("/:scoutId/player/:id")
   /**
    * GET /scout/:scoutId/player/:id
    * @summary Find one player information
    * @tags Scout
    * @param { number } id.path.required - User id
-   * @param { FindOnePlayer } request.body.required - Player's informations
+   * @param { number } scoutId.path.required - Scout id
+   * @param { FindOnePlayer } request.query.required - Player's informations
    * @return { Player } 200 - Success response - application/json
    *  @return { ApiJsonError } 400 - Bad request response - application/json
    * @example response - 400 - example error response
@@ -129,6 +142,64 @@ scoutRouter.route("/:scoutId/player/:id")
     authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
+  )
+  /**
+   * DELETE /scout/:scoutId/player/:id
+   * @summary Delete one line
+   * @tags Scout
+   * @param { number } id.path.required - User id
+   * @param { number } scoutId.path.required - Scout id
+   * @return {} 204 - Success response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
+   * @example response - 400 - example error response
+   * {
+   *  "error": "Bad request"
+   * }
+   * @return { ApiJsonError } 404 - Not found response - application/json
+   * @example response - 404 - example error response
+   * {
+   *  "error": "Not Found"
+   * }
+   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+   * @example response - 500 - example error response
+   * {
+   *  "error": "Internal Server Error"
+   * }
+   */
+  .delete(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    // eslint-disable-next-line no-undef
+    controllerWrapper(FollowController.deleteOneLine.bind(FollowController)),
+  );
+
+scoutRouter.route("/:id/player/:playerId")
+/**
+   * GET /scout/:id/player/:playerId
+   * @summary Find player's followed
+   * @tags Scout
+   * @param { number } id.path.required - User id
+   * @param { number } playerId.path.required - Player id
+   * @return { Player } 200 - Success response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
+   * @example response - 400 - example error response
+   * {
+   *  "error": "Bad request"
+   * }
+   * @return { ApiJsonError } 404 - Not found response - application/json
+   * @example response - 404 - example error response
+   * {
+   *  "error": "Not Found"
+   * }
+   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+   * @example response - 500 - example error response
+   * {
+   *  "error": "Internal Server Error"
+   * }
+   */
+  .get(
+    validationMiddleware("params", scoutIdsGetSchemas),
+    // eslint-disable-next-line no-undef
+    controllerWrapper(FollowController.insertPlayerFollow.bind(FollowController)),
   );
 
 scoutRouter.route("/:id")
