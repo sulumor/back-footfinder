@@ -1,6 +1,7 @@
 import { Router } from "express";
 import controllerWrapper from "../../helpers/controller.wrapper.js";
 import TeamController from "../../controllers/team.controller.js";
+import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
 
 const datasRouter = Router();
 
@@ -27,6 +28,9 @@ datasRouter.route("/teams")
  *  "error": "Internal Server Error"
  * }
  */
-  .get(controllerWrapper(TeamController.getAllTeams.bind(TeamController)));
+  .get(
+    authenticateToken,
+    controllerWrapper(TeamController.getAllTeams.bind(TeamController)),
+  );
 
 export default datasRouter;

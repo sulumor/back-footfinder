@@ -70,6 +70,7 @@ playerRouter.route("/:id/match/:matchId/stats")
    * }
    */
   .post(
+    authenticateToken,
     validationMiddleware("params", matchIdsSchemas),
     validationMiddleware("body", statisticsPostSchemas),
     controllerWrapper(StatisticsController.postOneMatchStats.bind(StatisticsController)),
@@ -213,6 +214,7 @@ playerRouter.route("/:id/match/:matchId")
    * }
    */
   .patch(
+    authenticateToken,
     validationMiddleware("params", matchIdsSchemas),
     validationMiddleware("body", matchPatchSchemas),
     controllerWrapper(MatchController.updateMatch.bind(MatchController)),
@@ -275,6 +277,7 @@ playerRouter.route("/:id/match")
    * }
    */
   .post(
+    authenticateToken,
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", matchPostSchemas),
     controllerWrapper(MatchController.createMatch.bind(MatchController)),
@@ -303,6 +306,7 @@ playerRouter.route("/:id")
    * }
    */
   .get(
+    authenticateToken,
     validationMiddleware("params", idSchemas),
     controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
   )
@@ -331,6 +335,7 @@ playerRouter.route("/:id")
    * }
    */
   .patch(
+    authenticateToken,
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", patchPlayerSchema),
     controllerWrapper(PlayerController.updateSQL.bind(PlayerController)),

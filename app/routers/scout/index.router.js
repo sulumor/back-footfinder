@@ -11,6 +11,7 @@ import scoutPlayerMatchIdsGetSchemas from "../../schemas/get/scoutPlayerMatchIds
 import searchGetSchemas from "../../schemas/get/search.get.schemas.js";
 import StatisticsController from "../../controllers/statistics.controller.js";
 import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
+import FollowController from "../../controllers/follow.controller.js";
 
 const scoutRouter = Router();
 
@@ -68,7 +69,10 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId/stats")
    *  "error": "Internal Server Error"
    * }
    */
-  .get(controllerWrapper(StatisticsController.getOneMatchStats.bind(StatisticsController)));
+  .get(
+    authenticateToken,
+    controllerWrapper(StatisticsController.getOneMatchStats.bind(StatisticsController)),
+  );
 
 scoutRouter.route("/:scoutId/player/:id/match/:matchId")
   /**
@@ -103,12 +107,14 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId")
 
 scoutRouter.route("/:scoutId/player/:id/stats")
   .get(
+    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)),
   );
 
 scoutRouter.route("/:scoutId/player/:id/match")
   .get(
+    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
   );
@@ -168,7 +174,7 @@ scoutRouter.route("/:scoutId/player/:id")
    */
   .delete(
     validationMiddleware("params", scoutIdsGetSchemas),
-    // eslint-disable-next-line no-undef
+
     controllerWrapper(FollowController.deleteOneLine.bind(FollowController)),
   );
 
@@ -197,8 +203,8 @@ scoutRouter.route("/:id/player/:playerId")
    * }
    */
   .get(
+    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
-    // eslint-disable-next-line no-undef
     controllerWrapper(FollowController.insertPlayerFollow.bind(FollowController)),
   );
 
@@ -226,6 +232,7 @@ scoutRouter.route("/:id")
    * }
    */
   .get(
+    authenticateToken,
     validationMiddleware("params", idSchemas),
     controllerWrapper(ScoutController.getAllInfos.bind(ScoutController)),
   )
@@ -253,6 +260,7 @@ scoutRouter.route("/:id")
    * }
    */
   .patch(
+    authenticateToken,
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", scoutPatchSchemas),
     controllerWrapper(ScoutController.updateSQL.bind(ScoutController)),
