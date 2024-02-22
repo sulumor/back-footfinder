@@ -196,7 +196,7 @@ scoutRouter.route("/:scoutId/player/:id")
   )
   /**
    * DELETE /scout/:scoutId/player/:id
-   * @summary Delete one line
+   * @summary Delete one player in scout's follow list
    * @tags Scout
    * @param { number } id.path.required - User id
    * @param { number } scoutId.path.required - Scout id
@@ -219,7 +219,7 @@ scoutRouter.route("/:scoutId/player/:id")
    */
   .delete(
     validationMiddleware("params", scoutIdsGetSchemas),
-    controllerWrapper(FollowController.deleteOneLine.bind(FollowController)),
+    controllerWrapper(FollowController.deletePlayerFollow.bind(FollowController)),
   );
 
 scoutRouter.route("/:id")
