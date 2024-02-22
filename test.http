@@ -126,6 +126,12 @@ Content-Type: application/json
 {
   "score": "10-10"
 }
+###
+GET {{ endpoint }}/scout/2
+
+###
+POST {{ endpoint }}/scout/2/player/14
+
 
 ###
 POST {{endpoint}}/player/1/match/1/stats

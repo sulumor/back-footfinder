@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_player", "add_scout";
+DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_player", "add_scout", "add_follow";
 
 CREATE FUNCTION "add_match"(json) RETURNS "match_view" AS $$
 
@@ -157,5 +157,16 @@ INSERT INTO "user" (avatar,firstname,lastname, email, password, role_id) VALUES
   SELECT * FROM "auth_view" WHERE "id"=(SELECT "id" FROM "user" ORDER BY "id" DESC LIMIT 1);
 
 $$ LANGUAGE sql STRICT;
+
+CREATE FUNCTION "add_follow" (json) RETURNS "scout_view" AS $$
+INSERT INTO "follow"(scout_id,player_id)VALUES(
+  ($1->>'scoutUserId')::int,
+  ($1->>'playerId')::int
+);
+
+SELECT * FROM scout_view WHERE id=($1->>'id')::int;
+
+$$ LANGUAGE sql STRICT;
+
 
 COMMIT;
