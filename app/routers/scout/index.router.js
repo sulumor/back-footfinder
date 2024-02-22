@@ -10,7 +10,7 @@ import scoutIdsGetSchemas from "../../schemas/get/scoutIds.get.schemas.js";
 import scoutPlayerMatchIdsGetSchemas from "../../schemas/get/scoutPlayerMatchIds.get.schemas.js";
 import searchGetSchemas from "../../schemas/get/search.get.schemas.js";
 import StatisticsController from "../../controllers/statistics.controller.js";
-import FollowController from "../../controllers/follow.controller.js";
+import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
 
 const scoutRouter = Router();
 
@@ -38,6 +38,7 @@ scoutRouter.route("/search")
    * }
    */
   .get(
+    authenticateToken,
     validationMiddleware("query", searchGetSchemas),
     controllerWrapper(ScoutController.getSearchSpecificationPlayer.bind(ScoutController)),
   );
@@ -95,6 +96,7 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId")
   * }
   */
   .get(
+    authenticateToken,
     validationMiddleware("params", scoutPlayerMatchIdsGetSchemas),
     controllerWrapper(MatchController.getOneMatchByUserId.bind(MatchController)),
   );
@@ -160,6 +162,7 @@ scoutRouter.route("/:scoutId/player/:id")
    * }
    */
   .get(
+    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
   )
@@ -188,6 +191,7 @@ scoutRouter.route("/:scoutId/player/:id")
    */
   .delete(
     validationMiddleware("params", scoutIdsGetSchemas),
+    // eslint-disable-next-line no-undef
     controllerWrapper(FollowController.deleteOneLine.bind(FollowController)),
   );
 
@@ -217,6 +221,7 @@ scoutRouter.route("/:scoutId/player/:id")
    */
   .post(
     validationMiddleware("params", scoutIdsGetSchemas),
+    // eslint-disable-next-line no-undef
     controllerWrapper(FollowController.insertPlayerFollow.bind(FollowController)),
   );
 

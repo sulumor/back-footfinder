@@ -1,13 +1,5 @@
 @endpoint=http://localhost:3000
 
-POST {{ endpoint }}/login
-Content-Type: application/json
-git 
-{
-  "email":"jean.dujardin@mail.io",
-  "password": "yjjk8E676a9JQZ!",
-  "role": "joueur"
-}
 
 ###
 POST {{ endpoint }}/login
@@ -18,6 +10,24 @@ Content-Type: application/json
   "password": "Test123!",
   "role" : "joueur"
 }
+
+
+###
+GET {{ endpoint }}/player/1/match/1/stats
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiSm91ZXVyIiwiaWF0IjoxNzA4NTIyNTIxfQ.NwzCqw3nkXMedfL4Sz6mEYyBMikLwReJbN_thg-DVcg
+
+###
+GET {{ endpoint }}/scout/search/?strong_foot=gauche&position=Gardien
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiSm91ZXVyIiwiaWF0IjoxNzA4NTIyNTIxfQ.NwzCqw3nkXMedfL4Sz6mEYyBMikLwReJbN_thg-DVcg
+
+###
+GET {{ endpoint }}/scout/2/player/1/match/2/stats
+
+###
+GET {{ endpoint }}/scout/2/player/1
+
+###
+GET {{endpoint}}/player/5
 
 ###
 POST {{ endpoint }}/register
@@ -34,8 +44,22 @@ Content-Type: application/json
 
 
 ###
-POST {{ endpoint }}/register/joueur
+GET {{endpoint}}/scout/4/player
+
+###
+GET {{endpoint}}/scout/4
+
+###
+GET {{endpoint}}/:1/player/1/match/1/stats
+
+
+
+
+
+###
+PATCH {{endpoint}}/player/1/match/2/stats
 Content-Type: application/json
+
 
 {
   "id": 21,
@@ -77,30 +101,6 @@ Content-Type: application/json
 
 
 ###
-GET {{endpoint}}/player/1/match/2/stats
-
-###
-PATCH {{endpoint}}/player/1
-Content-Type: application/json
-
-{
-  "height": 210,
-  "weight": 120
-}
-
-###
-GET {{endpoint}}/player/1/match
-
-###
-GET {{endpoint}}/scout/4/player/1/stats
-
-###
-DELETE {{endpoint}}/scout/4/player/1
-
-###
-GET {{endpoint}}/scout/1/player/1
-
-###
 PATCH {{endpoint}}/scout/4
 Content-Type: application/json
 
@@ -108,9 +108,6 @@ Content-Type: application/json
   "firstname": "Jean Jacques",
   "lastname": "Dujardin"
 }
-
-###
-GET {{endpoint}}/player/5
 
 ###
 POST {{endpoint}}/player/1/match
@@ -137,7 +134,15 @@ POST {{ endpoint }}/scout/2/player/14
 
 
 ###
-GET {{ endpoint }}/scout/2/player/1/match/2/stats
+POST {{endpoint}}/player/1/match/1/stats
+
+
+
+
+
+
+
+
 
 ###
 GET {{ endpoint }}/scout/search/?strong_foot=gauche&position=Gardien
