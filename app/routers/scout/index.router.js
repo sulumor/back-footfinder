@@ -78,21 +78,21 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId")
   * @param { number } scoutId.path.required - Scout id
   * @param { number } matchId.path.required - Match id
   * @return { Match[] } 200 - Success response - application/json
-  *  @return { ApiJsonError } 400 - Bad request response - application/json
-   * @example response - 400 - example error response
-   * {
-   *  "error": "Bad request"
-   * }
-   * @return { ApiJsonError } 404 - Not found response - application/json
-   * @example response - 404 - example error response
-   * {
-   *  "error": "Not Found"
-   * }
-   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
-   * @example response - 500 - example error response
-   * {
-   *  "error": "Internal Server Error"
-   * }
+  * @return { ApiJsonError } 400 - Bad request response - application/json
+  * @example response - 400 - example error response
+  * {
+  *  "error": "Bad request"
+  * }
+  * @return { ApiJsonError } 404 - Not found response - application/json
+  * @example response - 404 - example error response
+  * {
+  *  "error": "Not Found"
+  * }
+  * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+  * @example response - 500 - example error response
+  * {
+  *  "error": "Internal Server Error"
+  * }
   */
   .get(
     validationMiddleware("params", scoutPlayerMatchIdsGetSchemas),
@@ -106,6 +106,29 @@ scoutRouter.route("/:scoutId/player/:id/stats")
   );
 
 scoutRouter.route("/:scoutId/player/:id/match")
+/**
+  * GET /scout/:scoutId/player/:id/match
+  * @summary Find all match of one player
+  * @tags Scout
+  * @param { number } id.path.required - User id
+  * @param { number } scoutId.path.required - Scout id
+  * @return { Match[] } 200 - Success response - application/json
+  * @return { ApiJsonError } 400 - Bad request response - application/json
+  * @example response - 400 - example error response
+  * {
+  *  "error": "Bad request"
+  * }
+  * @return { ApiJsonError } 404 - Not found response - application/json
+  * @example response - 404 - example error response
+  * {
+  *  "error": "Not Found"
+  * }
+  * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+  * @example response - 500 - example error response
+  * {
+  *  "error": "Internal Server Error"
+  * }
+  */
   .get(
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
@@ -168,12 +191,12 @@ scoutRouter.route("/:scoutId/player/:id")
     controllerWrapper(FollowController.deleteOneLine.bind(FollowController)),
   );
 
-scoutRouter.route("/:id/player/:playerId")
+scoutRouter.route("/:scoutId/player/:id")
 /**
-   * GET /scout/:id/player/:playerId
-   * @summary Find player's followed
+   * POST /scout/:scoutId/player/:id
+   * @summary Insert player in scout's follow list
    * @tags Scout
-   * @param { number } id.path.required - User id
+   * @param { number } scoutId.path.required - User id
    * @param { number } playerId.path.required - Player id
    * @return { Player } 200 - Success response - application/json
    * @return { ApiJsonError } 400 - Bad request response - application/json
@@ -192,7 +215,7 @@ scoutRouter.route("/:id/player/:playerId")
    *  "error": "Internal Server Error"
    * }
    */
-  .get(
+  .post(
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(FollowController.insertPlayerFollow.bind(FollowController)),
   );
