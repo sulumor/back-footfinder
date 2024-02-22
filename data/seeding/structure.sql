@@ -255,7 +255,8 @@ INSERT INTO statistics(assists, goals_scored, minutes_played, red_card, yellow_c
 ('0', '0', '92', '0', '0', '0', '0', 'En forme', 4),
 ('0', '1', '87', '0', '1', '0', '0', 'En forme', 5),
 ('0', '3', '95', '0', '0', '0', '0', 'En forme', 6),
-('0', '0', '90', '0', '0', '0', '0', 'En forme', 7);
+('0', '0', '90', '0', '0', '0', '0', 'En forme', 7),
+(null, null, null, null, null, null, 'En forme', 8);
 
 
 INSERT INTO link(player_id, team_id, season) VALUES

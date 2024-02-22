@@ -121,12 +121,36 @@
  */
 
 /**
- * @typedef { object } RegisterBody - Body to receive a login
+ * @typedef { object } RegisterBody - Body to register a user
  * @property { string } firstname.required - firstname
  * @property { string } lastname.required - lastname
  * @property { string } email.required - email
  * @property { string } password.required - password
  * @property { string } passwordConfirmed.required - password confirmed
+ */
+
+/**
+ * @typedef { object } RegisterPlayerBody - Body to register a player
+ * @property { number } id.required - User
+ * @property { string } email.required - Email
+ * @property { string } role.required - Role
+ * @property { string } birth_date.required - Birth date
+ * @property { string } nationality.required - Nationality
+ * @property { string } genre.required - Genre
+ * @property { string } strong_foot.required - Strong foot
+ * @property { string } position.required - Position
+ * @property { number } height.required - Height
+ * @property { number } weight.required - Weight
+ * @property { string } avatar - Avatar
+ */
+/**
+ * @typedef { object } RegisterScoutBody - Body to register a scout
+ * @property { number } id.required - User
+ * @property { string } email.required - Email
+ * @property { string } role.required - Role
+ * @property { string } club.required - Club date
+ * @property { string } city.required - City
+ * @property { string } avatar - Avatar
  */
 
 /**

@@ -1,11 +1,12 @@
 import { Router } from "express";
-import controllerWrapper from "../../helpers/controller.wrapper.js";
+// -------------- Controllers -----------------
 import TeamController from "../../controllers/team.controller.js";
+// -------------- Middlewares -----------------
+import controllerWrapper from "../../helpers/controller.wrapper.js";
 
 const datasRouter = Router();
 
-datasRouter.route("/teams")
-  /**
+/**
    * GET /datas/teams
    * @summary Get team's informations
    * @tags Team
@@ -26,6 +27,6 @@ datasRouter.route("/teams")
    *  "error": "Internal Server Error"
    * }
    */
-  .get(controllerWrapper(TeamController.getAllTeams.bind(TeamController)));
+datasRouter.get("/teams", controllerWrapper(TeamController.getAllTeams.bind(TeamController)));
 
 export default datasRouter;

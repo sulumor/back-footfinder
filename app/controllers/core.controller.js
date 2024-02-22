@@ -3,6 +3,12 @@ import ApiError from "../errors/api.error.js";
 export default class CoreController {
   static datamapper;
 
+  /**
+   * Get all registrations of datamapper table
+   * @param {*} _  Express.required
+   * @param {*} res Express.response
+   * @returns An JSON of registrations
+   */
   static async getAll(_, res) {
     const rows = await this.datamapper.findAll();
     return res.status(200).json(rows);
