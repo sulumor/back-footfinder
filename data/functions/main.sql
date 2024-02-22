@@ -2,15 +2,20 @@ BEGIN;
 
 DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_player", "add_scout", "add_follow";
 
-CREATE FUNCTION "add_match"(json) RETURNS "match_view" AS $$
+CREATE FUNCTION "add_match"(json) RETURNS "statistics_view" AS $$
 
-  INSERT INTO "meet" (team_id_as_home, team_id_as_outside) VALUES (($1->>'homeTeam')::int, ($1->>'awayTeam')::int);
+  INSERT INTO "meet" ("team_id_as_home", "team_id_as_outside") VALUES (($1->>'homeTeam')::int, ($1->>'awayTeam')::int);
 
-  INSERT INTO "match" (meet_id, score) VALUES ((SELECT "id" FROM "meet" ORDER BY "id" DESC LIMIT 1), COALESCE($1->>'score', '-'));
+  INSERT INTO "match" ("meet_id", "score", "date") VALUES ((SELECT "id" FROM "meet" ORDER BY "id" DESC LIMIT 1), COALESCE($1->>'score', '-'), ($1->>'date')::date);
 
-  INSERT INTO "play" (match_id, player_id) VALUES ((SELECT "id" FROM "match" ORDER BY "id" DESC LIMIT 1), (SELECT "id" FROM "player" WHERE "user_id" = ($1->>'id')::int));
+  INSERT INTO "play" ("match_id", "player_id") VALUES ((SELECT "id" FROM "match" ORDER BY "id" DESC LIMIT 1), (SELECT "id" FROM "player" WHERE "user_id" = ($1->>'id')::int));
 
-  SELECT * FROM "match_view" WHERE "match_id" = (SELECT "id" FROM "match" ORDER BY "id" DESC LIMIT 1);
+  INSERT INTO "statistics" ("match_id") 
+    VALUES (
+      (SELECT "id" FROM "match" ORDER BY "id" DESC LIMIT 1)
+    );
+
+  SELECT * FROM "statistics_view" WHERE "match_id" = (SELECT "id" FROM "match" ORDER BY "id" DESC LIMIT 1);
  
 $$ LANGUAGE sql STRICT;
 
@@ -144,27 +149,29 @@ $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_user"(json) RETURNS "auth_view" AS $$
 
-INSERT INTO "user" (avatar,firstname,lastname, email, password, role_id) VALUES
-  (
-    COALESCE($1->>'avatar', ''), 
-    $1->>'firstname',
-    $1->>'lastname',
-    $1->>'email',
-    $1->>'password',
-    (SELECT "id" FROM "role" WHERE "label"=$1->>'role')
-  );
+  INSERT INTO "user" (avatar,firstname,lastname, email, password, role_id) VALUES
+    (
+      COALESCE($1->>'avatar', ''), 
+      $1->>'firstname',
+      $1->>'lastname',
+      $1->>'email',
+      $1->>'password',
+      (SELECT "id" FROM "role" WHERE "label"=$1->>'role')
+    );
 
   SELECT * FROM "auth_view" WHERE "id"=(SELECT "id" FROM "user" ORDER BY "id" DESC LIMIT 1);
 
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_follow" (json) RETURNS "scout_view" AS $$
-INSERT INTO "follow"(scout_id,player_id)VALUES(
-  ($1->>'scoutUserId')::int,
-  ($1->>'playerId')::int
-);
 
-SELECT * FROM scout_view WHERE id=($1->>'id')::int;
+
+  INSERT INTO "follow"(scout_id,player_id)VALUES(
+    ((SELECT "id" FROM "scout" WHERE "user_id"=($1->>'scoutId')::int)::int),
+    ((SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int)
+  );
+
+  SELECT * FROM scout_view WHERE id=($1->>'scoutId')::int;
 
 $$ LANGUAGE sql STRICT;
 

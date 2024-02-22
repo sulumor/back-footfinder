@@ -115,7 +115,8 @@ Content-Type: application/json
 
 {
   "homeTeam": 1,
-  "awayTeam": 2
+  "awayTeam": 4,
+  "date": "2024-02-22"
 }
 
 
@@ -138,7 +139,8 @@ POST {{endpoint}}/player/1/match/1/stats
 
 
 
-
+###
+POST {{endpoint}}/player/1/match
 
 
 

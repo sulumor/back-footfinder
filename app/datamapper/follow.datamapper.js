@@ -5,18 +5,12 @@ import CoreDatamapper from "./core.datamapper.js";
 export default class FollowDatamapper extends CoreDatamapper {
   static tableName = "follow";
 
+  static createTableName = "add_follow";
+
   static async deleteByPlayerIdAndScoutId({ id, scoutId }) {
     const scoutUserId = await client.query("SELECT id FROM scout WHERE user_id=$1", [scoutId]);
     const playerUserId = await client.query("SELECT id FROM player WHERE user_id=$1", [id]);
     const result = await client.query("DELETE FROM follow WHERE player_id=$1 AND scout_id=$2", [playerUserId.rows[0].id, scoutUserId.rows[0].id]);
     return !!result.rowCount;
-  }
-
-  static async followByPlayerId({ id, scoutId }) {
-    const scoutUserId = await client.query("SELECT id FROM scout WHERE user_id=$1", [scoutId]);
-    const playerId = await client.query("SELECT id FROM player WHERE user_id=$1", [id]);
-    const json = { id: scoutId, scoutUserId: scoutUserId.rows[0].id, playerId: playerId.rows[0].id };
-    const result = await client.query(" SELECT * FROM add_follow ($1)", [json]);
-    return result.rows[0];
   }
 }

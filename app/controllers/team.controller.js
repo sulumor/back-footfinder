@@ -50,8 +50,8 @@ export default class TeamController extends CoreController {
     const awayTeam = await this.datamapper.findByPk(data.team_id_as_outside);
     return {
       ...data,
-      team_id_as_home: homeTeam[0],
-      team_id_as_outside: awayTeam[0],
+      team_id_as_home: homeTeam,
+      team_id_as_outside: awayTeam,
     };
   }
 

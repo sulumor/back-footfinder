@@ -80,7 +80,7 @@ CREATE TABLE "meet" (
 CREATE TABLE "match" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "score" TEXT NOT NULL,
-  "date" DATE,
+  "date" DATE NOT NULL,
   "meet_id" INT REFERENCES meet(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
