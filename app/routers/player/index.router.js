@@ -230,7 +230,7 @@ playerRouter.route("/:id/match")
    * @summary Get all player's matches
    * @tags Player
    * @param { number } id.path.required - User id
-   * @return { Match[] } 200 - Success response - aplication/json
+   * @return { Match[] } 200 - Success response - application/json
    * @return { ApiJsonError } 400 - Bad request response - application/json
    * @example response - 400 - example error response
    * {
