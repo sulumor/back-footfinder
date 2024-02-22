@@ -159,12 +159,14 @@ INSERT INTO "user" (avatar,firstname,lastname, email, password, role_id) VALUES
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_follow" (json) RETURNS "scout_view" AS $$
-INSERT INTO "follow"(scout_id,player_id)VALUES(
-  ($1->>'scoutUserId')::int,
-  ($1->>'playerId')::int
-);
 
-SELECT * FROM scout_view WHERE id=($1->>'id')::int;
+
+  INSERT INTO "follow"(scout_id,player_id)VALUES(
+    ((SELECT "id" FROM "scout" WHERE "user_id"=($1->>'scoutId')::int)::int),
+    ((SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int)
+  );
+
+SELECT * FROM scout_view WHERE id=($1->>'scoutId')::int;
 
 $$ LANGUAGE sql STRICT;
 
