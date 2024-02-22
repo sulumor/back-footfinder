@@ -5,12 +5,14 @@ import validationMiddleware from "../../middlewares/validation.middleware.js";
 import loginSchema from "../../schemas/post/login.post.schemas.js";
 import registrationSchema from "../../schemas/post/registration.post.schemas.js";
 import registerRolePostSchemas from "../../schemas/post/registerRole.post.schemas.js";
+import validationRegistrationMiddleware from "../../middlewares/validation.registration.middleware.js";
 
 const authRouter = Router();
 
 authRouter.post(
   "/register/:role",
   validationMiddleware("params", registerRolePostSchemas),
+  validationRegistrationMiddleware(),
   controllerWrapper(AuthController.signup.bind(AuthController)),
 );
 /**
