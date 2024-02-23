@@ -1,9 +1,17 @@
 import CoreController from "./core.controller.js";
 import TeamDatamapper from "../datamapper/team.datamapper.js";
 
+/**
+ * Controller to manage operations related to teams.
+ */
 export default class TeamController extends CoreController {
   static datamapper = TeamDatamapper;
 
+  /**
+ *
+ * @param {number[]} teamIds Array of team IDs.
+ * @returns {Promise<Object[]>} Promise resolving to an array of team information objects.
+ */
   static async getTeamInfos(teamIds) {
     const allTeamPromises = [];
     teamIds.forEach((id) => {
@@ -13,6 +21,12 @@ export default class TeamController extends CoreController {
     return (await Promise.all(allTeamPromises)).map((team) => team[0]);
   }
 
+  /**
+ *Method to retrieve information for multiple home and away teams.
+ * @param {Object[]} datas Array of data objects containing home and away team IDs.
+ * @returns {Promise<Object[]>} Promise resolving to an array
+ * of objects containing team information.
+ */
   static async getMultipleHomeAndAwayTeamsInfos(datas) {
     const homePromise = [];
     const awayPromise = [];
@@ -45,6 +59,11 @@ export default class TeamController extends CoreController {
     return results;
   }
 
+  /**
+ *Method to retrieve information for a single home and away team.
+ * @param {Object} data Object containing home and away team IDs.
+ * @returns {Promise<Object>} Promise resolving to an object containing team information.
+ */
   static async getHomeAndAwayTeamsInfos(data) {
     const homeTeam = await this.datamapper.findByPk(data.team_id_as_home);
     const awayTeam = await this.datamapper.findByPk(data.team_id_as_outside);
@@ -55,6 +74,12 @@ export default class TeamController extends CoreController {
     };
   }
 
+  /**
+ *Method to retrieve information for all teams.
+ * @param {Object} _ The request object (unused)
+ * @param {Object} res The response object.
+ * @returns {Promise<Object[]>} - Promise resolving to an array of team information objects.
+ */
   static async getAllTeams(_, res) {
     const rows = await this.datamapper.findAllTeams();
     return res.status(200).json(rows);
