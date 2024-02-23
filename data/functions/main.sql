@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP FUNCTION IF EXISTS "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_player", "add_scout", "add_follow";
+DROP FUNCTION IF EXISTS "delete_follow", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_player", "add_scout", "add_follow";
 
 CREATE FUNCTION "add_match"(json) RETURNS "statistics_view" AS $$
 
@@ -16,7 +16,6 @@ CREATE FUNCTION "add_match"(json) RETURNS "statistics_view" AS $$
     );
 
   SELECT * FROM "statistics_view" WHERE "match_id" = (SELECT "id" FROM "match" ORDER BY "id" DESC LIMIT 1);
- 
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "update_match"(json) RETURNS "match_view" AS $$
@@ -49,7 +48,6 @@ CREATE FUNCTION "add_player"(json) RETURNS "player_view" AS $$
   );
 
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
-  
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
@@ -73,7 +71,6 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
   WHERE "user_id" = ($1->>'id')::int;
 
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
-
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_scout"(json) RETURNS "scout_view" AS $$
@@ -84,7 +81,6 @@ CREATE FUNCTION "add_scout"(json) RETURNS "scout_view" AS $$
   );
 
   SELECT * FROM "scout_view" WHERE "id" = ($1->>'id')::int;
-
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "update_scout"(json) RETURNS "scout_view" AS $$
@@ -103,7 +99,6 @@ CREATE FUNCTION "update_scout"(json) RETURNS "scout_view" AS $$
     WHERE "user_id" = ($1->>'id')::int;
 
     SELECT * FROM "scout_view" WHERE "id" = ($1->>'id')::int;
-
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_statistics"(json) RETURNS "statistics_view" AS $$
@@ -122,7 +117,6 @@ CREATE FUNCTION "add_statistics"(json) RETURNS "statistics_view" AS $$
     );
 
   SELECT * FROM "statistics_view" WHERE "match_id" = ($1->>'matchId')::int;
-
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "update_statistics"(json) RETURNS "statistics_view" AS $$
@@ -143,9 +137,7 @@ CREATE FUNCTION "update_statistics"(json) RETURNS "statistics_view" AS $$
   WHERE "id" = (($1->>'matchId')::int);
 
   SELECT * FROM "statistics_view" WHERE "match_id" = ($1->>'matchId')::int;
-
 $$ LANGUAGE sql STRICT;
-
 
 CREATE FUNCTION "add_user"(json) RETURNS "auth_view" AS $$
 
@@ -160,20 +152,26 @@ CREATE FUNCTION "add_user"(json) RETURNS "auth_view" AS $$
     );
 
   SELECT * FROM "auth_view" WHERE "id"=(SELECT "id" FROM "user" ORDER BY "id" DESC LIMIT 1);
-
 $$ LANGUAGE sql STRICT;
 
-CREATE FUNCTION "add_follow" (json) RETURNS "scout_view" AS $$
-
-
+CREATE FUNCTION "add_follow"(json) RETURNS "scout_view" AS $$
   INSERT INTO "follow"(scout_id,player_id)VALUES(
     ((SELECT "id" FROM "scout" WHERE "user_id"=($1->>'scoutId')::int)::int),
     ((SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int)
   );
 
   SELECT * FROM scout_view WHERE id=($1->>'scoutId')::int;
-
 $$ LANGUAGE sql STRICT;
 
+CREATE FUNCTION "delete_follow"(json) RETURNS "scout_view" AS $$
+  DELETE FROM "follow" 
+    WHERE "scout_id"= (
+      (SELECT "id" FROM "scout" WHERE "user_id"=($1->>'scoutId')::int)::int
+    ) AND "player_id" = (
+      (SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int
+    );
+  
+  SELECT * FROM scout_view WHERE id=($1->>'scoutId')::int;
+$$ LANGUAGE sql STRICT;
 
 COMMIT;

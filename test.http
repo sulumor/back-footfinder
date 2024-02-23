@@ -6,8 +6,8 @@ POST {{ endpoint }}/login
 Content-Type: application/json
 
 {
-  "email":"rp@mail.io",
-  "password": "Test123!",
+  "email":"jean.dujardin@mail.io",
+  "password": "yjjk8E676a9JQZ!",
   "role" : "joueur"
 }
 
@@ -50,14 +50,10 @@ GET {{endpoint}}/scout/4/player
 GET {{endpoint}}/scout/4
 
 ###
-GET {{endpoint}}/:1/player/1/match/1/stats
-
-
-
-
+GET {{endpoint}}/datas/teams
 
 ###
-PATCH {{endpoint}}/player/1/match/2/stats
+POST {{endpoint}}/register/joueur
 Content-Type: application/json
 
 
@@ -81,20 +77,20 @@ Content-Type: application/json
 {
   "firstname":"Romuald",
   "lastname":"Patfoort",
-  "email":"rp2@mail.io",
+  "email":"rp@mail.io",
   "password": "Test123!", 
   "confirmedPassword": "Test123!", 
-  "role": "recruteur"
+  "role": "joueur"
 }
 
 ###
-POST {{ endpoint }}/register/recruteur
+POST {{ endpoint }}/register/joueur
 Content-Type: application/json
 
 {
-  "id": 22,
-  "email": "rp2@mail.io",
-  "role": "recruteur",
+  "id": 21,
+  "email": "rp@mail.io",
+  "role": "joueur",
   "city": "St Ouen sur Seine",
   "club": "Red Star"
 }
@@ -131,7 +127,7 @@ Content-Type: application/json
 GET {{ endpoint }}/scout/2
 
 ###
-POST {{ endpoint }}/scout/2/player/14
+DELETE {{ endpoint }}/scout/2/player/14
 
 
 ###

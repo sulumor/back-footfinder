@@ -1,5 +1,6 @@
 import CoreController from "./core.controller.js";
 import TeamDatamapper from "../datamapper/team.datamapper.js";
+import ApiError from "../errors/api.error.js";
 
 export default class TeamController extends CoreController {
   static datamapper = TeamDatamapper;
@@ -55,8 +56,13 @@ export default class TeamController extends CoreController {
     };
   }
 
-  static async getAllTeams(_, res) {
+  static async getAllTeams(_, res, next) {
     const rows = await this.datamapper.findAllTeams();
-    return res.status(200).json(rows);
+    if (!rows[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
+    const datas = rows.map((row) => {
+      const { created_at: createdAt, updated_at: updatedAt, ...data } = row;
+      return { ...data };
+    });
+    return res.status(200).json(datas);
   }
 }

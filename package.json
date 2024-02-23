@@ -8,7 +8,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "dev": "npx nodemon",
     "lint": "eslint --fix .",
-    "star": "node .",
+    "start": "node .",
     "db:create": "psql -d footfinder -f data/seeding/structure.sql && npm run db:views && npm run db:functions ",
     "db:functions": "psql -d footfinder -f data/functions/main.sql",
     "db:views" : "psql -d footfinder -f data/views/main.sql",

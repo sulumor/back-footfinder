@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP FUNCTION IF EXISTS "add_scout", "add_player", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_follow";
+DROP FUNCTION IF EXISTS "delete_follow", "add_scout", "add_player", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_follow";
 DROP VIEW IF EXISTS "player_view","scout_view","statistics_view","team_view","match_view", "auth_view";
 DROP TABLE IF EXISTS "role","user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow";
 
@@ -255,7 +255,8 @@ INSERT INTO statistics(assists, goals_scored, minutes_played, red_card, yellow_c
 ('0', '0', '92', '0', '0', '0', '0', 'En forme', 4),
 ('0', '1', '87', '0', '1', '0', '0', 'En forme', 5),
 ('0', '3', '95', '0', '0', '0', '0', 'En forme', 6),
-('0', '0', '90', '0', '0', '0', '0', 'En forme', 7);
+('0', '0', '90', '0', '0', '0', '0', 'En forme', 7),
+(null, null, null, null, null, null, 'En forme', 8);
 
 
 INSERT INTO link(player_id, team_id, season) VALUES

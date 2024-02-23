@@ -8,9 +8,7 @@ export default class FollowDatamapper extends CoreDatamapper {
   static createTableName = "add_follow";
 
   static async deleteByPlayerIdAndScoutId({ id, scoutId }) {
-    const scoutUserId = await client.query("SELECT id FROM scout WHERE user_id=$1", [scoutId]);
-    const playerUserId = await client.query("SELECT id FROM player WHERE user_id=$1", [id]);
-    const result = await client.query("DELETE FROM follow WHERE player_id=$1 AND scout_id=$2", [playerUserId.rows[0].id, scoutUserId.rows[0].id]);
-    return !!result.rowCount;
+    const result = await client.query("SELECT * FROM delete_follow($1)", [{ id, scoutId }]);
+    return result.rows[0];
   }
 }

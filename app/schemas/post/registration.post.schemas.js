@@ -19,4 +19,5 @@ export default Joi.object({
     .required(),
   confirmedPassword: Joi.ref("password"),
   role: Joi.string().pattern(roleRegex).required(),
+
 }).required();

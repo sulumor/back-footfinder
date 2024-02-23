@@ -7,10 +7,26 @@ import TeamController from "./team.controller.js";
 export default class FollowController extends CoreController {
   static datamapper = FollowDatamapper;
 
-  static async deleteOneLine({ params }, res, next) {
+  static async deletePlayerFollow({ params }, res, next) {
     const deleted = await this.datamapper.deleteByPlayerIdAndScoutId(params);
     if (!deleted) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
-    return res.status(204).end();
+    let data = "Pas de joueur suivi";
+    if (deleted.player_id[0] !== null) {
+      const playersInfos = await PlayerController.getPlayerInfos(deleted.player_id);
+      const teamPromises = [];
+      playersInfos.forEach((player) => {
+        const teamPromise = TeamController.getTeamInfos(player.team_id);
+        teamPromises.push(teamPromise);
+      });
+      const teams = await Promise.all(teamPromises);
+      data = [];
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < playersInfos.length; i++) {
+        const { team_id: teamId, ...playerData } = playersInfos[i];
+        data.push({ ...playerData, teams: teams[i] });
+      }
+    }
+    return res.status(200).json({ ...deleted, players: data });
   }
 
   static async insertPlayerFollow({ params }, res, next) {
