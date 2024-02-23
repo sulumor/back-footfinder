@@ -4,9 +4,19 @@ import CoreController from "./core.controller.js";
 import PlayerController from "./player.controller.js";
 import TeamController from "./team.controller.js";
 
+/**
+ * Controller to handle operations related to following players by scouts
+ */
 export default class FollowController extends CoreController {
   static datamapper = FollowDatamapper;
 
+  /**
+   *Method to delete a specific follow line by player ID and scout ID.
+   * @param {Object} param0 The request object.
+   * @param {Object} res The response object.
+   * @param {Function} next The next middleware.
+   * @returns {Object} Response indicating the success of the deletion.
+   */
   static async deletePlayerFollow({ params }, res, next) {
     const deleted = await this.datamapper.deleteByPlayerIdAndScoutId(params);
     if (!deleted) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
