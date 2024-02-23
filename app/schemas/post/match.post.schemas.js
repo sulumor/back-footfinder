@@ -8,6 +8,7 @@ export default Joi.object({
   awayTeam: Joi.number()
     .integer()
     .required(),
+  date: Joi.string().required(),
   score: Joi.string()
     .pattern(scoreRegex),
 }).required();

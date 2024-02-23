@@ -1,16 +1,19 @@
 import { Router } from "express";
-import controllerWrapper from "../../helpers/controller.wrapper.js";
+// -------------- Controllers -----------------
 import PlayerController from "../../controllers/player.controller.js";
-import validationMiddleware from "../../middlewares/validation.middleware.js";
-import patchPlayerSchema from "../../schemas/patch/player.patch.schemas.js";
+import MatchController from "../../controllers/match.controller.js";
+import StatisticsController from "../../controllers/statistics.controller.js";
+// -------------- Schemas -----------------
 import idSchemas from "../../schemas/get/id.schemas.js";
 import matchPostSchemas from "../../schemas/post/match.post.schemas.js";
-import matchPatchSchemas from "../../schemas/patch/match.patch.schemas.js";
-import MatchController from "../../controllers/match.controller.js";
-import matchIdsSchemas from "../../schemas/patch/matchIds.patch.schemas.js";
-import StatisticsController from "../../controllers/statistics.controller.js";
 import statisticsPostSchemas from "../../schemas/post/statistics.post.schemas.js";
+import matchPatchSchemas from "../../schemas/patch/match.patch.schemas.js";
+import patchPlayerSchema from "../../schemas/patch/player.patch.schemas.js";
+import matchIdsSchemas from "../../schemas/patch/matchIds.patch.schemas.js";
 import statisticsPatchSchemas from "../../schemas/patch/statistics.patch.schemas.js";
+// -------------- Middlewares -----------------
+import controllerWrapper from "../../helpers/controller.wrapper.js";
+import validationMiddleware from "../../middlewares/validation.middleware.js";
 import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
 
 const playerRouter = Router();
@@ -232,7 +235,7 @@ playerRouter.route("/:id/match")
    * @summary Get all player's matches
    * @tags Player
    * @param { number } id.path.required - User id
-   * @return { Match[] } 200 - Success response - aplication/json
+   * @return { Match[] } 200 - Success response - application/json
    * @return { ApiJsonError } 400 - Bad request response - application/json
    * @example response - 400 - example error response
    * {

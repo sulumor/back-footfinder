@@ -33,7 +33,7 @@ export default class StatisticsController extends CoreController {
    */
   static async getGlobalStats({ params }, res, next) {
     const globalStats = await this.datamapper.getGlobalStats(params.id);
-    if (!globalStats) return next(new ApiError("No statistics found", { htppStatus: 404 }));
+    if (!globalStats) return next(new ApiError("No statistics found", { httpStatus: 404 }));
     return res.status(200).json(globalStats);
   }
 

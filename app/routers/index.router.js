@@ -11,10 +11,9 @@ router.use("/player", playerRouter);
 router.use("/scout", scoutRouter);
 router.use("/datas", datasRouter);
 router.use("/", authRouter);
-// router.use("/api", apiRouter);
 
 router.use((_, __, next) => {
-  next(new ApiError("Ressource not found", { htppStatus: 404 }));
+  next(new ApiError("Ressource not found", { httpStatus: 404 }));
 });
 
 export default router;

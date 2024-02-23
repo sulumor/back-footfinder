@@ -1,5 +1,6 @@
 import CoreController from "./core.controller.js";
 import TeamDatamapper from "../datamapper/team.datamapper.js";
+import ApiError from "../errors/api.error.js";
 
 /**
  * Controller to manage operations related to teams.
@@ -69,8 +70,8 @@ export default class TeamController extends CoreController {
     const awayTeam = await this.datamapper.findByPk(data.team_id_as_outside);
     return {
       ...data,
-      team_id_as_home: homeTeam[0],
-      team_id_as_outside: awayTeam[0],
+      team_id_as_home: homeTeam,
+      team_id_as_outside: awayTeam,
     };
   }
 
@@ -80,8 +81,13 @@ export default class TeamController extends CoreController {
  * @param {Object} res The response object.
  * @returns {Promise<Object[]>} - Promise resolving to an array of team information objects.
  */
-  static async getAllTeams(_, res) {
+  static async getAllTeams(_, res, next) {
     const rows = await this.datamapper.findAllTeams();
-    return res.status(200).json(rows);
+    if (!rows[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
+    const datas = rows.map((row) => {
+      const { created_at: createdAt, updated_at: updatedAt, ...data } = row;
+      return { ...data };
+    });
+    return res.status(200).json(datas);
   }
 }

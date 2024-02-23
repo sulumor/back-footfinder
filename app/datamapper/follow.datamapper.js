@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import client from "../helpers/pg.client.js";
 import CoreDatamapper from "./core.datamapper.js";
 
@@ -12,6 +13,8 @@ export default class FollowDatamapper extends CoreDatamapper {
    * @type {string}
    */
   static tableName = "follow";
+
+  static createTableName = "add_follow";
 
   /**
  *Deletes a follow relationship between a player and a scout.
@@ -28,13 +31,6 @@ export default class FollowDatamapper extends CoreDatamapper {
     return !!result.rowCount;
   }
 
-  /**
- * Creates a follow relationship between a player and a scout.
- * @param {Object} params Parameters containing the player ID and scout ID.
- * @param {string} params.id The ID of the player.
- * @param {string} params.scoutId The ID of the scout.
- * @returns {Promise<number>} A promise resolving to the number of rows affected by the insertion.
- */
   static async followByPlayerId({ id, scoutId }) {
     const scoutUserId = await client.query("SELECT id FROM scout WHERE user_id=$1", [scoutId]);
     const playerId = await client.query("SELECT id FROM player WHERE user_id=$1", [id]);
