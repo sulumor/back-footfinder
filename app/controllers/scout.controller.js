@@ -10,6 +10,7 @@ export default class ScoutController extends CoreController {
   static datamapper = ScoutDatamapper;
 
   static async getScoutInfos(scoutId) {
+    if (!scoutId[0]) return [];
     const allScoutPromises = [];
     scoutId.forEach((id) => {
       const scoutPromise = this.datamapper.findAll({ where: { scout_id: id } });

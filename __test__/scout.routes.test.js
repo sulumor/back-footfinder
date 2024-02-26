@@ -1,15 +1,17 @@
 import "../app/helpers/env.load.js";
 import request from "supertest";
 import app from "../app/index.app.js";
+import createJWT from "../app/helpers/jwt.function.js";
 
-// eslint-disable-next-line max-len
-const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGxheWVyX2lkIjoxLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJEdWphcmRpbiIsImVtYWlsIjoiamVhbi5kdWphcmRpbkBtYWlsLmlvIiwiYmlydGhfZGF0ZSI6IjE5OTMtMDUtMjBUMjI6MDA6MDAuMDAwWiIsIm5hdGlvbmFsaXR5IjoiQnLDqXNpbGllbiIsImF2YXRhciI6IlNWRyIsImdlbnJlIjoiSG9tbWUiLCJoZWlnaHQiOjE4Mywid2VpZ2h0Ijo2Mywic3Ryb25nX2Zvb3QiOiJEcm9pdCIsInRlYW1faWQiOlsxLDZdLCJzY291dF9pZCI6WzEsMiwzLDVdLCJwb3NpdGlvbiI6IkF0dGFxdWFudCIsIm51bWJlcl9vZl9tYXRjaGVzX3BsYXllZCI6NTAsInJvbGUiOiJqb3VldXIiLCJpYXQiOjE3MDg2NzU4NjcsImV4cCI6MTcwODY3OTQ2N30.ZTIq2SbJYJdg6lJvoYl4cKO6PpwTnQ5ID__5uLZT_iY";
+const TOKEN = createJWT({
+  id: 1, firstname: "romuald", lastname: "patfoort", role: "recruteur",
+});
 
 test("route GET /scout/2/player/1", async () => {
   await request(app)
     .get("/scout/2/player/1")
     .set("Accept", "application/json")
-    .auth(TOKEN, { type: "bearer" })
+    .auth(TOKEN.jwt, { type: "bearer" })
     .expect(200)
     .expect("Content-Type", /json/);
 });
