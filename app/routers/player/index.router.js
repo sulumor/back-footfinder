@@ -220,6 +220,33 @@ playerRouter.route("/:id/match/:matchId")
     validationMiddleware("params", matchIdsSchemas),
     validationMiddleware("body", matchPatchSchemas),
     controllerWrapper(MatchController.updateMatch.bind(MatchController)),
+  )
+  /**
+   * DELETE /player/:id/match/:matchId
+   * @summary Delete one match
+   * @tags Player
+   * @param { number } id.path.required - User id
+   * @param { number } matchId.path.required - Match id
+   * @return { } 204 - Success response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
+   * @example response - 400 - example error response
+   * {
+   *  "error": "Bad request"
+   * }
+   * @return { ApiJsonError } 404 - Not found response - application/json
+   * @example response - 404 - example error response
+   * {
+   *  "error": "Not Found"
+   * }
+   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+   * @example response - 500 - example error response
+   * {
+   *  "error": "Internal Server Error"
+   * }
+   */
+  .delete(
+    validationMiddleware("params", matchIdsSchemas),
+    controllerWrapper(MatchController.deleteMatch.bind(MatchController)),
   );
 
 playerRouter.route("/:id/stats")

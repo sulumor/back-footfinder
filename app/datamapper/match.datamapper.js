@@ -8,4 +8,6 @@ export default class MatchDatamapper extends CoreDatamapper {
   static createTableName = "add_match";
 
   static updateTableName = "update_match";
+
+  static deleteTableName = "delete_match";
 }

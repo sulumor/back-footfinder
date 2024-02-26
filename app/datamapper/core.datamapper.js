@@ -9,6 +9,8 @@ export default class CoreDatamapper {
 
   static updateTableName;
 
+  static deleteTableName;
+
   static async findAll(params) {
     let filter = "";
     const values = [];
@@ -82,5 +84,11 @@ export default class CoreDatamapper {
   static async updateSQL(json) {
     const result = await client.query(`SELECT * FROM ${this.updateTableName}($1)`, [json]);
     return result.rows;
+  }
+
+  static async deleteSQL(json) {
+    const result = await client.query(`SELECT * FROM ${this.deleteTableName}($1)`, [json]);
+    console.log(result.rows[0]);
+    return !!result.rowCount;
   }
 }
