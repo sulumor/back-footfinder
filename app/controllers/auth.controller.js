@@ -36,7 +36,6 @@ export default class AuthController extends CoreController {
     if (!data[0]) return res.status(200).json(user);
     const token = createJWT(data[0]);
     console.log(token);
-    
 
     return res.status(200).json({ data: data[0], token });
   }
