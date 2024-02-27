@@ -62,7 +62,7 @@ CREATE VIEW scout_view AS
 
 CREATE VIEW statistics_view AS
     SELECT
-        "player"."id" AS "id",
+        "player"."user_id" AS "id",
         "match"."id" AS "match_id",
         "score",
         "date",
