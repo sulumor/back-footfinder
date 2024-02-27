@@ -238,7 +238,7 @@ scoutRouter.route("/:id")
    * @tags Scout
    * @param { number } id.path.required - User id
    * @return { Scout } 200 - Success response - application/json
-   *  @return { ApiJsonError } 400 - Bad request response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
    * @example response - 400 - example error response
    * {
    *  "error": "Bad request"

@@ -67,7 +67,7 @@ export default class StatisticsController extends CoreController {
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const stats = await this.datamapper.insertSQL(data);
-    const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
+    const results = await TeamController.getHomeAndAwayTeamsInfos(stats);
     return res.status(201).json(results);
   }
 
