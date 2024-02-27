@@ -148,7 +148,6 @@ export default class CoreDatamapper {
 
   static async deleteSQL(json) {
     const result = await client.query(`SELECT * FROM ${this.deleteTableName}($1)`, [json]);
-    console.log(result.rows[0]);
     return !!result.rowCount;
   }
 }
