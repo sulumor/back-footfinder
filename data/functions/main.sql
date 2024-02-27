@@ -185,7 +185,7 @@ CREATE FUNCTION "delete_follow"(json) RETURNS "scout_view" AS $$
       (SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int
     );
   
-  SELECT * FROM scout_view WHERE id=($1->>'scoutId')::int;
+  SELECT * FROM "scout_view" WHERE "id"=($1->>'scoutId')::int;
 $$ LANGUAGE sql STRICT;
 
 COMMIT;
