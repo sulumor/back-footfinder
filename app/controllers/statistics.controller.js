@@ -24,7 +24,7 @@ export default class StatisticsController extends CoreController {
     const matchStats = await this.datamapper.findAll({
       where: { id: params.id, match_id: params.matchId },
     });
-    if (!matchStats[0]) return next(new ApiError("No match Found", { httpStatus: 404 }));
+    if (!matchStats[0]) return next(new ApiError("No stats found", { httpStatus: 404 }));
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(matchStats);
     return res.status(200).json(results);
   }
@@ -36,7 +36,7 @@ export default class StatisticsController extends CoreController {
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const stats = await this.datamapper.insertSQL(data);
-    const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
+    const results = await TeamController.getHomeAndAwayTeamsInfos(stats);
     return res.status(201).json(results);
   }
 
@@ -57,7 +57,7 @@ export default class StatisticsController extends CoreController {
       where: { player_id: params.id, match_id: params.matchId },
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
-    const deleted = await this.datamapper.delete(params);
+    const deleted = await this.datamapper.delete(params.matchId);
     if (!deleted) return next(new ApiError("No stats found", { httpStatus: 404 }));
     return res.status(204).end();
   }

@@ -13,8 +13,8 @@ Content-Type: application/json
 
 
 ###
-GET {{ endpoint }}/player/1/match/stats
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGxheWVyX2lkIjoxLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJEdWphcmRpbiIsImVtYWlsIjoiamVhbi5kdWphcmRpbkBtYWlsLmlvIiwiYmlydGhfZGF0ZSI6IjE5OTMtMDUtMjBUMjI6MDA6MDAuMDAwWiIsIm5hdGlvbmFsaXR5IjoiQnLDqXNpbGllbiIsImF2YXRhciI6IlNWRyIsImdlbnJlIjoiSG9tbWUiLCJoZWlnaHQiOjE4Mywid2VpZ2h0Ijo2Mywic3Ryb25nX2Zvb3QiOiJEcm9pdCIsInRlYW1faWQiOlsxLDZdLCJzY291dF9pZCI6WzEsMiwzLDVdLCJwb3NpdGlvbiI6IkF0dGFxdWFudCIsIm51bWJlcl9vZl9tYXRjaGVzX3BsYXllZCI6NTAsInJvbGUiOiJqb3VldXIiLCJpYXQiOjE3MDg2Nzk1ODIsImV4cCI6MTcwODY4MzE4Mn0.TSKTgbZh-vt5rcMc23tmCryqb0BiVNXqYfLr0L_cg54
+GET {{ endpoint }}/player/1/match/3/stats
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGxheWVyX2lkIjoxLCJmaXJzdG5hbWUiOiJCcnVubyIsImxhc3RuYW1lIjoiSmFjcXVlcyIsImVtYWlsIjoiamVhbi5kdWphcmRpbkBtYWlsLmlvIiwiYmlydGhfZGF0ZSI6IjE5OTMtMDUtMjBUMjI6MDA6MDAuMDAwWiIsIm5hdGlvbmFsaXR5IjoiQnLDqXNpbGllbiIsImF2YXRhciI6IlNWRyIsImdlbnJlIjoiSG9tbWUiLCJoZWlnaHQiOjE4Mywid2VpZ2h0IjozMiwic3Ryb25nX2Zvb3QiOiJEcm9pdCIsInRlYW1faWQiOlsxLDZdLCJzY291dF9pZCI6WzEsMiwzLDVdLCJwb3NpdGlvbiI6IkxpYsOpcm8iLCJudW1iZXJfb2ZfbWF0Y2hlc19wbGF5ZWQiOjUwLCJyb2xlIjoiam91ZXVyIiwiaWF0IjoxNzA5MDIyNDc4LCJleHAiOjE3MDkwMjYwNzh9.FiD-cF28Cfh5CjaRUyE-Ct97_D7sXtMZL8NA2QBA7Lk
 
 ###
 GET {{ endpoint }}/scout/search/?strong_foot=gauche&position=Gardien
@@ -118,12 +118,10 @@ Content-Type: application/json
 
 
 ###
-PATCH {{endpoint}}/player/1/match/3
-Content-Type: application/json
+GET {{endpoint}}/player/1/match/3/stats
 
-{
-  "score": "10-10"
-}
+
+
 ###
 GET {{ endpoint }}/scout/2
 

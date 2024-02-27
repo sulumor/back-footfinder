@@ -10,6 +10,11 @@ export default class StatisticsDatamapper extends CoreDatamapper {
 
   static updateTableName = "update_statistics";
 
+  static async delete(matchId) {
+    const result = await client.query(`DELETE FROM "${this.tableName}" WHERE "match_id" = $1`, [matchId]);
+    return !!result.rowCount;
+  }
+
   static async getGlobalStats(id) {
     const result = await client.query(`
     SELECT 
