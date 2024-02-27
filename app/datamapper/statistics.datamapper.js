@@ -36,6 +36,11 @@ export default class StatisticsDatamapper extends CoreDatamapper {
    * @returns {Promise<Object>} - A promise resolving to the global statistics.
    */
 
+  static async delete(matchId) {
+    const result = await client.query(`DELETE FROM "${this.tableName}" WHERE "match_id" = $1`, [matchId]);
+    return !!result.rowCount;
+  }
+
   static async getGlobalStats(id) {
     const result = await client.query(`
     SELECT 

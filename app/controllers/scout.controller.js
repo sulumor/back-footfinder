@@ -19,6 +19,7 @@ export default class ScoutController extends CoreController {
  * @returns {Promise<Object[]>} Promise resolving to an array of scout information objects.
  */
   static async getScoutInfos(scoutId) {
+    if (!scoutId[0]) return [];
     const allScoutPromises = [];
     scoutId.forEach((id) => {
       const scoutPromise = this.datamapper.findAll({ where: { scout_id: id } });

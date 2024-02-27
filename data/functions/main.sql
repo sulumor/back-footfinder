@@ -32,6 +32,20 @@ CREATE FUNCTION "update_match"(json) RETURNS "match_view" AS $$
   SELECT * FROM "match_view" WHERE "match_id" = ($1->>'matchId')::int;
 $$ LANGUAGE sql STRICT;
 
+CREATE FUNCTION "delete_match"(json) RETURNS "match_view" AS $$
+
+  DELETE FROM "statistics" WHERE "match_id"=($1->>'id')::int;
+
+  DELETE FROM "play" WHERE "match_id"=($1->>'id')::int;
+
+  DELETE FROM "meet" WHERE "id"=(SELECT "meet_id" FROM "match" WHERE "id"=($1->>'id')::int);
+  
+  DELETE FROM "match" WHERE "id"=($1->>'id')::int;
+
+  SELECT * FROM "match_view" WHERE "match_id" = ($1->>'id')::int;
+
+$$ LANGUAGE sql STRICT;
+
 CREATE FUNCTION "add_player"(json) RETURNS "player_view" AS $$
 
   INSERT INTO "player" ("birth_date", "nationality", "genre", "height", "weight", "strong_foot", "number_of_matches_played", "user_id", "position_id") VALUES 

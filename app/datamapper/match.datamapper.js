@@ -27,4 +27,6 @@ export default class MatchDatamapper extends CoreDatamapper {
    */
 
   static updateTableName = "update_match";
+
+  static deleteTableName = "delete_match";
 }

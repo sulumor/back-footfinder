@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import ApiError from "../errors/api.error.js";
 
 // eslint-disable-next-line consistent-return
 function authenticateToken(req, res, next) {
@@ -13,5 +14,12 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { authenticateToken };
+function authorizationRoute({ originalUrl, user }, _, next) {
+  const baseRoute = originalUrl.split("/")[1];
+  // eslint-disable-next-line no-nested-ternary
+  const role = user.role === "joueur" ? "player" : user.role === "recruteur" ? "scout" : null;
+  if (baseRoute !== role) return next(new ApiError("Access Unauthorized", { httpStatus: 401 }));
+  return next();
+}
+
+export { authenticateToken, authorizationRoute };

@@ -81,7 +81,7 @@ CREATE TABLE "match" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "score" TEXT NOT NULL,
   "date" DATE NOT NULL,
-  "meet_id" INT REFERENCES meet(id),
+  "meet_id" INT REFERENCES meet(id) ON DELETE SET NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
@@ -255,8 +255,7 @@ INSERT INTO statistics(assists, goals_scored, minutes_played, red_card, yellow_c
 ('0', '0', '92', '0', '0', '0', '0', 'En forme', 4),
 ('0', '1', '87', '0', '1', '0', '0', 'En forme', 5),
 ('0', '3', '95', '0', '0', '0', '0', 'En forme', 6),
-('0', '0', '90', '0', '0', '0', '0', 'En forme', 7),
-(null, null, null, null, null, null, 'En forme', 8);
+('0', '0', '90', '0', '0', '0', '0', 'En forme', 7);
 
 
 INSERT INTO link(player_id, team_id, season) VALUES
