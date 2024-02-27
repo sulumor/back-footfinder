@@ -32,9 +32,10 @@ export default class AuthController extends CoreController {
     let data;
     if (body.role === "joueur") data = await PlayerDatamapper.findAll({ where: { email: body.email } });
     if (body.role === "recruteur") data = await ScoutDatamapper.findAll({ where: { email: body.email } });
+    console.log(data);
     if (!data[0]) return res.status(200).json(user);
-
     const token = createJWT(data[0]);
+    console.log(token);
 
     return res.status(200).json({ data: data[0], token });
   }
