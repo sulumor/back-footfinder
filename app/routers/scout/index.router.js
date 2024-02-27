@@ -14,7 +14,7 @@ import scoutPatchSchemas from "../../schemas/patch/scout.patch.schemas.js";
 // -------------- Middlewares -----------------
 import validationMiddleware from "../../middlewares/validation.middleware.js";
 import controllerWrapper from "../../helpers/controller.wrapper.js";
-import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
+import { authenticateToken, authorizationRoute } from "../../middlewares/jwt.middlewares.js";
 
 const scoutRouter = Router();
 
@@ -172,6 +172,7 @@ scoutRouter.route("/:scoutId/player/:id")
    */
   .get(
     authenticateToken,
+    authorizationRoute,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
   )
@@ -238,7 +239,7 @@ scoutRouter.route("/:id")
    * @tags Scout
    * @param { number } id.path.required - User id
    * @return { Scout } 200 - Success response - application/json
-   *  @return { ApiJsonError } 400 - Bad request response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
    * @example response - 400 - example error response
    * {
    *  "error": "Bad request"

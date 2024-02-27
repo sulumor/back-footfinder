@@ -17,7 +17,7 @@ export default class MatchController extends CoreController {
    */
   static async getAllMatchesByUserId({ params }, res, next) {
     const matches = await this.datamapper.findAll({ where: { id: params.id } });
-    if (!matches[0].id) return next(new ApiError("Player not found", { httpStatus: 404 }));
+    if (!matches[0]) return next(new ApiError("No match found for this player", { httpStatus: 404 }));
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(matches);
     return res.status(200).json(results);
   }
@@ -32,7 +32,7 @@ export default class MatchController extends CoreController {
   static async getOneMatchByUserId({ params }, res, next) {
     const data = { id: params.id, match_id: params.matchId };
     const matches = await this.datamapper.findAll({ where: data });
-    if (!matches[0].id) return next(new ApiError("Player not found", { httpStatus: 404 }));
+    if (!matches[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(matches);
     return res.status(200).json(results);
   }
@@ -61,8 +61,15 @@ export default class MatchController extends CoreController {
   static async updateMatch({ params, body }, res, next) {
     const updateInfos = { ...params, ...body };
     const updatedMatch = await this.datamapper.updateSQL(updateInfos);
-    if (!updatedMatch.id | !updatedMatch.match_id) return next(new ApiError("Ressources not Found", { httpStatus: 404 }));
+    if (!updatedMatch[0].id | !updatedMatch[0].match_id) return next(new ApiError("Ressources not Found", { httpStatus: 404 }));
     const result = await TeamController.getHomeAndAwayTeamsInfos(updatedMatch);
     return res.status(201).json(result);
+  }
+
+  static async deleteMatch({ params }, res, next) {
+    const data = { id: params.matchId };
+    const deletedMatch = await this.datamapper.deleteSQL(data);
+    if (!deletedMatch) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
+    return res.status(204).end();
   }
 }

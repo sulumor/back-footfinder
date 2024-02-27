@@ -31,12 +31,16 @@ export default class CoreDatamapper {
 
   static updateTableName;
 
+
+  static deleteTableName;
+
   /**
    * Retrieves multiple rows from the database based on the provided parameters.
    * @param {Object} params - Parameters for filtering data retrieval.
    * @param {Object} params.where - Conditions to filter the data.
    * @returns {Promise<Object[]>} - A promise resolving to an array of retrieved rows.
    */
+
 
   static async findAll(params) {
     let filter = "";
@@ -142,5 +146,11 @@ export default class CoreDatamapper {
   static async updateSQL(json) {
     const result = await client.query(`SELECT * FROM ${this.updateTableName}($1)`, [json]);
     return result.rows;
+  }
+
+  static async deleteSQL(json) {
+    const result = await client.query(`SELECT * FROM ${this.deleteTableName}($1)`, [json]);
+    console.log(result.rows[0]);
+    return !!result.rowCount;
   }
 }
