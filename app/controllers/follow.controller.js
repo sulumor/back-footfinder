@@ -21,6 +21,7 @@ export default class FollowController extends CoreController {
     const deleted = await this.datamapper.deleteByPlayerIdAndScoutId(params);
     if (!deleted) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
     let data = "Pas de joueur suivi";
+    console.log(deleted);
     if (deleted.player_id[0] !== null) {
       const playersInfos = await PlayerController.getPlayerInfos(deleted.player_id);
       const teamPromises = [];

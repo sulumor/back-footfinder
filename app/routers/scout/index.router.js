@@ -14,7 +14,6 @@ import scoutPatchSchemas from "../../schemas/patch/scout.patch.schemas.js";
 // -------------- Middlewares -----------------
 import validationMiddleware from "../../middlewares/validation.middleware.js";
 import controllerWrapper from "../../helpers/controller.wrapper.js";
-import { authenticateToken, authorizationRoute } from "../../middlewares/jwt.middlewares.js";
 
 const scoutRouter = Router();
 
@@ -42,7 +41,6 @@ scoutRouter.route("/search")
    * }
    */
   .get(
-    authenticateToken,
     validationMiddleware("query", searchGetSchemas),
     controllerWrapper(ScoutController.getSearchSpecificationPlayer.bind(ScoutController)),
   );
@@ -73,7 +71,6 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId/stats")
    * }
    */
   .get(
-    authenticateToken,
     controllerWrapper(StatisticsController.getOneMatchStats.bind(StatisticsController)),
   );
 
@@ -103,14 +100,13 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId")
   * }
   */
   .get(
-    authenticateToken,
     validationMiddleware("params", scoutPlayerMatchIdsGetSchemas),
     controllerWrapper(MatchController.getOneMatchByUserId.bind(MatchController)),
   );
 
 scoutRouter.route("/:scoutId/player/:id/stats")
   .get(
-    authenticateToken,
+
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)),
   );
@@ -140,7 +136,6 @@ scoutRouter.route("/:scoutId/player/:id/match")
     * }
     */
   .get(
-    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
   );
@@ -171,8 +166,6 @@ scoutRouter.route("/:scoutId/player/:id")
    * }
    */
   .get(
-    authenticateToken,
-    authorizationRoute,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(PlayerController.getAllInfos.bind(PlayerController)),
   )
@@ -227,7 +220,6 @@ scoutRouter.route("/:scoutId/player/:id")
    * }
    */
   .delete(
-    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(FollowController.deletePlayerFollow.bind(FollowController)),
   );
@@ -256,7 +248,6 @@ scoutRouter.route("/:id")
    * }
    */
   .get(
-    authenticateToken,
     validationMiddleware("params", idSchemas),
     controllerWrapper(ScoutController.getAllInfos.bind(ScoutController)),
   )
@@ -284,7 +275,6 @@ scoutRouter.route("/:id")
    * }
    */
   .patch(
-    authenticateToken,
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", scoutPatchSchemas),
     controllerWrapper(ScoutController.updateSQL.bind(ScoutController)),

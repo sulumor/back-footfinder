@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP FUNCTION IF EXISTS "delete_follow", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_player", "add_scout", "add_follow";
+DROP FUNCTION IF EXISTS "delete_match","delete_follow", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_player", "add_scout", "add_follow";
 
 CREATE FUNCTION "add_match"(json) RETURNS "statistics_view" AS $$
 
