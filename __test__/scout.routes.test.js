@@ -8,7 +8,6 @@ const TOKEN = createJWT({
   id: 1, firstname: "romuald", lastname: "patfoort", role: "recruteur",
 });
 
-
 test("route GET /scout/2/player/1", async () => {
   await request(app)
     .get("/scout/2/player/1")

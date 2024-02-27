@@ -31,7 +31,6 @@ export default class CoreDatamapper {
 
   static updateTableName;
 
-
   static deleteTableName;
 
   /**
@@ -40,7 +39,6 @@ export default class CoreDatamapper {
    * @param {Object} params.where - Conditions to filter the data.
    * @returns {Promise<Object[]>} - A promise resolving to an array of retrieved rows.
    */
-
 
   static async findAll(params) {
     let filter = "";
