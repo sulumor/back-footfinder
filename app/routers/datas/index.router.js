@@ -27,6 +27,10 @@ const datasRouter = Router();
    *  "error": "Internal Server Error"
    * }
    */
-datasRouter.get("/teams", controllerWrapper(TeamController.getAllTeams.bind(TeamController)));
+datasRouter.get(
+  "/teams",
+
+  controllerWrapper(TeamController.getAllTeams.bind(TeamController)),
+);
 
 export default datasRouter;

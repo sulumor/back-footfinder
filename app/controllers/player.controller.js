@@ -5,9 +5,17 @@ import CoreController from "./core.controller.js";
 import ScoutController from "./scout.controller.js";
 import TeamController from "./team.controller.js";
 
+/**
+ * Controller to manage operations related to players.
+ */
 export default class PlayerController extends CoreController {
   static datamapper = PlayerDatamapper;
 
+  /**
+ *Method to retrieve information for multiple players.
+ * @param {number[]} playerIds Array of player IDs.
+ * @returns {Promise<Object[]>} Promise resolving to an array of player information objects
+ */
   static async getPlayerInfos(playerIds) {
     const allPlayerPromises = [];
     playerIds.forEach((id) => {
@@ -17,6 +25,14 @@ export default class PlayerController extends CoreController {
     return (await Promise.all(allPlayerPromises)).map((player) => player[0]);
   }
 
+  /**
+ * Method to get all information for a player.
+ * @param {Object} param0 The request object.
+ * @param {Object} res The response object.
+ * @param {Function} next The next middleware.
+ * @returns {Object} Response containing all player information along
+ * with associated team and scout information.
+ */
   static async getAllInfos({ params }, res, next) {
     const user = await this.datamapper.findAll({ where: { id: params.id } });
     if (user.length < 1) return next(new ApiError("User not found", { httpStatus: 404 }));

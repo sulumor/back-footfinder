@@ -72,7 +72,10 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId/stats")
    *  "error": "Internal Server Error"
    * }
    */
-  .get(controllerWrapper(StatisticsController.getOneMatchStats.bind(StatisticsController)));
+  .get(
+    authenticateToken,
+    controllerWrapper(StatisticsController.getOneMatchStats.bind(StatisticsController)),
+  );
 
 scoutRouter.route("/:scoutId/player/:id/match/:matchId")
   /**
@@ -107,6 +110,7 @@ scoutRouter.route("/:scoutId/player/:id/match/:matchId")
 
 scoutRouter.route("/:scoutId/player/:id/stats")
   .get(
+    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)),
   );
@@ -136,6 +140,7 @@ scoutRouter.route("/:scoutId/player/:id/match")
     * }
     */
   .get(
+    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(MatchController.getAllMatchesByUserId.bind(MatchController)),
   );
@@ -222,6 +227,7 @@ scoutRouter.route("/:scoutId/player/:id")
    * }
    */
   .delete(
+    authenticateToken,
     validationMiddleware("params", scoutIdsGetSchemas),
     controllerWrapper(FollowController.deletePlayerFollow.bind(FollowController)),
   );
@@ -233,7 +239,7 @@ scoutRouter.route("/:id")
    * @tags Scout
    * @param { number } id.path.required - User id
    * @return { Scout } 200 - Success response - application/json
-   *  @return { ApiJsonError } 400 - Bad request response - application/json
+   * @return { ApiJsonError } 400 - Bad request response - application/json
    * @example response - 400 - example error response
    * {
    *  "error": "Bad request"
@@ -250,6 +256,7 @@ scoutRouter.route("/:id")
    * }
    */
   .get(
+    authenticateToken,
     validationMiddleware("params", idSchemas),
     controllerWrapper(ScoutController.getAllInfos.bind(ScoutController)),
   )
@@ -277,6 +284,7 @@ scoutRouter.route("/:id")
    * }
    */
   .patch(
+    authenticateToken,
     validationMiddleware("params", idSchemas),
     validationMiddleware("body", scoutPatchSchemas),
     controllerWrapper(ScoutController.updateSQL.bind(ScoutController)),
