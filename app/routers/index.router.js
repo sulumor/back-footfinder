@@ -12,6 +12,10 @@ router.use("/scout", scoutRouter);
 router.use("/datas", datasRouter);
 router.use("/", authRouter);
 
+router.get("/", (_, res) => {
+  res.redirect("/api-docs");
+});
+
 router.use((_, __, next) => {
   next(new ApiError("Ressource not found", { httpStatus: 404 }));
 });
