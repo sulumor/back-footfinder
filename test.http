@@ -26,7 +26,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGxheWVyX
 
 ###
 
-GET {{ endpoint }}/scout/2/player/16/match
+GET {{ endpoint }}/player/4
 
 ###
 GET {{ endpoint }}/scout/2/player/1
