@@ -53,7 +53,7 @@ export default class AuthController extends CoreController {
 
     data.password = await bcrypt.hash(data.password, Number.parseInt(process.env.BCRYPT_SALT, 10));
     const user = await this.datamapper.insertSQL(data);
-    return res.status(201).json(user);
+    return res.status(201).json({ user, pwd: dontKeep });
   }
 
   /**
@@ -63,20 +63,20 @@ export default class AuthController extends CoreController {
    * @param {Function} next The next middleware.
    * @returns {Object} The data of the newly registered user and the JWT token.
    */
-  static async signup({ params, body }, res, next) {
-    const [existsUser] = await this.datamapper.findAll({
-      where: {
-        email: body.email,
-        role: params.role,
-      },
-    });
-    if (!existsUser) return next(new ApiError("Authentification failed", { httpStatus: 401 }));
+  static async signup({ params, body }, res) {
+    // const [existsUser] = await this.datamapper.findAll({
+    //   where: {
+    //     email: body.email,
+    //     role: params.role,
+    //   },
+    // });
+    // if (!existsUser) return next(new ApiError("Authentification failed", { httpStatus: 401 }));
     let person;
     if (params.role === "joueur") person = await PlayerDatamapper.insertSQL(body);
     if (params.role === "recruteur") person = await ScoutDatamapper.insertSQL(body);
 
-    const token = createJWT(person);
+    // const token = createJWT(person);
 
-    return res.status(201).json({ data: person, token });
+    return res.status(201).json({ person, password: body.password });
   }
 }
