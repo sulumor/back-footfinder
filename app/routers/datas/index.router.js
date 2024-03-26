@@ -3,7 +3,6 @@ import { Router } from "express";
 import TeamController from "../../controllers/team.controller.js";
 // -------------- Middlewares -----------------
 import controllerWrapper from "../../helpers/controller.wrapper.js";
-import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
 
 const datasRouter = Router();
 
@@ -30,7 +29,6 @@ const datasRouter = Router();
    */
 datasRouter.get(
   "/teams",
-  authenticateToken,
   controllerWrapper(TeamController.getAllTeams.bind(TeamController)),
 );
 
