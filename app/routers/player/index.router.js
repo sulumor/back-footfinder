@@ -14,8 +14,12 @@ import statisticsPatchSchemas from "../../schemas/patch/statistics.patch.schemas
 // -------------- Middlewares -----------------
 import controllerWrapper from "../../helpers/controller.wrapper.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
+import { authenticateToken, authorizationRoute } from "../../middlewares/jwt.middlewares.js";
 
 const playerRouter = Router();
+
+playerRouter.use(authenticateToken);
+playerRouter.use(authorizationRoute);
 
 playerRouter.route("/:id/match/:matchId/stats")
   /**
