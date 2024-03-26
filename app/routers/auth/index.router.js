@@ -61,26 +61,58 @@ authRouter.post(
 );
 
 /**
-   * POST /login
-   * @summary Login user
-   * @tags Authentification
-   * @param { LoginBody } request.body.required - Login information
-   * @return { LoginResponse } 200 - Success response - application/json
-   * @return { ApiJsonError } 401 - Unauthorized response - application/json
-   * @example response - 401 - example error response
-   * {
-   *  "error": "Authentification failed"
-   * }
-   * @return { ApiJsonError } 500 - Internal Server Error response - application/json
-   * @example response - 500 - example error response
-   * {
-   *  "error": "Internal Server Error"
-   * }
-   */
+  * POST /login
+  * @summary Login user
+  * @tags Authentification
+  * @param { LoginBody } request.body.required - Login information
+  * @return { LoginResponse } 200 - Success response - application/json
+  * @return { ApiJsonError } 401 - Unauthorized response - application/json
+  * @example response - 401 - example error response
+  * {
+  *  "error": "Authentification failed"
+  * }
+  * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+  * @example response - 500 - example error response
+  * {
+  *  "error": "Internal Server Error"
+  * }
+  */
 authRouter.post(
   "/login",
   validationMiddleware("body", loginSchema),
   controllerWrapper(AuthController.login.bind(AuthController)),
 );
+
+authRouter.route("/refresh_token")
+/**
+ * GET /refresh_token
+ * @summary Have a access token from a refresh token cookie
+ * @tags Authentification
+ * @return { Token } 200 - Success response - application/json
+ * @return { ApiJsonError } 401 - Unauthorized response - application/json
+ * @example response - 401 - example error response
+ * {
+ *  "error": "Authentification failed"
+ * }
+ * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+ * @example response - 500 - example error response
+ * {
+ *  "error": "Internal Server Error"
+ * }
+ */
+  .get(controllerWrapper(AuthController.refreshToken.bind(AuthController)))
+
+/**
+ * DELETE /refresh_token
+ * @summary Delete the refresh token cookie
+ * @tags Authentification
+ * @return { Object } 200 - Success response - application/json
+ * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+ * @example response - 500 - example error response
+ * {
+ *  "error": "Internal Server Error"
+ * }
+ */
+  .delete(controllerWrapper(AuthController.deleteToken.bind(AuthController)));
 
 export default authRouter;
