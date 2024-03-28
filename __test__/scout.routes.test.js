@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-identical-title */
 import "../app/helpers/env.load.js";
 import request from "supertest";
 import app from "../app/index.app.js";
