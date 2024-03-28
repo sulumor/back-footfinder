@@ -5,7 +5,7 @@ import CoreController from "./core.controller.js";
 import AuthDatamapper from "../datamapper/auth.datamapper.js";
 import PlayerDatamapper from "../datamapper/player.datamapper.js";
 import ScoutDatamapper from "../datamapper/scout.datamapper.js";
-import createJWT from "../helpers/jwt.function.js";
+import { createAccessToken, createRefreshToken } from "../helpers/jwt.function.js";
 
 /**
  * Contrôleur gérant l'authentification des utilisateurs.
@@ -35,10 +35,9 @@ export default class AuthController extends CoreController {
     if (body.role === "recruteur") data = await ScoutDatamapper.findAll({ where: { email: body.email } });
     if (!data[0]) return res.status(200).json(user);
 
-    const token = createJWT(data[0]);
-    res.cookie("refresh_token", token.refreshToken, { httpOnly: true });
+    res.cookie("refresh_token", createRefreshToken(data[0]), { httpOnly: true });
 
-    return res.status(200).json(token);
+    return res.status(200).json({ accessToken: createAccessToken(data[0]) });
   }
 
   /**
@@ -54,9 +53,7 @@ export default class AuthController extends CoreController {
     if (!refreshToken) return next(new ApiError("Null refresh token", { httpStatus: 401 }));
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
       if (err) return next(new ApiError(err.message, { httpStatus: 403 }));
-      const token = createJWT(user);
-      res.cookie("refresh_token", token.refreshToken, { httpOnly: true });
-      return res.status(200).json(token);
+      return res.status(200).json({ accessToken: createAccessToken(user) });
     });
   }
 
