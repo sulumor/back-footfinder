@@ -1,14 +1,20 @@
 import jwt from "jsonwebtoken";
 import ApiError from "../errors/api.error.js";
+import AuthDatamapper from "../datamapper/auth.datamapper.js";
 
 // eslint-disable-next-line consistent-return
 function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;// Bearer TOKEN
   const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) return res.status(401).json({ error: "Null token" });
+  if (token == null) return next(new ApiError("Token non disponible", { httpStatus: 401 }));
   // eslint-disable-next-line consistent-return
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
-    if (error) return res.status(403).json({ error: error.message });
+    if (error) return next(new ApiError(error.message, { httpStatus: 403 }));
+    const userExits = AuthDatamapper.findAll({
+      where:
+      { id: user.id, firstname: user.firstname, role: user.role },
+    });
+    if (!userExits) return next(new ApiError("Accès interdit", { httpStatus: 403 }));
     req.user = user;
     next();
   });
