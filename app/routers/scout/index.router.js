@@ -14,8 +14,12 @@ import scoutPatchSchemas from "../../schemas/patch/scout.patch.schemas.js";
 // -------------- Middlewares -----------------
 import validationMiddleware from "../../middlewares/validation.middleware.js";
 import controllerWrapper from "../../helpers/controller.wrapper.js";
+import { authenticateToken, authorizationRoute } from "../../middlewares/jwt.middlewares.js";
 
 const scoutRouter = Router();
+
+scoutRouter.use(authenticateToken);
+scoutRouter.use(authorizationRoute);
 
 scoutRouter.route("/search")
   /**

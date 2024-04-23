@@ -29,7 +29,6 @@ const datasRouter = Router();
    */
 datasRouter.get(
   "/teams",
-
   controllerWrapper(TeamController.getAllTeams.bind(TeamController)),
 );
 

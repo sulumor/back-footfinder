@@ -1,4 +1,4 @@
-import PlayDatampper from "../datamapper/play.datamapper.js";
+import PlayDatamapper from "../datamapper/play.datamapper.js";
 import StatisticsDatamapper from "../datamapper/statistics.datamapper.js";
 import ApiError from "../errors/api.error.js";
 import CoreController from "./core.controller.js";
@@ -62,8 +62,8 @@ export default class StatisticsController extends CoreController {
  */
   static async postOneMatchStats({ params, body }, res, next) {
     const data = { ...params, ...body };
-    const matchExits = await PlayDatampper.findAll({
-      where: { player_id: params.id, match_id: params.matchId },
+    const matchExits = await PlayDatamapper.findAll({
+      where: { match_id: params.matchId },
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const stats = await this.datamapper.insertSQL(data);
@@ -80,10 +80,9 @@ export default class StatisticsController extends CoreController {
  */
   static async updateOneMatchStats({ params, body }, res, next) {
     const data = { ...params, ...body };
-    const matchExits = await PlayDatampper.findAll({
-      where: { player_id: params.id, match_id: params.matchId },
+    const matchExits = await PlayDatamapper.findAll({
+      where: { match_id: params.matchId },
     });
-
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const stats = await this.datamapper.updateSQL(data);
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(stats);
@@ -98,8 +97,8 @@ export default class StatisticsController extends CoreController {
  * @returns {Object} Response indicating successful deletion of statistics for the match.
  */
   static async deleteOneMatchStats({ params }, res, next) {
-    const matchExits = await PlayDatampper.findAll({
-      where: { player_id: params.id, match_id: params.matchId },
+    const matchExits = await PlayDatamapper.findAll({
+      where: { match_id: params.matchId },
     });
     if (!matchExits[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const deleted = await this.datamapper.delete(params.matchId);

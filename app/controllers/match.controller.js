@@ -34,7 +34,7 @@ export default class MatchController extends CoreController {
     const matches = await this.datamapper.findAll({ where: data });
     if (!matches[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
     const results = await TeamController.getMultipleHomeAndAwayTeamsInfos(matches);
-    return res.status(200).json(results);
+    return res.status(200).json(results[0]);
   }
 
   /**

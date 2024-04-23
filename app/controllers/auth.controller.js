@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import ApiError from "../errors/api.error.js";
 import CoreController from "./core.controller.js";
 import AuthDatamapper from "../datamapper/auth.datamapper.js";
 import PlayerDatamapper from "../datamapper/player.datamapper.js";
 import ScoutDatamapper from "../datamapper/scout.datamapper.js";
-import createJWT from "../helpers/jwt.function.js";
+import { createAccessToken, createRefreshToken } from "../helpers/jwt.function.js";
 
 /**
  * Contrôleur gérant l'authentification des utilisateurs.
@@ -34,9 +35,37 @@ export default class AuthController extends CoreController {
     if (body.role === "recruteur") data = await ScoutDatamapper.findAll({ where: { email: body.email } });
     if (!data[0]) return res.status(200).json(user);
 
-    const token = createJWT(data[0]);
+    res.cookie("refresh_token", createRefreshToken(data[0]), { httpOnly: true });
 
-    return res.status(200).json({ data: data[0], token });
+    return res.status(200).json({ accessToken: createAccessToken(data[0]) });
+  }
+
+  /**
+   * Method to create a new access token with a refresh token
+   * @param {Express.Request.cookies} cookies The refresh cookie
+   * @param {Express.Response} res
+   * @param {Express.NextFunction} next
+   * @returns {Express.Response | ApiError}
+   */
+  // eslint-disable-next-line consistent-return
+  static refreshToken({ cookies }, res, next) {
+    const refreshToken = cookies.refresh_token;
+    if (!refreshToken) return next(new ApiError("Null token", { httpStatus: 401 }));
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) return next(new ApiError(err.message, { httpStatus: 403 }));
+      return res.status(200).json({ accessToken: createAccessToken(user) });
+    });
+  }
+
+  /**
+   * Method to delete the refresh cookie
+   * @param {*} _
+   * @param {Express.Response} res
+   * @returns  {Express.Response}
+   */
+  static deleteToken(_, res) {
+    res.clearCookie("refresh_token");
+    return res.status(200).json({ message: "refresh token deleted" });
   }
 
   /**

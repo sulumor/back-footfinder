@@ -37,8 +37,8 @@
 
 /**
  * @typedef { object } Token
- * @property { string } jwt
- * @property { number } expiresAt
+ * @property { string } AccessToken
+ * @property { string } RefreshToken
  */
 
 /**

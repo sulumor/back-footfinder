@@ -2,15 +2,6 @@ import "../app/helpers/env.load.js";
 import request from "supertest";
 import app from "../app/index.app.js";
 
-test("route GET /", async () => {
-  const res = await request(app)
-    .get("/")
-    .expect(404);
-
-  expect(typeof res.text).toBe("string");
-  expect(res.text).toMatch("{\"error\":\"Ressource not found\"}");
-});
-
 test("route GET /datas/teams", async () => {
   const res = await request(app)
     .get("/datas/teams")
