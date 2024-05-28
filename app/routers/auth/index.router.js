@@ -9,6 +9,7 @@ import registerRolePostSchemas from "../../schemas/post/registerRole.post.schema
 import controllerWrapper from "../../helpers/controller.wrapper.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
 import validationRegistrationMiddleware from "../../middlewares/validation.registration.middleware.js";
+import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
 
 const authRouter = Router();
 
@@ -114,5 +115,10 @@ authRouter.route("/refresh_token")
  * }
  */
   .delete(controllerWrapper(AuthController.deleteToken.bind(AuthController)));
+
+authRouter.route("/user").get(
+  authenticateToken,
+  controllerWrapper(AuthController.getUser.bind(AuthController)),
+);
 
 export default authRouter;

@@ -82,7 +82,7 @@ export default class ScoutController extends CoreController {
   static async getSearchSpecificationPlayer({ query }, res, next) {
     // Récupérez une préference du joueur depuis les paramètres d'itinéraire
     const searchPlayer = await PlayerDatamapper.findAll({ where: query });
-    if (!searchPlayer[0]) return next(new ApiError("Player with this search not found", { httpStatus: 404 })); // Gérez le cas où le joueur n'est pas trouvé
+    if (!searchPlayer) return next(new ApiError("Player with this search not found", { httpStatus: 404 })); // Gérez le cas où le joueur n'est pas trouvé
     const teamPromises = [];
     searchPlayer.forEach((player) => {
       const teamPromise = TeamController.getTeamInfos(player.team_id);

@@ -24,20 +24,24 @@ export default class AuthController extends CoreController {
     const errorMessage = "Authentification failed";
     const errorInfos = { httpStatus: 401 };
 
-    const [user] = await this.datamapper.findAll({ where: { email: body.email, role: body.role } });
+    const [user] = await this.datamapper.findAll({ where: { email: body.email } });
     if (!user) return next(new ApiError(errorMessage, errorInfos));
 
     const isPasswordCorrect = await bcrypt.compare(body.password, user.password);
     if (!isPasswordCorrect) return next(new ApiError(errorMessage, errorInfos));
 
     let data;
-    if (body.role === "joueur") data = await PlayerDatamapper.findAll({ where: { email: body.email } });
-    if (body.role === "recruteur") data = await ScoutDatamapper.findAll({ where: { email: body.email } });
-    if (!data[0]) return res.status(200).json(user);
+    if (user.role === "joueur") [data] = await PlayerDatamapper.findAll({ where: { email: body.email } });
+    if (user.role === "recruteur") [data] = await ScoutDatamapper.findAll({ where: { email: body.email } });
+    if (!data) return res.status(200).json(user);
 
-    res.cookie("refresh_token", createRefreshToken(data[0]), { httpOnly: true });
+    res.cookie("refresh_token", createRefreshToken(data), { httpOnly: true });
 
-    return res.status(200).json({ accessToken: createAccessToken(data[0]) });
+    return res.status(200).json({ accessToken: createAccessToken(data) });
+  }
+
+  static getUser({ user }, res) {
+    return res.status(200).json(user);
   }
 
   /**

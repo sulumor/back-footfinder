@@ -311,6 +311,7 @@ playerRouter.route("/:id/match")
     validationMiddleware("body", matchPostSchemas),
     controllerWrapper(MatchController.createMatch.bind(MatchController)),
   );
+
 playerRouter.route("/:id")
   /**
    * GET /player/:id

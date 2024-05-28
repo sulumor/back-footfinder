@@ -3,7 +3,7 @@ import ApiError from "../errors/api.error.js";
 import AuthDatamapper from "../datamapper/auth.datamapper.js";
 
 // eslint-disable-next-line consistent-return
-function authenticateToken(req, res, next) {
+function authenticateToken(req, _, next) {
   const authHeader = req.headers.authorization;// Bearer TOKEN
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) return next(new ApiError("Token non disponible", { httpStatus: 401 }));

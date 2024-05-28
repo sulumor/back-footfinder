@@ -3,6 +3,7 @@ import { Router } from "express";
 import TeamController from "../../controllers/team.controller.js";
 // -------------- Middlewares -----------------
 import controllerWrapper from "../../helpers/controller.wrapper.js";
+import PositionController from "../../controllers/position.controller.js";
 
 const datasRouter = Router();
 
@@ -31,5 +32,7 @@ datasRouter.get(
   "/teams",
   controllerWrapper(TeamController.getAllTeams.bind(TeamController)),
 );
+
+datasRouter.get("/position", controllerWrapper(PositionController.getAll.bind(PositionController)));
 
 export default datasRouter;

@@ -9,7 +9,7 @@
     "dev": "npx nodemon",
     "lint": "eslint --fix .",
     "start": "node .",
-    "db:create": "psql -d footfinder -f data/seeding/structure.sql && npm run db:views && npm run db:functions ",
+    "db:create": "psql -d footfinder -f data/seeding/structure.sql && npm run db:views && npm run db:functions && npm run db:seeding",
     "db:functions": "psql -d footfinder -f data/functions/index.sql",
     "db:views": "psql -d footfinder -f data/views/index.sql",
     "db:seeding": "psql -d footfinder -f data/seeding/seeding.sql && psql -d footfinder -f data/seeding/seeding.fakers.sql ",

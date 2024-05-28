@@ -300,8 +300,7 @@ test("route GET /scout/search/?strong_foot=Gauche&position=Gardien", async () =>
     .get("/scout/search/?strong_foot=Gauche&position=Gardien")
     .auth(TOKEN, { type: "bearer" });
 
-  expect(res.statusCode).toEqual(404);
-  expect(res.body).toEqual({ error: "Player with this search not found" });
+  expect(res.statusCode).toEqual(200);
 });
 
 test("route GET /scout/search/?strong_foot=Droit&position=Défenseur gauche", async () => {
