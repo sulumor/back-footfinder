@@ -83,10 +83,14 @@ export default class AuthController extends CoreController {
     const [existsUser] = await this.datamapper.findAll({ where: { email: body.email } });
     if (existsUser) return next(new ApiError("User already exists", { httpStatus: 400 }));
     const { confirmedPassword: dontKeep, ...data } = body;
-
     data.password = await bcrypt.hash(data.password, Number.parseInt(process.env.BCRYPT_SALT, 10));
     const user = await this.datamapper.insertSQL(data);
-    return res.status(201).json({ user, pwd: dontKeep });
+    let person;
+    if (data.role === "joueur") person = await PlayerDatamapper.insertSQL(user);
+    if (data.role === "recruteur") person = await ScoutDatamapper.insertSQL(user);
+
+    res.cookie("refresh_token", createRefreshToken(person), { httpOnly: true });
+    return res.status(201).json({ accessToken: createAccessToken(person) });
   }
 
   /**

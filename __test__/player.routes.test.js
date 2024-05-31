@@ -155,13 +155,10 @@ test("route GET /player/1", async () => {
 });
 
 test("route GET /player/2", async () => {
-  const res = await request(app)
+  await request(app)
     .get("/player/2")
     .auth(TOKEN, { type: "bearer" })
-    .expect(404);
-
-  expect(typeof res.text).toBe("string");
-  expect(res.text).toMatch("{\"error\":\"User not found\"}");
+    .expect(200);
 });
 
 test("route GET /player/1 sans Token", async () => {

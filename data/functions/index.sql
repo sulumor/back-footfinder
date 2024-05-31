@@ -48,18 +48,8 @@ $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_player"(json) RETURNS "player_view" AS $$
 
-  INSERT INTO "player" ("birth_date", "nationality", "genre", "height", "weight", "strong_foot", "number_of_matches_played", "user_id", "position_id") VALUES 
-  (
-    ($1->>'birth_date')::date,
-    $1->>'nationality', 
-    $1->>'genre',
-    ($1->>'height')::int,
-    ($1->>'weight')::int,
-    $1->>'strong_foot',
-    0,
-    ($1->>'id')::int,
-    (SELECT id FROM "position" WHERE "label"= $1->>'position')::int
-  );
+  INSERT INTO "player"("user_id") VALUES 
+  (($1->>'id')::int);
 
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
@@ -88,9 +78,7 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_scout"(json) RETURNS "scout_view" AS $$
-  INSERT INTO scout(club, city, user_id) VALUES (
-      $1->>'club',
-      $1->>'city', 
+  INSERT INTO scout(user_id) VALUES ( 
       ($1->>'id')::int
   );
 

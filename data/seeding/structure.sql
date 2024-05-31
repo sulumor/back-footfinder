@@ -33,11 +33,11 @@ CREATE TABLE "position" (
 CREATE TABLE "player" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "birth_date" DATE,
-  "nationality" TEXT NOT NULL,
-  "genre" TEXT NOT NULL,
-  "height" INT NOT NULL,
-  "weight" INT NOT NULL,
-  "strong_foot" TEXT NOT NULL,
+  "nationality" TEXT NOT NULL DEFAULT '',
+  "genre" TEXT NOT NULL DEFAULT '',
+  "height" INT NOT NULL DEFAULT 0,
+  "weight" INT NOT NULL DEFAULT 0,
+  "strong_foot" TEXT NOT NULL DEFAULT '',
   "number_of_matches_played" INT NOT NULL DEFAULT 0,
   "user_id" INT NOT NULL REFERENCES "user"(id),
   "position_id" INT REFERENCES position(id),
@@ -47,8 +47,8 @@ CREATE TABLE "player" (
 
 CREATE TABLE "scout" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "club" TEXT DEFAULT NULL,
-  "city" TEXT NOT NULL,
+  "club" TEXT NOT NULL DEFAULT '',
+  "city" TEXT NOT NULL DEFAULT '',
   "user_id" INT REFERENCES "user"(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ

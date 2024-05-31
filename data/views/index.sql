@@ -34,9 +34,9 @@ CREATE VIEW player_view AS
         "number_of_matches_played",
         "role"."label" AS "role"  
     FROM "player" 
-        JOIN "user" ON "player"."user_id" = "user"."id"
-        JOIN "position" ON "player"."position_id" = "position"."id"
-        JOIN "role" ON "user"."role_id" = "role"."id"
+        FULL JOIN "user" ON "player"."user_id" = "user"."id"
+        FULL JOIN "position" ON "player"."position_id" = "position"."id"
+        FULL JOIN "role" ON "user"."role_id" = "role"."id"
         FULL JOIN "follow" ON "player"."id" = "follow"."player_id" 
         FULL JOIN "link" ON "link"."player_id" = "player"."id"
         FULL JOIN "team" ON "link"."team_id" = "team"."id"
