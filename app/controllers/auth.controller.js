@@ -31,8 +31,8 @@ export default class AuthController extends CoreController {
     if (!isPasswordCorrect) return next(new ApiError(errorMessage, errorInfos));
 
     let data;
-    if (user.role === "joueur") [data] = await PlayerDatamapper.findAll({ where: { email: body.email } });
-    if (user.role === "recruteur") [data] = await ScoutDatamapper.findAll({ where: { email: body.email } });
+    if (user.role) [data] = await PlayerDatamapper.findAll({ where: { email: body.email } });
+    if (!user.role) [data] = await ScoutDatamapper.findAll({ where: { email: body.email } });
     if (!data) return res.status(200).json(user);
 
     res.cookie("refresh_token", createRefreshToken(data), { httpOnly: true });

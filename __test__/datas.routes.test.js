@@ -12,9 +12,9 @@ test("route GET /datas/teams", async () => {
   res.body.forEach((team) => {
     expect(typeof team).toBe("object");
 
-    expect(team).toHaveProperty("id");
-    expect(typeof team.id).toBe("number");
-    expect(team.id).toBeGreaterThanOrEqual(1);
+    expect(team).toHaveProperty("team_id");
+    expect(typeof team.team_id).toBe("number");
+    expect(team.team_id).toBeGreaterThanOrEqual(1);
 
     expect(team).toHaveProperty("club_name");
     expect(typeof team.club_name).toBe("string");

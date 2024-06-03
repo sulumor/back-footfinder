@@ -23,7 +23,7 @@ function authenticateToken(req, _, next) {
 function authorizationRoute({ originalUrl, user }, _, next) {
   const baseRoute = originalUrl.split("/")[1];
   // eslint-disable-next-line no-nested-ternary
-  const role = user.role === "joueur" ? "player" : user.role === "recruteur" ? "scout" : null;
+  const role = user.role ? "player" : !user.role ? "scout" : null;
   if (baseRoute !== role) return next(new ApiError("Access Unauthorized", { httpStatus: 401 }));
   return next();
 }

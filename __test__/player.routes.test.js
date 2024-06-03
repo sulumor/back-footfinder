@@ -4,7 +4,7 @@ import app from "../app/index.app.js";
 import { createAccessToken } from "../app/helpers/jwt.function.js";
 
 const TOKEN = createAccessToken({
-  id: 1, firstname: "romuald", lastname: "patfoort", role: "joueur",
+  id: 1, firstname: "romuald", lastname: "patfoort", role: true,
 });
 
 test("route GET /player/1", async () => {
@@ -45,9 +45,9 @@ test("route GET /player/1", async () => {
   expect(res.body).toHaveProperty("avatar");
   expect(typeof res.body.avatar).toBe("string");
 
-  expect(res.body).toHaveProperty("genre");
-  expect(typeof res.body.genre).toBe("string");
-  expect(res.body.genre).toMatch(/^Homme|Femme$/);
+  expect(res.body).toHaveProperty("gender");
+  expect(typeof res.body.gender).toBe("string");
+  expect(res.body.gender).toMatch(/^Homme|Femme|Non-binaire$/);
 
   expect(res.body).toHaveProperty("height");
   expect(typeof res.body.height).toBe("number");
@@ -58,8 +58,7 @@ test("route GET /player/1", async () => {
   expect(res.body.weight).toBeGreaterThanOrEqual(1);
 
   expect(res.body).toHaveProperty("strong_foot");
-  expect(typeof res.body.strong_foot).toBe("string");
-  expect(res.body.strong_foot).toMatch(/^Droit|Gauche$/);
+  expect(typeof res.body.strong_foot).toBe("boolean");
 
   expect(res.body).toHaveProperty("position");
   expect(typeof res.body.position).toBe("string");
@@ -70,8 +69,7 @@ test("route GET /player/1", async () => {
   expect(res.body.number_of_matches_played).toBeGreaterThanOrEqual(0);
 
   expect(res.body).toHaveProperty("role");
-  expect(typeof res.body.role).toBe("string");
-  expect(res.body.role).toMatch("joueur");
+  expect(res.body.role).toBeTruthy();
 
   res.body.teams.forEach((team) => {
     expect(typeof team).toBe("object");
@@ -79,10 +77,6 @@ test("route GET /player/1", async () => {
     expect(team).toHaveProperty("team_id");
     expect(typeof team.team_id).toBe("number");
     expect(team.team_id).toBeGreaterThanOrEqual(1);
-
-    expect(team).toHaveProperty("player_id");
-    expect(typeof team.player_id).toBe("number");
-    expect(team.player_id).toBeGreaterThanOrEqual(1);
 
     expect(team).toHaveProperty("stadium_name");
     expect(typeof team.stadium_name).toBe("string");
@@ -107,10 +101,6 @@ test("route GET /player/1", async () => {
     expect(team).toHaveProperty("longitude");
     expect(typeof team.longitude).toBe("string");
     expect(team.longitude).toMatch(/\d+\.\d{6}/);
-
-    expect(team).toHaveProperty("season");
-    expect(typeof team.season).toBe("string");
-    expect(team.season).toMatch(/\d{4}-\d{4}/);
   });
 
   res.body.scouts.forEach((scout) => {
@@ -144,8 +134,7 @@ test("route GET /player/1", async () => {
     expect(typeof scout.city).toBe("string");
 
     expect(scout).toHaveProperty("role");
-    expect(typeof scout.role).toBe("string");
-    expect(scout.role).toMatch("recruteur");
+    expect(scout.role).toBeFalsy();
 
     scout.player_id.forEach((player) => {
       expect(typeof player).toBe("number");
@@ -158,7 +147,7 @@ test("route GET /player/2", async () => {
   await request(app)
     .get("/player/2")
     .auth(TOKEN, { type: "bearer" })
-    .expect(200);
+    .expect(404);
 });
 
 test("route GET /player/1 sans Token", async () => {

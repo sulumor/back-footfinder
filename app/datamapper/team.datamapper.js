@@ -11,6 +11,7 @@ export default class TeamDatamapper extends CoreDatamapper {
    * @type {string}
    */
   static tableName = "team";
+
   /**
    * The table name for reading team information.
    * @type {string}

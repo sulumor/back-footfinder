@@ -1,23 +1,25 @@
+RENCONTRER, 0N MATCH, 0N EQUIPES: comme domicile, comme extérieur
+MATCH:id, score
 ANALYSER, 01 STATISTIQUE, 1N MATCH
-STATISTIQUE:code stats, passes Décisives, buts marqués, minutes jouées, carton rouge, carton jaune, arrêts, buts encaissés, forme physique 
+STATISTIQUE:code stats, passes décisives, buts marqués, minutes jouées, carton rouge, carton jaune, arrêts, buts encaissés, forme physique
+NATIONALITE: code_nationalite, libellé
+GENRE: code_genre, libellé
+
+EQUIPES:code équipe, nom club, logo, adresse, code postal, ville, latitude, longitude
+RATTACHER, 0N EQUIPES, 1N JOUEUR:saison
+JOUER, 0N JOUEUR , 1N MATCH
+:
+DF, 11 UTILISATEUR, 0N NATIONALITE
+DF, 11 UTILISATEUR, 0N GENRE
+
+POSTE:code poste, libellé
+APPARTENIR, 0N POSTE, 11 JOUEUR
+JOUEUR:code joueur,  date de naissance, pied fort, nb de match joué
+DF, 1N JOUEUR, 11 UTILISATEUR
+UTILISATEUR:code user, nom, prénom, email, mot de passe, avatar, role
+
+:
+:
 SUIVRE, 0N JOUEUR, 0N RECRUTEUR
 RECRUTEUR:code recruteur, club, ville
 DF , 1N RECRUTEUR, 11 UTILISATEUR
-
-MATCH:id, score, date
-JOUER, 0N JOUEUR , 1N MATCH
-JOUEUR:code joueur,  date de naissance, nationalité, avatar, genre, pied fort, taille, poids, nb de match joué
-DF, 11 JOUEUR, 11 UTILISATEUR
-UTILISATEUR:code user, nom, prénom, email, mot de passe
-
-RENCONTRER, 0N MATCH, 0N EQUIPES: comme domicile, comme extérieur
-EQUIPES:code équipe, nom club, logo, adresse, code postal, ville, latitude, longitude
-RATTACHER, 0N EQUIPES, 1N JOUEUR:saison
-APPARTENIR, 0N POSTE, 11 JOUEUR
-DF, 11 UTILISATEUR, 1N ROLE
-
-:
-:
-:
-POSTE:code poste, libellé
-ROLE:code rôle, libellé
