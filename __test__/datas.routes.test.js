@@ -6,8 +6,8 @@ test("route GET /datas/teams", async () => {
   const res = await request(app)
     .get("/datas/teams")
     .set("Accept", "application/json")
-    .expect(200)
-    .expect("Content-Type", /json/);
+    .expect("Content-Type", /json/)
+    .expect(200);
 
   res.body.forEach((team) => {
     expect(typeof team).toBe("object");
@@ -40,5 +40,65 @@ test("route GET /datas/teams", async () => {
 
     expect(team).toHaveProperty("longitude");
     expect(typeof team.longitude).toBe("string");
+  });
+});
+
+test("route GET /datas/positions", async () => {
+  const res = await request(app)
+    .get("/datas/positions")
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(200);
+
+  res.body.forEach((position) => {
+    expect(typeof position).toBe("object");
+
+    expect(position).toHaveProperty("id");
+    expect(typeof position.id).toBe("number");
+    expect(position.id).toBeGreaterThanOrEqual(1);
+
+    expect(position).toHaveProperty("label");
+    expect(typeof position.label).toBe("string");
+    expect(position.label).toMatch(/^Gardien|Libéro|Défenseur gauche|Défenseur droit|Milieu défensif gauche|Milieu défensif droit|Milieu défensif central|Milieu gauche|Milieu droit|Milieu offensif|Ailier gauche|Ailier droit|Attaquant|Avant-centre|Remplaçant$/);
+  });
+});
+
+test("route GET /datas/nationalities", async () => {
+  const res = await request(app)
+    .get("/datas/nationalities")
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(200);
+
+  res.body.forEach((nationalitiy) => {
+    expect(typeof nationalitiy).toBe("object");
+
+    expect(nationalitiy).toHaveProperty("id");
+    expect(typeof nationalitiy.id).toBe("number");
+    expect(nationalitiy.id).toBeGreaterThanOrEqual(1);
+
+    expect(nationalitiy).toHaveProperty("label");
+    expect(typeof nationalitiy.label).toBe("string");
+    expect(nationalitiy.label).toMatch(/^Française|Algérienne|Marocaine|Tunisienne|Portugaise|Italienne|Espagnole|Turque|Britannique|Allemande|Belge|Roumaine|Polonaise|Sénégalaise|Malienne|Ivoirienne|Congolaise \(RDC\)|Camerounaise|Chinoise|Indienne|Pakistanaise|Sri Lankaise|Bangladaise|Brésilienne|Américaine|Canadienne|Russe|Vietnamienne|Philippine|Libanaise$/);
+  });
+});
+
+test("route GET /datas/genders", async () => {
+  const res = await request(app)
+    .get("/datas/genders")
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(200);
+
+  res.body.forEach((gender) => {
+    expect(typeof gender).toBe("object");
+
+    expect(gender).toHaveProperty("id");
+    expect(typeof gender.id).toBe("number");
+    expect(gender.id).toBeGreaterThanOrEqual(1);
+
+    expect(gender).toHaveProperty("label");
+    expect(typeof gender.label).toBe("string");
+    expect(gender.label).toMatch(/^Homme|Femme|Non-binaire$/);
   });
 });
