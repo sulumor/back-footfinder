@@ -38,7 +38,6 @@
 /**
  * @typedef { object } Token
  * @property { string } AccessToken
- * @property { string } RefreshToken
  */
 
 // ? Types view
@@ -95,6 +94,15 @@
  * @typedef { object } LoginBody - Body to receive a login
  * @property { string } email.required - email
  * @property { string } password.required - password
+ */
+
+/**
+ * @typedef { object } UserToken - Information from the access token
+ * @property { boolean } role
+ * @property { number } id
+ * @property { string } firstname
+ * @property { number } iat
+ * @property { number } exp
  */
 
 /**
@@ -160,8 +168,7 @@
 
 /**
  * @typedef { object } RegisterResponse - Response after a login request
- * @property { User } data
- * @property { Token } token
+ * @property { Token } accessToken
  */
 
 /**

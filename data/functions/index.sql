@@ -146,13 +146,14 @@ $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_user"(json) RETURNS "auth_view" AS $$
 
-  INSERT INTO "user" (avatar,firstname,lastname, email, password, role) VALUES
+  INSERT INTO "user" (avatar,firstname,lastname, email, password, gender_id, role) VALUES
     (
       COALESCE($1->>'avatar', ''), 
       $1->>'firstname',
       $1->>'lastname',
       $1->>'email',
       $1->>'password',
+      (SELECT id FROM "gender" WHERE "label"=$1->>'gender')::int,
       ($1->>'role')::boolean
     );
 
