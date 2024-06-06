@@ -1,6 +1,7 @@
 import "../app/helpers/env.load.js";
 import request from "supertest";
 import app from "../app/index.app.js";
+import { genderRegex, nationalityRegex, positionRegex } from "../app/schemas/utils/regex.schema.js";
 
 test("route GET /datas/teams", async () => {
   const res = await request(app)
@@ -59,7 +60,7 @@ test("route GET /datas/positions", async () => {
 
     expect(position).toHaveProperty("label");
     expect(typeof position.label).toBe("string");
-    expect(position.label).toMatch(/^Gardien|Libéro|Défenseur gauche|Défenseur droit|Milieu défensif gauche|Milieu défensif droit|Milieu défensif central|Milieu gauche|Milieu droit|Milieu offensif|Ailier gauche|Ailier droit|Attaquant|Avant-centre|Remplaçant$/);
+    expect(position.label).toMatch(positionRegex);
   });
 });
 
@@ -79,7 +80,7 @@ test("route GET /datas/nationalities", async () => {
 
     expect(nationalitiy).toHaveProperty("label");
     expect(typeof nationalitiy.label).toBe("string");
-    expect(nationalitiy.label).toMatch(/^Française|Algérienne|Marocaine|Tunisienne|Portugaise|Italienne|Espagnole|Turque|Britannique|Allemande|Belge|Roumaine|Polonaise|Sénégalaise|Malienne|Ivoirienne|Congolaise \(RDC\)|Camerounaise|Chinoise|Indienne|Pakistanaise|Sri Lankaise|Bangladaise|Brésilienne|Américaine|Canadienne|Russe|Vietnamienne|Philippine|Libanaise$/);
+    expect(nationalitiy.label).toMatch(nationalityRegex);
   });
 });
 
@@ -99,6 +100,6 @@ test("route GET /datas/genders", async () => {
 
     expect(gender).toHaveProperty("label");
     expect(typeof gender.label).toBe("string");
-    expect(gender.label).toMatch(/^Homme|Femme|Non-binaire$/);
+    expect(gender.label).toMatch(genderRegex);
   });
 });

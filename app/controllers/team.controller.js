@@ -1,6 +1,5 @@
 import CoreController from "./core.controller.js";
 import TeamDatamapper from "../datamapper/team.datamapper.js";
-import ApiError from "../errors/api.error.js";
 
 /**
  * Controller to manage operations related to teams.
@@ -58,36 +57,5 @@ export default class TeamController extends CoreController {
       results.push(obj);
     }
     return results;
-  }
-
-  /**
- *Method to retrieve information for a single home and away team.
- * @param {Object} data Object containing home and away team IDs.
- * @returns {Promise<Object>} Promise resolving to an object containing team information.
- */
-  static async getHomeAndAwayTeamsInfos(data) {
-    const homeTeam = await this.datamapper.findByPk(data.team_id_as_home);
-    const awayTeam = await this.datamapper.findByPk(data.team_id_as_outside);
-    return {
-      ...data,
-      team_id_as_home: homeTeam,
-      team_id_as_outside: awayTeam,
-    };
-  }
-
-  /**
- *Method to retrieve information for all teams.
- * @param {Object} _ The request object (unused)
- * @param {Object} res The response object.
- * @returns {Promise<Object[]>} - Promise resolving to an array of team information objects.
- */
-  static async getAllTeams(_, res, next) {
-    const rows = await this.datamapper.findAllTeams();
-    if (!rows[0]) return next(new ApiError("No match found", { httpStatus: 404 }));
-    const datas = rows.map((row) => {
-      const { created_at: createdAt, updated_at: updatedAt, ...data } = row;
-      return { ...data };
-    });
-    return res.status(200).json(datas);
   }
 }

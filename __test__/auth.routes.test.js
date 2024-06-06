@@ -4,11 +4,10 @@ import app from "../app/index.app.js";
 import { createAccessToken, createRefreshToken } from "../app/helpers/jwt.function.js";
 
 const TOKEN = createAccessToken({
-  id: 1, firstname: "romuald", lastname: "patfoort", role: true,
+  id: 1, firstname: "Jean", lastname: "Dujardin", role: true,
 });
-
 const REFRESHTOKEN = createRefreshToken({
-  id: 1, firstname: "romuald", lastname: "patfoort", role: true,
+  id: 1, firstname: "Jean", lastname: "Dujardin", role: true,
 });
 
 test("route GET /user", async () => {
@@ -30,7 +29,7 @@ test("route GET /user", async () => {
 
   expect(res.body).toHaveProperty("firstname");
   expect(typeof res.body.firstname).toBe("string");
-  expect(res.body.firstname).toMatch("romuald");
+  expect(res.body.firstname).toMatch("Jean");
 });
 
 test("route POST /login", async () => {
@@ -71,13 +70,31 @@ test("route POST /login mauvais email", async () => {
   expect(res.body.error).toMatch("Authentification failed");
 });
 
-test("route POST /login mauvais mot de passe", async () => {
+test("route POST /login manque un caractère", async () => {
   const res = await request(app)
     .post("/login")
     .set("Accept", "application/json")
     .send({
       email: "jean.dujardin@mail.io",
       password: "yjjk8E676a9JQZ",
+    })
+    .expect("Content-Type", /json/)
+    .expect(400);
+
+  expect(typeof res.body).toBe("object");
+
+  expect(res.body).toHaveProperty("error");
+  expect(typeof res.body.error).toBe("string");
+  expect(res.body.error).toMatch("Le mot de passe doit contenir au moins 8 caractères et inclure des lettres majuscules, minuscules, des chiffres et des caractères spéciaux.");
+});
+
+test("route POST /login mauvais mot de passe", async () => {
+  const res = await request(app)
+    .post("/login")
+    .set("Accept", "application/json")
+    .send({
+      email: "jean.dujardin@mail.io",
+      password: "yjjk8E676a9JQZ@",
     })
     .expect("Content-Type", /json/)
     .expect(401);

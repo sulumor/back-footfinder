@@ -8,9 +8,9 @@ function authenticateToken(req, _, next) {
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) return next(new ApiError("Token non disponible", { httpStatus: 401 }));
   // eslint-disable-next-line consistent-return
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (error, user) => {
     if (error) return next(new ApiError(error.message, { httpStatus: 403 }));
-    const userExits = AuthDatamapper.findAll({
+    const [userExits] = await AuthDatamapper.findAll({
       where:
       { id: user.id, firstname: user.firstname, role: user.role },
     });
