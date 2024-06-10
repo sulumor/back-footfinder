@@ -21,7 +21,6 @@ export default class ScoutController extends CoreController {
  * @returns {Object} Response containing player information matching the search criteria.
  */
   static async getSearchPlayer({ query }, res, next) {
-    PlayerDatamapper.readTableName = "players";
     const searchPlayer = await PlayerDatamapper.findAll({ where: query });
     if (!searchPlayer) return next(new ApiError("Player with this search not found", { httpStatus: 404 })); // Gérez le cas où le joueur n'est pas trouvé
     return res.status(200).json(searchPlayer);
