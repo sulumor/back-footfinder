@@ -162,22 +162,21 @@ $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_follow"(json) RETURNS "scout_view" AS $$
   INSERT INTO "follow"(scout_id,player_id)VALUES(
-    ((SELECT "id" FROM "scout" WHERE "user_id"=($1->>'scoutId')::int)::int),
-    ((SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int)
+    ($1->>'id')::int,
+    ($1->>'playerId')::int
   );
 
-  SELECT * FROM scout_view WHERE id=($1->>'scoutId')::int;
+  SELECT * FROM scout_view WHERE id=($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "delete_follow"(json) RETURNS "scout_view" AS $$
   DELETE FROM "follow" 
-    WHERE "scout_id"= (
-      (SELECT "id" FROM "scout" WHERE "user_id"=($1->>'scoutId')::int)::int
+    WHERE "scout_id"= (($1->>'id')::int
     ) AND "player_id" = (
-      (SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int
+      ($1->>'playerId')::int
     );
   
-  SELECT * FROM "scout_view" WHERE "id"=($1->>'scoutId')::int;
+  SELECT * FROM "scout_view" WHERE "id"=($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
 
 COMMIT;

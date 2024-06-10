@@ -1,7 +1,7 @@
 BEGIN;
 
 DROP FUNCTION IF EXISTS "delete_match", "delete_follow", "add_scout", "add_player", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_follow";
-DROP VIEW IF EXISTS "scouts","player_view","scout_view","statistics_view","team_view","match_view", "auth_view", "gender_view", "nationality_view", "position_view";
+DROP VIEW IF EXISTS "scouts", "players","player_view","scout_view","statistics_view","team_view","match_view", "auth_view", "gender_view", "nationality_view", "position_view";
 DROP TABLE IF EXISTS "gender","nationality", "user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow";
 
 CREATE TABLE "gender" (
@@ -49,16 +49,18 @@ CREATE TABLE "player" (
   "user_id" INT NOT NULL REFERENCES "user"(id),
   "position_id" INT REFERENCES "position"(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
+  "updated_at" TIMESTAMPTZ,
+  UNIQUE("user_id")
 );
 
 CREATE TABLE "scout" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "club" TEXT NOT NULL DEFAULT '',
   "city" TEXT NOT NULL DEFAULT '',
-  "user_id" INT REFERENCES "user"(id),
+  "user_id" INT NOT NULL REFERENCES "user"(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
+  "updated_at" TIMESTAMPTZ,
+  UNIQUE("user_id")
 );
 
 CREATE TABLE "team" (
@@ -127,10 +129,12 @@ CREATE TABLE "link" (
 
 CREATE TABLE "follow" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL UNIQUE,
-  "player_id" INT REFERENCES player(id),
-  "scout_id" INT REFERENCES scout(id),
+  "player_id" INT NOT NULL REFERENCES player("user_id"),
+  "scout_id" INT NOT NULL REFERENCES scout("user_id"),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
+  "updated_at" TIMESTAMPTZ,
+  UNIQUE("player_id", "scout_id")
+
 );
 
 COMMIT;

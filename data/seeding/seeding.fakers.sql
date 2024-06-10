@@ -229,10 +229,10 @@ INSERT INTO link(player_id, team_id, season) VALUES
 
 INSERT INTO follow(player_id, scout_id) VALUES
 (1, 2),
-(1, 1),
-(1, 5),
-(1, 3),
-(3, 1),
-(2, 1);
+(1, 4),
+(1, 7),
+(1, 11),
+(3, 2),
+(5, 4);
 
 COMMIT;

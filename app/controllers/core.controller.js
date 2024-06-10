@@ -31,17 +31,6 @@ export default class CoreController {
     return res.status(200).json(row);
   }
 
-  /**
-   * Method to create a new entry
-   * @param {Object} param0
-   * @param {Object} res response to the request
-   * @returns confirmation message of the new entry
-   */
-  static async create({ body }, res) {
-    const row = await this.datamapper.insert(body);
-    return res.status(201).json(row);
-  }
-
   static async insert({ user, body }, res, next) {
     const data = { id: user.id, ...body };
     const row = await this.datamapper.insertSQL(data);
@@ -76,35 +65,5 @@ export default class CoreController {
     if (!data) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
     await this.datamapper.deleteSQL({ id: params.id });
     return res.status(204).end();
-  }
-
-  /**
-   *Method to create a new entry via SQL
-   * @param {Object} param0 query object
-   * @param {Object} res response to the request
-   * @param {Function} next The next middleware
-   * @returns {Object} The new resource entry
-   */
-  static async createSQL({ params, body }, res, next) {
-    const datas = { ...params, ...body };
-    const row = await this.datamapper.insertSQL(datas);
-    if (!row) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
-    if (!row[0].id) return next(new ApiError("User not Found", { httpStatus: 404 }));
-    return res.status(201).json(row);
-  }
-
-  /**
-   *Method to update an existing entry via SQL.
-   * @param {Object} param0 The query object.
-   * @param {Object} res The response object.
-   * @param {Function} next The next middleware
-   * @returns {Oject} The updated entry for the resource.
-   */
-
-  static async updateSQL({ params, body }, res, next) {
-    const row = await this.datamapper.updateSQL({ ...params, ...body });
-    if (!row) return next(new ApiError("Ressource not Found", { httpStatus: 404 }));
-    if (!row[0].id) return next(new ApiError("User not Found", { httpStatus: 404 }));
-    return res.status(201).json(row);
   }
 }

@@ -167,7 +167,7 @@ test("route GET /player mauvais Token", async () => {
 
 test("route GET /player sans Token", async () => {
   const res = await request(app)
-    .get("/player/1")
+    .get("/player")
     .set("Accept", "application/json")
     .expect("Content-Type", /json/)
     .expect(401);
@@ -178,7 +178,7 @@ test("route GET /player sans Token", async () => {
 
 test("route GET /player Token expiré", async () => {
   const res = await request(app)
-    .get("/player/1")
+    .get("/player")
     .set("Accept", "application/json")
     .auth("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiam91ZXVyIiwiaWQiOjEsImZpcnN0bmFtZSI6IkplYW4iLCJpYXQiOjE3MTE2NjE0MDMsImV4cCI6MTcxMTY2MTQyM30.fRIjw_TSyouBYO_NohP3mDAUyKCKIPbKQHQWTAWJFQ4", { type: "bearer" })
     .expect("Content-Type", /json/)
@@ -485,7 +485,7 @@ test("route PATCH /player", async () => {
   expect(body.message).toBe("Datas updated");
 });
 
-test("route PATCH /player retour au données de base", async () => {
+test("route PATCH /player retour aux données de base", async () => {
   const NEWTOKEN = createAccessToken({
     id: 1, firstname: "Pierre", lastname: "Dujardin", role: true,
   });

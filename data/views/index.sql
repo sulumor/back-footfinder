@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP VIEW IF EXISTS "scouts","player_view","scout_view","statistics_view","team_view","match_view", "auth_view", "gender_view", "nationality_view", "position_view";
+DROP VIEW IF EXISTS "scouts", "players","player_view","scout_view","statistics_view","team_view","match_view", "auth_view", "gender_view", "nationality_view", "position_view";
 
 CREATE VIEW team_view AS
   SELECT
@@ -113,6 +113,7 @@ CREATE VIEW players AS
         "strong_foot",
         "position"."label" AS "position",
         "number_of_matches_played",
+        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("team_view")) AS teams FROM "team_view" WHERE "team_id" IN (SELECT "team_id" FROM "link" WHERE "link"."player_id" = "player"."id")) SELECT teams FROM json_rows),
         "role" 
     FROM "player" 
         FULL JOIN "user" ON "player"."user_id" = "user"."id"
@@ -136,7 +137,7 @@ CREATE VIEW player_view AS
         "weight",
         "strong_foot",
         (WITH json_rows AS (SELECT jsonb_agg(row_to_json("team_view")) AS teams FROM "team_view" WHERE "team_id" IN (SELECT "team_id" FROM "link" WHERE "link"."player_id" = "player"."id")) SELECT teams FROM json_rows),
-        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("scouts")) AS scouts FROM "scouts" WHERE "scout_id" IN (SELECT "scout_id" FROM "follow" WHERE "follow"."player_id" = "player"."id")) SELECT scouts from json_rows),
+        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("scouts")) AS scouts FROM "scouts" WHERE "scout_id" IN (SELECT "scout_id" FROM "follow" WHERE "follow"."player_id" = "player"."user_id")) SELECT scouts from json_rows),
         "position"."label" AS "position",
         "number_of_matches_played",
         "role" 
@@ -147,6 +148,7 @@ CREATE VIEW player_view AS
         FULL JOIN "nationality" ON "user"."nationality_id" = "nationality"."id"
     WHERE "user"."role" = true
     GROUP BY "gender"."label","nationality"."label", "user"."id","player"."id", "player"."birth_date", "player"."strong_foot","position"."label", "player"."number_of_matches_played","player"."height","player"."weight";
+
 CREATE VIEW scout_view AS
     SELECT
         "user"."id" AS "id",
@@ -157,7 +159,7 @@ CREATE VIEW scout_view AS
         "email",
         "club",
         "city", 
-        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("players")) AS players FROM "players" WHERE "player_id" IN (SELECT "player_id" FROM "follow" WHERE "follow"."scout_id" = "scout"."id")) SELECT players from json_rows),
+        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("players")) AS players FROM "players" WHERE "player_id" IN (SELECT "player_id" FROM "follow" WHERE "follow"."scout_id" = "scout"."user_id")) SELECT players from json_rows),
         "gender"."label" as "gender",
         "nationality"."label" as "nationality",
         "role"

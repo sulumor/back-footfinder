@@ -1,6 +1,6 @@
 import Joi from "joi";
 import {
-  footRegex, genderRegex, lettersRegex, positionRegex,
+  genderRegex, lettersRegex, positionRegex,
 } from "../utils/regex.schema.js";
 
 export default Joi.object({
@@ -8,7 +8,7 @@ export default Joi.object({
   firstname: Joi.string().pattern(lettersRegex),
   nationality: Joi.string(),
   gender: Joi.string().pattern(genderRegex),
-  strong_foot: Joi.string().pattern(footRegex),
+  strong_foot: Joi.boolean(),
   position: Joi.string().pattern(positionRegex),
   number_of_matches_played: Joi.number().integer(),
 

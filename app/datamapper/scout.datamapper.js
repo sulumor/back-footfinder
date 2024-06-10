@@ -1,5 +1,4 @@
 import CoreDatamapper from "./core.datamapper.js";
-import client from "../helpers/pg.client.js";
 /**
  * Data mapper class for scout-related operations.
  * Extends the CoreDatamapper class.
@@ -32,17 +31,4 @@ export default class ScoutDatamapper extends CoreDatamapper {
    */
 
   static updateTableName = "update_scout";
-
-  /**
- *Finds statistics for a player by their play ID.
- * @param {string} playId The ID of the play.
- * @returns {Promise<Object>} A promise resolving to the statistics for the player.
- */
-  static async findStatsPlayerByMatch(playId) {
-    const result = await client.query(`
-    SELECT * FROM "play"
-    JOIN "statistics" ON "play".id = "statistics".id
-    WHERE "play".player_id=$1`, [playId]);
-    return result.rows[0];
-  }
 }
