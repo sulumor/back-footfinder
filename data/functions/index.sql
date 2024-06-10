@@ -48,18 +48,8 @@ $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_player"(json) RETURNS "player_view" AS $$
 
-  INSERT INTO "player" ("birth_date", "nationality", "genre", "height", "weight", "strong_foot", "number_of_matches_played", "user_id", "position_id") VALUES 
-  (
-    ($1->>'birth_date')::date,
-    $1->>'nationality', 
-    $1->>'genre',
-    ($1->>'height')::int,
-    ($1->>'weight')::int,
-    $1->>'strong_foot',
-    0,
-    ($1->>'id')::int,
-    (SELECT id FROM "position" WHERE "label"= $1->>'position')::int
-  );
+  INSERT INTO "player"("user_id") VALUES 
+  (($1->>'id')::int);
 
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
@@ -70,27 +60,26 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
     "firstname" = COALESCE($1->>'firstname', "firstname"),
     "lastname" = COALESCE($1->>'lastname', "lastname"),
     "email" = COALESCE($1->>'email', "email"),
-    "password" = COALESCE($1->>'password', "password")
+    "password" = COALESCE($1->>'password', "password"),
+    "nationality_id" = COALESCE((SELECT id FROM "nationality" WHERE "label"=$1->>'nationality')::int, "nationality_id"),
+    "gender_id" = COALESCE((SELECT id FROM "gender" WHERE "label"=$1->>'gender')::int, "gender_id")
   WHERE id = ($1->>'id')::int;
 
   UPDATE "player" SET 
     "birth_date" = COALESCE(($1->>'birth_date')::date, "birth_date"),
-    "nationality" = COALESCE($1->>'nationality', "nationality"),
     "height" = COALESCE(($1->>'height')::int, "height"),
     "weight" = COALESCE(($1->>'weight')::int, "weight"),
-    "genre" = COALESCE($1->>'genre', "genre"),
-    "strong_foot" = COALESCE($1->>'strong_foot', "strong_foot"),
+    "strong_foot" = COALESCE(($1->>'strong_foot')::boolean, "strong_foot"),
     "number_of_matches_played" = COALESCE(($1->>'number_of_matches_played')::int, "number_of_matches_played"),
     "position_id" = COALESCE((SELECT id FROM "position" WHERE "label"=$1->>'position')::int, "position_id")
   WHERE "user_id" = ($1->>'id')::int;
+
 
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_scout"(json) RETURNS "scout_view" AS $$
-  INSERT INTO scout(club, city, user_id) VALUES (
-      $1->>'club',
-      $1->>'city', 
+  INSERT INTO scout(user_id) VALUES ( 
       ($1->>'id')::int
   );
 
@@ -103,7 +92,9 @@ CREATE FUNCTION "update_scout"(json) RETURNS "scout_view" AS $$
         "firstname" = COALESCE($1->>'firstname', "firstname"),
         "lastname" = COALESCE($1->>'lastname', "lastname"),
         "email" = COALESCE($1->>'email', "email"),
-        "password" = COALESCE($1->>'password', "password")
+        "password" = COALESCE($1->>'password', "password"),
+        "nationality_id" = COALESCE((SELECT id FROM "nationality" WHERE "label"=$1->>'nationality')::int, "nationality_id"),
+        "gender_id" = COALESCE((SELECT id FROM "gender" WHERE "label"=$1->>'gender')::int, "gender_id")
     WHERE id = ($1->>'id')::int;
 
     UPDATE "scout" SET
@@ -155,14 +146,15 @@ $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_user"(json) RETURNS "auth_view" AS $$
 
-  INSERT INTO "user" (avatar,firstname,lastname, email, password, role_id) VALUES
+  INSERT INTO "user" (avatar,firstname,lastname, email, password, gender_id, role) VALUES
     (
       COALESCE($1->>'avatar', ''), 
       $1->>'firstname',
       $1->>'lastname',
       $1->>'email',
       $1->>'password',
-      (SELECT "id" FROM "role" WHERE "label"=$1->>'role')
+      (SELECT id FROM "gender" WHERE "label"=$1->>'gender')::int,
+      ($1->>'role')::boolean
     );
 
   SELECT * FROM "auth_view" WHERE "id"=(SELECT "id" FROM "user" ORDER BY "id" DESC LIMIT 1);
@@ -170,22 +162,21 @@ $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "add_follow"(json) RETURNS "scout_view" AS $$
   INSERT INTO "follow"(scout_id,player_id)VALUES(
-    ((SELECT "id" FROM "scout" WHERE "user_id"=($1->>'scoutId')::int)::int),
-    ((SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int)
+    ($1->>'id')::int,
+    ($1->>'playerId')::int
   );
 
-  SELECT * FROM scout_view WHERE id=($1->>'scoutId')::int;
+  SELECT * FROM scout_view WHERE id=($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
 
 CREATE FUNCTION "delete_follow"(json) RETURNS "scout_view" AS $$
   DELETE FROM "follow" 
-    WHERE "scout_id"= (
-      (SELECT "id" FROM "scout" WHERE "user_id"=($1->>'scoutId')::int)::int
+    WHERE "scout_id"= (($1->>'id')::int
     ) AND "player_id" = (
-      (SELECT "id" FROM "player" WHERE "user_id"=($1->>'id')::int)::int
+      ($1->>'playerId')::int
     );
   
-  SELECT * FROM "scout_view" WHERE "id"=($1->>'scoutId')::int;
+  SELECT * FROM "scout_view" WHERE "id"=($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
 
 COMMIT;

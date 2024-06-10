@@ -1,20 +1,21 @@
 import "../app/helpers/env.load.js";
 import request from "supertest";
 import app from "../app/index.app.js";
+import { genderRegex, nationalityRegex, positionRegex } from "../app/schemas/utils/regex.schema.js";
 
 test("route GET /datas/teams", async () => {
   const res = await request(app)
     .get("/datas/teams")
     .set("Accept", "application/json")
-    .expect(200)
-    .expect("Content-Type", /json/);
+    .expect("Content-Type", /json/)
+    .expect(200);
 
   res.body.forEach((team) => {
     expect(typeof team).toBe("object");
 
-    expect(team).toHaveProperty("id");
-    expect(typeof team.id).toBe("number");
-    expect(team.id).toBeGreaterThanOrEqual(1);
+    expect(team).toHaveProperty("team_id");
+    expect(typeof team.team_id).toBe("number");
+    expect(team.team_id).toBeGreaterThanOrEqual(1);
 
     expect(team).toHaveProperty("club_name");
     expect(typeof team.club_name).toBe("string");
@@ -40,5 +41,65 @@ test("route GET /datas/teams", async () => {
 
     expect(team).toHaveProperty("longitude");
     expect(typeof team.longitude).toBe("string");
+  });
+});
+
+test("route GET /datas/positions", async () => {
+  const res = await request(app)
+    .get("/datas/positions")
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(200);
+
+  res.body.forEach((position) => {
+    expect(typeof position).toBe("object");
+
+    expect(position).toHaveProperty("id");
+    expect(typeof position.id).toBe("number");
+    expect(position.id).toBeGreaterThanOrEqual(1);
+
+    expect(position).toHaveProperty("label");
+    expect(typeof position.label).toBe("string");
+    expect(position.label).toMatch(positionRegex);
+  });
+});
+
+test("route GET /datas/nationalities", async () => {
+  const res = await request(app)
+    .get("/datas/nationalities")
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(200);
+
+  res.body.forEach((nationalitiy) => {
+    expect(typeof nationalitiy).toBe("object");
+
+    expect(nationalitiy).toHaveProperty("id");
+    expect(typeof nationalitiy.id).toBe("number");
+    expect(nationalitiy.id).toBeGreaterThanOrEqual(1);
+
+    expect(nationalitiy).toHaveProperty("label");
+    expect(typeof nationalitiy.label).toBe("string");
+    expect(nationalitiy.label).toMatch(nationalityRegex);
+  });
+});
+
+test("route GET /datas/genders", async () => {
+  const res = await request(app)
+    .get("/datas/genders")
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(200);
+
+  res.body.forEach((gender) => {
+    expect(typeof gender).toBe("object");
+
+    expect(gender).toHaveProperty("id");
+    expect(typeof gender.id).toBe("number");
+    expect(gender.id).toBeGreaterThanOrEqual(1);
+
+    expect(gender).toHaveProperty("label");
+    expect(typeof gender.label).toBe("string");
+    expect(gender.label).toMatch(genderRegex);
   });
 });

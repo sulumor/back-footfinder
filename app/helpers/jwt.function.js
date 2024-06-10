@@ -5,5 +5,5 @@ export function createAccessToken({ role, id, firstname }) {
 }
 
 export function createRefreshToken({ role, id, firstname }) {
-  return (jwt.sign({ role, id, firstname }, process.env.REFRESH_TOKEN_SECRET));
+  return (jwt.sign({ role, id, firstname }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d" }));
 }

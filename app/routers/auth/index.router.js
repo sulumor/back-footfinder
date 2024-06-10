@@ -4,39 +4,12 @@ import AuthController from "../../controllers/auth.controller.js";
 // -------------- Schemas -----------------
 import loginSchema from "../../schemas/post/login.post.schemas.js";
 import registrationSchema from "../../schemas/post/registration.post.schemas.js";
-import registerRolePostSchemas from "../../schemas/post/registerRole.post.schemas.js";
 // -------------- Middlewares -----------------
 import controllerWrapper from "../../helpers/controller.wrapper.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
-import validationRegistrationMiddleware from "../../middlewares/validation.registration.middleware.js";
 import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
 
 const authRouter = Router();
-
-/**
- * POST /register/:role
- * @summary New player|scout registration
- * @tags Authentification
- * @param { string } role.params.required - Role of the user to be register (joueur|recruteur)
- * @param { RegisterPlayerBody|RegisterScoutBody } request.body.required - Registration information
- * @return { RegisterResponse } 201 - Create success - application/json
- * @return { ApiJsonError } 400 - Bad request response - application/json
- * @example response - 400 - example error response
- * {
- *  "error": "Bad request"
- * }
- * @return { ApiJsonError } 500 - Internal Server Error response - application/json
- * @example response - 500 - example error response
- * {
- *  "error": "Internal Server Error"
- * }
-*/
-authRouter.post(
-  "/register/:role",
-  validationMiddleware("params", registerRolePostSchemas),
-  validationRegistrationMiddleware(),
-  controllerWrapper(AuthController.signup.bind(AuthController)),
-);
 
 /**
  * POST /register
@@ -115,6 +88,28 @@ authRouter.route("/refresh_token")
  * }
  */
   .delete(controllerWrapper(AuthController.deleteToken.bind(AuthController)));
+
+/**
+ * GET /user
+ * @summary Get user information from a token
+ * @tags Authentification
+ * @return { User } 200 - Success respomse - application/json
+ * @return { ApiJsonError } 401 - Unauthorized response - application/json
+ * @example response - 401 - example error response
+ * {
+ *  "error": "Token non disponible"
+ * }
+ * @return { ApiJsonError } 403 - Forbidden response - application/json
+ * @example response - 403 - example error response
+ * {
+ *  "error": "Forbidden Error"
+ * }
+ * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+ * @example response - 500 - example error response
+ * {
+ *  "error": "Internal Server Error"
+ * }
+ */
 
 authRouter.route("/user").get(
   authenticateToken,

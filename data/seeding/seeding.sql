@@ -1,12 +1,13 @@
 -- SQLBook: Code
 BEGIN;
 
-TRUNCATE TABLE "role", "position" RESTART IDENTITY CASCADE;
+TRUNCATE TABLE "gender", "position", "nationality" RESTART IDENTITY CASCADE;
 
 
-INSERT INTO role(label) VALUES
-('joueur'),
-('recruteur');
+INSERT INTO gender(label) VALUES
+('Homme'),
+('Femme'),
+('Non-binaire');
 
 
 INSERT INTO position(label) VALUES 
@@ -25,6 +26,38 @@ INSERT INTO position(label) VALUES
 ('Attaquant'),
 ('Avant-centre'),
 ('Remplaçant');
+
+INSERT INTO nationality(label) VALUES 
+('Française'),
+('Algérienne'),
+('Marocaine'),
+('Tunisienne'),
+('Portugaise'),
+('Italienne'),
+('Espagnole'),
+('Turque'),
+('Britannique'),
+('Allemande'),
+('Belge'),
+('Roumaine'),
+('Polonaise'),
+('Sénégalaise'),
+('Malienne'),
+('Ivoirienne'),
+('Congolaise (RDC)'),
+('Camerounaise'),
+('Chinoise'),
+('Indienne'),
+('Pakistanaise'),
+('Sri Lankaise'),
+('Bangladaise'),
+('Brésilienne'),
+('Américaine'),
+('Canadienne'),
+('Russe'),
+('Vietnamienne'),
+('Philippine'),
+('Libanaise');
 
 
 COMMIT;

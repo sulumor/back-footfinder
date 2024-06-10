@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { genderRegex, nationalityRegex } from "../utils/regex.schema.js";
 
 export default Joi.object({
   firstname: Joi.string(),
@@ -8,4 +9,6 @@ export default Joi.object({
   avatar: Joi.string(),
   club: Joi.string(),
   city: Joi.string(),
+  nationality: Joi.string().pattern(nationalityRegex),
+  gender: Joi.string().pattern(genderRegex),
 }).min(1).required();

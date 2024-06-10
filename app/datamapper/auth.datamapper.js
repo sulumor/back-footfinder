@@ -1,16 +1,9 @@
 import CoreDatamapper from "./core.datamapper.js";
 
 /**
- * Data mapper class for authentication-related operations.
- * Extends the CoreDatamapper class.
+ * Authentication datmapper
  */
 export default class AuthDatamapper extends CoreDatamapper {
-  /**
-   * The table name for user authentication.
-   * @type {string}
-   */
-  static tableName = "user";
-
   /**
    * The table name for reading authentication information.
    * @type {string}
@@ -18,7 +11,7 @@ export default class AuthDatamapper extends CoreDatamapper {
   static readTableName = "auth_view";
 
   /**
-   * The table name for creating user authentication.
+   * The table name for creating new user.
    * @type {string}
    */
   static createTableName = "add_user";

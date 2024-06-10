@@ -80,53 +80,6 @@ export default class CoreDatamapper {
   }
 
   /**
- *Inserts a new row into the database.
- * @param {Object} data The data to be inserted
- * @returns {Promise<Object>} A promise resolving to the inserted row
- */
-  static async insert(data) {
-    const fields = Object.keys(data);
-    const values = Object.values(data);
-    const placeholders = fields.map((_, index) => `$${index + 1}`);
-    const result = await client.query(`
-      INSERT INTO "${this.tableName}"
-        (${fields}) VALUES (${placeholders})
-        RETURNING *
-    `, values);
-    return result.rows[0];
-  }
-
-  /**
- *Updates an existing row in the database.
- * @param {number} id The primary key of the row to update.
- * @param {Object} data The updated data.
- * @returns {Promise<Object>} A promise resolving to the updated row.
- */
-  static async update(id, data) {
-    const fields = Object.keys(data);
-    const values = Object.values(data);
-    const placeholderFields = fields.map((field, index) => `"${field}" = $${index + 1}`);
-    const result = await client.query(`
-      UPDATE "${this.tableName}"
-      SET ${placeholderFields},
-      "updated_at"= now()
-      WHERE id = $${fields.length + 1}
-      RETURNING *
-    `, [...values, id]);
-    return result.rows[0];
-  }
-
-  /**
- * Deletes a row from the database by its primary key.
- * @param {number} id The primary key of the row to delete.
- * @returns {Promise<boolean>} A promise indicating the success of the deletion operation.
- */
-  static async delete(id) {
-    const result = await client.query(`DELETE FROM "${this.tableName}" WHERE "id" = $1`, [id]);
-    return !!result.rowCount;
-  }
-
-  /**
  * Inserts data into the database using a stored procedure.
  * @param {Object} json The data to be inserted.
  * @returns {Promise<Object>} A promise resolving to the inserted data.

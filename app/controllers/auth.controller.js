@@ -8,17 +8,17 @@ import ScoutDatamapper from "../datamapper/scout.datamapper.js";
 import { createAccessToken, createRefreshToken } from "../helpers/jwt.function.js";
 
 /**
- * Contrôleur gérant l'authentification des utilisateurs.
+ * Authentication controller
  */
 export default class AuthController extends CoreController {
   static datamapper = AuthDatamapper;
 
   /**
-   * Method for logging in a user.
-   * @param {Object} req The query object.
-   * @param {Object} res The response object.
-   * @param {Function} next The next middleware.
-   * @returns {Object} The data of the logged in user and the JWT token.
+   * Method to connect a user
+   * @param { Express.Request.body } body Object with user's information
+   * @param { Express.Response } res
+   * @param { Express.NextFunction } next
+   * @returns { RegisterResponse } The access token
    */
   static async login({ body }, res, next) {
     const errorMessage = "Authentification failed";
@@ -30,26 +30,32 @@ export default class AuthController extends CoreController {
     const isPasswordCorrect = await bcrypt.compare(body.password, user.password);
     if (!isPasswordCorrect) return next(new ApiError(errorMessage, errorInfos));
 
-    let data;
-    if (user.role === "joueur") [data] = await PlayerDatamapper.findAll({ where: { email: body.email } });
-    if (user.role === "recruteur") [data] = await ScoutDatamapper.findAll({ where: { email: body.email } });
-    if (!data) return res.status(200).json(user);
+    const [data] = user.role
+      ? await PlayerDatamapper.findAll({ where: { email: body.email } })
+      : await ScoutDatamapper.findAll({ where: { email: body.email } });
+    if (!data) return next(new ApiError(errorMessage, errorInfos));
 
     res.cookie("refresh_token", createRefreshToken(data), { httpOnly: true });
 
     return res.status(200).json({ accessToken: createAccessToken(data) });
   }
 
+  /**
+   * Method to send user information from token
+   * @param { Express.Request.user } user Object with user's information
+   * @param { Express.Response } res
+   * @returns { UserToken } User's information from token
+  */
   static getUser({ user }, res) {
     return res.status(200).json(user);
   }
 
   /**
    * Method to create a new access token with a refresh token
-   * @param {Express.Request.cookies} cookies The refresh cookie
-   * @param {Express.Response} res
-   * @param {Express.NextFunction} next
-   * @returns {Express.Response | ApiError}
+   * @param { Express.Request.cookies } cookies The refresh cookie
+   * @param { Express.Response } res
+   * @param { Express.NextFunction } next
+   * @returns { RegisterResponse } The access token
    */
   // eslint-disable-next-line consistent-return
   static refreshToken({ cookies }, res, next) {
@@ -64,8 +70,8 @@ export default class AuthController extends CoreController {
   /**
    * Method to delete the refresh cookie
    * @param {*} _
-   * @param {Express.Response} res
-   * @returns  {Express.Response}
+   * @param { Express.Response } res
+   * @returns { Express.Response }
    */
   static deleteToken(_, res) {
     res.clearCookie("refresh_token");
@@ -73,43 +79,27 @@ export default class AuthController extends CoreController {
   }
 
   /**
-   * Method for registering a new user.
-   * @param {Object} req The query object.
-   * @param {Object} res The response object.
-   * @param {Function} next The next middleware.
-   * @returns {Object} Data of the newly registered user
+   * Method to register a new user.
+   * @param { Express.Request.body } body Object with user's information
+   * @param { Express.Response } res
+   * @param { Express.NextFunction } next
+   * @returns { RegisterResponse } The access token
    */
   static async register({ body }, res, next) {
     const [existsUser] = await this.datamapper.findAll({ where: { email: body.email } });
     if (existsUser) return next(new ApiError("User already exists", { httpStatus: 400 }));
+
     const { confirmedPassword: dontKeep, ...data } = body;
-
     data.password = await bcrypt.hash(data.password, Number.parseInt(process.env.BCRYPT_SALT, 10));
+
     const user = await this.datamapper.insertSQL(data);
-    return res.status(201).json({ user, pwd: dontKeep });
-  }
 
-  /**
-   * Method for registering a new user.
-   * @param {Object} req The query object.
-   * @param {Object} res The response object.
-   * @param {Function} next The next middleware.
-   * @returns {Object} The data of the newly registered user and the JWT token.
-   */
-  static async signup({ params, body }, res) {
-    // const [existsUser] = await this.datamapper.findAll({
-    //   where: {
-    //     email: body.email,
-    //     role: params.role,
-    //   },
-    // });
-    // if (!existsUser) return next(new ApiError("Authentification failed", { httpStatus: 401 }));
-    let person;
-    if (params.role === "joueur") person = await PlayerDatamapper.insertSQL(body);
-    if (params.role === "recruteur") person = await ScoutDatamapper.insertSQL(body);
+    const person = data.role
+      ? await PlayerDatamapper.insertSQL(user)
+      : await ScoutDatamapper.insertSQL(user);
 
-    // const token = createJWT(person);
+    res.cookie("refresh_token", createRefreshToken(person), { httpOnly: true });
 
-    return res.status(201).json({ person, password: body.password });
+    return res.status(201).json({ accessToken: createAccessToken(person) });
   }
 }

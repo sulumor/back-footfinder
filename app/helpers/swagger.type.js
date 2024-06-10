@@ -38,21 +38,6 @@
 /**
  * @typedef { object } Token
  * @property { string } AccessToken
- * @property { string } RefreshToken
- */
-
-/**
- * @typedef { object } Team
- * @property { number } team_id
- * @property { string } club_name
- * @property { string } logo
- * @property { string } adress
- * @property { string } zip_code
- * @property { string } city
- * @property { string } latitude
- * @property { string } longitude
- * @property { string } season
- * @property { number } player_id
  */
 
 // ? Types view
@@ -84,12 +69,40 @@
  * @property { string } fitness
  */
 
+/**
+ * @typedef { object } Base
+ * @property { number } id
+ * @property { string } label
+ */
+
+/**
+ * @typedef { object } Team
+ * @property { number } team_id
+ * @property { string } club_name
+ * @property { string } stadium_name
+ * @property { string } logo
+ * @property { string } adress
+ * @property { string } zip_code
+ * @property { string } city
+ * @property { string } latitude
+ * @property { string } longitude
+ */
+
 // ? Types spécifiques
 
 /**
  * @typedef { object } LoginBody - Body to receive a login
  * @property { string } email.required - email
  * @property { string } password.required - password
+ */
+
+/**
+ * @typedef { object } UserToken - Information from the access token
+ * @property { boolean } role
+ * @property { number } id
+ * @property { string } firstname
+ * @property { number } iat
+ * @property { number } exp
  */
 
 /**
@@ -155,8 +168,7 @@
 
 /**
  * @typedef { object } RegisterResponse - Response after a login request
- * @property { User } data
- * @property { Token } token
+ * @property { Token } accessToken
  */
 
 /**
