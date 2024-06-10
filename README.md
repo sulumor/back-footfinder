@@ -1,6 +1,6 @@
-# Serveur Node avec Express
+# Serveur Footfinder
 
-Ce projet est un template pour démarrer un serveur web en Node.js avec le framework Express.
+Ce projet est le serveur de l'API pour Footfinder.
 Il utilise les technologies suivantes :
 
 - Express : un framework web pour Node.js qui permet de créer des applications web et des API.
@@ -9,18 +9,4 @@ Il utilise les technologies suivantes :
 - Jest : un framework de test pour JavaScript qui permet de vérifier le bon fonctionnement du code.
 - Supertest : une bibliothèque qui permet de tester les requêtes HTTP faites par le serveur.
 - Joi : une bibliothèque qui permet de valider les données entrantes selon un schéma défini.
-- Swagger : un outil qui permet de documenter et de tester les API.
-
-## Installation
-
-Pour installer le projet, vous devez avoir Node.js et PostgreSQL installés sur votre machine.
-Vous pouvez ensuite suivre ces étapes :
-
-- Cloner le dépôt GitHub du projet : `git clone https://github.com/O-clock-Gyoza/projet-13-footfinder-back`
-- Se déplacer dans le dossier du projet : `cd template-serveur-node-express`
-- Installer les dépendances : `npm install`
-- Créer un fichier `.env` à la racine du projet, en suivant le modèle du fichier `.env.example` (ce fichier contient les variables d'environnement nécessaires au fonctionnement du projet, comme la chaîne de connexion à la base de données ou le port du serveur).
-- Créer la base de données et les tables en exécutant le script SQL fourni dans le dossier db:create `psql -d footfinder -f data/seeding/structure.sql && npm run db:views && npm run db:functions`
-- Lancer le serveur : `npm start`
-- Lancer les tests : `npm test`
-- Accéder à la documentation de l'API : `http://localhost:3000/api-docs`
+- Swagger : un outil qui permet de documenter et de tester les API. Pour accéder à la documentation de l'API : `https://back-footfinder.onrender.com/`
