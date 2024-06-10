@@ -6,7 +6,7 @@ import errorMiddleware from "./middlewares/error.middleware.js";
 import createDoc from "./helpers/swagger.doc.js";
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: process.env.ORIGIN,
   credentials: true,
 };
 
