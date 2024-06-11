@@ -37,7 +37,6 @@ export default class AuthController extends CoreController {
 
     res.cookie("refresh_token", createRefreshToken(data), {
       httpOnly: true,
-      secure: true,
       path: "/refresh_token",
     });
 
