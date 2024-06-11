@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP VIEW IF EXISTS "scouts", "players","player_view","scout_view","statistics_view","team_view","match_view", "auth_view", "gender_view", "nationality_view", "position_view";
+DROP VIEW IF EXISTS "team_season_view", "scouts", "players","player_view","scout_view","statistics_view","team_view","match_view", "auth_view", "gender_view", "nationality_view", "position_view";
 
 CREATE VIEW team_view AS
   SELECT
@@ -14,6 +14,23 @@ CREATE VIEW team_view AS
       "latitude",
       "longitude"
   FROM "team";
+
+CREATE VIEW team_season_view AS 
+  SELECT
+      "team"."id" AS "team_id",
+      "stadium_name",
+      "club_name",
+      "logo",
+      "adress",
+      "zip_code",
+      "city",
+      "latitude",
+      "longitude",
+      "season",
+      "player_id" 
+  FROM "team"
+  JOIN "link" ON "link"."team_id" = "team"."id"
+;
 
 CREATE VIEW auth_view AS
   SELECT 
@@ -113,7 +130,7 @@ CREATE VIEW players AS
         "strong_foot",
         "position"."label" AS "position",
         "number_of_matches_played",
-        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("team_view")) AS teams FROM "team_view" WHERE "team_id" IN (SELECT "team_id" FROM "link" WHERE "link"."player_id" = "player"."id")) SELECT teams FROM json_rows),
+        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("team_season_view")) AS teams FROM "team_season_view" WHERE "player_id" = "player"."id") SELECT teams FROM json_rows),
         "role" 
     FROM "player" 
         FULL JOIN "user" ON "player"."user_id" = "user"."id"
@@ -136,7 +153,7 @@ CREATE VIEW player_view AS
         "height",
         "weight",
         "strong_foot",
-        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("team_view")) AS teams FROM "team_view" WHERE "team_id" IN (SELECT "team_id" FROM "link" WHERE "link"."player_id" = "player"."id")) SELECT teams FROM json_rows),
+        (WITH json_rows AS (SELECT jsonb_agg(row_to_json("team_season_view")) AS teams FROM "team_season_view" WHERE "player_id" = "player"."id") SELECT teams FROM json_rows),
         (WITH json_rows AS (SELECT jsonb_agg(row_to_json("scouts")) AS scouts FROM "scouts" WHERE "id" IN (SELECT "scout_id" FROM "follow" WHERE "follow"."player_id" = "player"."user_id")) SELECT scouts from json_rows),
         "position"."label" AS "position",
         "number_of_matches_played",

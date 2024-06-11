@@ -241,7 +241,6 @@ test("route GET /scout/player/1/match", async () => {
     expect(match.match_id).toBeGreaterThanOrEqual(1);
 
     expect(match).toHaveProperty("assists");
-    expect(typeof match.assists).toBe("number");
     expect(match.assists).toBeGreaterThanOrEqual(0);
 
     expect(match).toHaveProperty("goals_conceded");

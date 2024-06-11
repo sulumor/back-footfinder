@@ -1,7 +1,7 @@
 BEGIN;
 
 DROP FUNCTION IF EXISTS "delete_match", "delete_follow", "add_scout", "add_player", "update_player", "update_scout", "add_match", "update_match", "add_statistics", "update_statistics", "add_user", "add_follow";
-DROP VIEW IF EXISTS "scouts", "players","player_view","scout_view","statistics_view","team_view","match_view", "auth_view", "gender_view", "nationality_view", "position_view";
+DROP VIEW IF EXISTS "team_season_view", "scouts", "players","player_view","scout_view","statistics_view","team_view","match_view", "auth_view", "gender_view", "nationality_view", "position_view";
 DROP TABLE IF EXISTS "gender","nationality", "user", "position", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow";
 
 CREATE TABLE "gender" (
