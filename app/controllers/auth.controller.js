@@ -40,7 +40,7 @@ export default class AuthController extends CoreController {
       secure: true,
       path: "/",
       domain: process.env.DOMAIN,
-      sameSite: "None",
+      sameSite: "none",
     });
 
     return res.status(200).json({ accessToken: createAccessToken(data) });
