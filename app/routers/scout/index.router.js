@@ -74,11 +74,27 @@ scoutRouter.route("/player/:id/match")
     controllerWrapper(ScoutController.getAllPlayersMatches.bind(ScoutController)),
   );
 
-// TODO voir si on le met en place cote front
-scoutRouter.route("/:scoutId/player/:id/stats")
+/**
+ * GET /scout/player/:id/stats
+ * @summary Global average statistics of one player by id
+ * @tags Scout
+ * @param { number } id.path.required - Player's id
+ * @return { Stats } 200 - Success response - application/json
+ * @return { ApiJsonError } 404 - Not found response - application/json
+ * @example response - 404 - example error response
+ * {
+ *  "error": "Not Found"
+ * }
+ * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+ * @example response - 500 - example error response
+ * {
+ *  "error": "Internal Server Error"
+ * }
+ */
+scoutRouter.route("/player/:id/stats")
   .get(
-    validationMiddleware("params", getPlayerIdSchemas),
-    controllerWrapper(StatisticsController.getGlobalStats.bind(StatisticsController)),
+    validationMiddleware("params", idSchemas),
+    controllerWrapper(StatisticsController.getGlobalPlayerStats.bind(StatisticsController)),
   );
 
 scoutRouter.route("/player/:playerId")
