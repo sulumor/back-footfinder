@@ -35,7 +35,11 @@ export default class AuthController extends CoreController {
       : await ScoutDatamapper.findAll({ where: { email: body.email } });
     if (!data) return next(new ApiError(errorMessage, errorInfos));
 
-    res.cookie("refresh_token", createRefreshToken(data), { httpOnly: true, secure: true, sameSite: "none" });
+    res.cookie("refresh_token", createRefreshToken(data), {
+      httpOnly: true,
+      secure: true,
+      path: "/refresh_token",
+    });
 
     return res.status(200).json({ accessToken: createAccessToken(data) });
   }
