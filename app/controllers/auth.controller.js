@@ -38,9 +38,9 @@ export default class AuthController extends CoreController {
     res.cookie("refresh_token", createRefreshToken(data), {
       httpOnly: true,
       secure: true,
-      path: "/refresh_token",
-      domain: process.env.ORIGIN,
-      sameSite: "Lax",
+      path: "/",
+      domain: process.env.DOMAIN,
+      sameSite: "None",
     });
 
     return res.status(200).json({ accessToken: createAccessToken(data) });
