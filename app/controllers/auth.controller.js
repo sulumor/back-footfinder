@@ -58,9 +58,9 @@ export default class AuthController extends CoreController {
    * @returns { RegisterResponse } The access token
    */
   // eslint-disable-next-line consistent-return
-  static refreshToken({ cookies }, res, next) {
-    console.log(cookies);
-    const refreshToken = cookies.refresh_token;
+  static refreshToken(req, res, next) {
+    console.log(req);
+    const refreshToken = req.cookies.refresh_token;
     if (!refreshToken) return next(new ApiError("Null token", { httpStatus: 401 }));
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
       if (err) return next(new ApiError(err.message, { httpStatus: 403 }));
