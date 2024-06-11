@@ -39,7 +39,6 @@ export default class AuthController extends CoreController {
       httpOnly: true,
       secure: true,
       path: "/",
-      domain: process.env.DOMAIN,
       sameSite: "none",
     });
 
