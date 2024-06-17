@@ -75,20 +75,7 @@ authRouter.route("/refresh_token")
  *  "error": "Internal Server Error"
  * }
  */
-  .post(controllerWrapper(AuthController.refreshToken.bind(AuthController)))
-
-/**
- * DELETE /refresh_token
- * @summary Delete the refresh token cookie
- * @tags Authentification
- * @return { Object } 200 - Success response - application/json
- * @return { ApiJsonError } 500 - Internal Server Error response - application/json
- * @example response - 500 - example error response
- * {
- *  "error": "Internal Server Error"
- * }
- */
-  .delete(controllerWrapper(AuthController.deleteToken.bind(AuthController)));
+  .post(controllerWrapper(AuthController.refreshToken.bind(AuthController)));
 
 /**
  * GET /user

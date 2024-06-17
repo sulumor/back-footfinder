@@ -35,13 +35,6 @@ export default class AuthController extends CoreController {
       : await ScoutDatamapper.findAll({ where: { email: body.email } });
     if (!data) return next(new ApiError(errorMessage, errorInfos));
 
-    // res.cookie("refresh_token", createRefreshToken(data), {
-    //   httpOnly: true,
-    //   secure: true,
-    //   path: "/",
-    //   sameSite: "none",
-    // });
-
     return res.status(200).json({
       accessToken: createAccessToken(data),
       refreshToken: createRefreshToken(data),
@@ -76,17 +69,6 @@ export default class AuthController extends CoreController {
   }
 
   /**
-   * Method to delete the refresh cookie
-   * @param {*} _
-   * @param { Express.Response } res
-   * @returns { Express.Response }
-   */
-  static deleteToken(_, res) {
-    res.clearCookie("refresh_token");
-    return res.status(200).json({ message: "refresh token deleted" });
-  }
-
-  /**
    * Method to register a new user.
    * @param { Express.Request.body } body Object with user's information
    * @param { Express.Response } res
@@ -106,8 +88,9 @@ export default class AuthController extends CoreController {
       ? await PlayerDatamapper.insertSQL(user)
       : await ScoutDatamapper.insertSQL(user);
 
-    res.cookie("refresh_token", createRefreshToken(person), { httpOnly: true });
-
-    return res.status(201).json({ accessToken: createAccessToken(person) });
+    return res.status(201).json({
+      accessToken: createAccessToken(data),
+      refreshToken: createRefreshToken(person),
+    });
   }
 }
