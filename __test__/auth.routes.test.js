@@ -129,8 +129,9 @@ test("route POST /register", async () => {
   expect(typeof res.body.accessToken).toBe("string");
   expect(res.body.accessToken).toMatch(/^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\./);
 
-  expect(typeof res.headers).toBe("object");
-  expect(res.headers).toHaveProperty("set-cookie");
+  expect(res.body).toHaveProperty("refreshToken");
+  expect(typeof res.body.refreshToken).toBe("string");
+  expect(res.body.refreshToken).toMatch(/^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\./);
 });
 
 test("route POST /register utilisateur existe déjà", async () => {
