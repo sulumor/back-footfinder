@@ -48,8 +48,9 @@ test("route POST /login", async () => {
   expect(typeof res.body.accessToken).toBe("string");
   expect(res.body.accessToken).toMatch(/^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\./);
 
-  expect(typeof res.headers).toBe("object");
-  expect(res.headers).toHaveProperty("set-cookie");
+  expect(res.body).toHaveProperty("refreshToken");
+  expect(typeof res.body.refreshToken).toBe("string");
+  expect(res.body.refreshToken).toMatch(/^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\./);
 });
 
 test("route POST /login mauvais email", async () => {
@@ -155,10 +156,13 @@ test("route POST /register utilisateur existe déjà", async () => {
   expect(res.body.error).toMatch("User already exists");
 });
 
-test("route GET /refresh_token", async () => {
+test("route POST /refresh_token", async () => {
   const res = await request(app)
-    .get("/refresh_token")
-    .set("Cookie", [`refresh_token=${REFRESHTOKEN}`])
+    .post("/refresh_token")
+    .set("Accept", "application/json")
+    .send({
+      refreshToken: REFRESHTOKEN,
+    })
     .expect("Content-Type", /json/)
     .expect(200);
 

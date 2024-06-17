@@ -62,6 +62,7 @@ authRouter.route("/refresh_token")
  * GET /refresh_token
  * @summary Have a access token from a refresh token cookie
  * @tags Authentification
+ * @param { RefreshBody } request.body.required - Refresh token
  * @return { Token } 200 - Success response - application/json
  * @return { ApiJsonError } 401 - Unauthorized response - application/json
  * @example response - 401 - example error response
@@ -74,7 +75,7 @@ authRouter.route("/refresh_token")
  *  "error": "Internal Server Error"
  * }
  */
-  .get(controllerWrapper(AuthController.refreshToken.bind(AuthController)))
+  .post(controllerWrapper(AuthController.refreshToken.bind(AuthController)))
 
 /**
  * DELETE /refresh_token
