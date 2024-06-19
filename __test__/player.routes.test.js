@@ -136,11 +136,35 @@ test("route GET /player", async () => {
     expect(scout).toHaveProperty("avatar");
     expect(typeof scout.avatar).toBe("string");
 
-    expect(scout).toHaveProperty("club");
-    expect(typeof scout.club).toBe("string");
+    expect(scout).toHaveProperty("team");
+    expect(scout.team).toHaveProperty("team_id");
+    expect(typeof scout.team.team_id).toBe("number");
+    expect(scout.team.team_id).toBeGreaterThanOrEqual(1);
 
-    expect(scout).toHaveProperty("city");
-    expect(typeof scout.city).toBe("string");
+    expect(scout.team).toHaveProperty("club_name");
+    expect(typeof scout.team.club_name).toBe("string");
+
+    expect(scout.team).toHaveProperty("stadium_name");
+    expect(typeof scout.team.stadium_name).toBe("string");
+
+    expect(scout.team).toHaveProperty("logo");
+    expect(typeof scout.team.logo).toBe("string");
+
+    expect(scout.team).toHaveProperty("adress");
+    expect(typeof scout.team.adress).toBe("string");
+
+    expect(scout.team).toHaveProperty("zip_code");
+    expect(typeof scout.team.zip_code).toBe("string");
+    expect(scout.team.zip_code).toMatch(/^0[1-9]\d{3}$|^[1-8]\d{4}$|^9[0-59]\d{3}$|^97[1-8]\d{2}$|^98[046-9]\d{2}$|^00000$/);
+
+    expect(scout.team).toHaveProperty("city");
+    expect(typeof scout.team.city).toBe("string");
+
+    expect(scout.team).toHaveProperty("latitude");
+    expect(typeof scout.team.latitude).toBe("number");
+
+    expect(scout.team).toHaveProperty("longitude");
+    expect(typeof scout.team.longitude).toBe("number");
 
     expect(scout).toHaveProperty("role");
     expect(scout.role).toBeFalsy();

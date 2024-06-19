@@ -110,8 +110,7 @@ CREATE FUNCTION "update_scout"(json) RETURNS "scout_view" AS $$
     WHERE id = ($1->>'id')::int;
 
     UPDATE "scout" SET
-        "club" = COALESCE((SELECT "club_name" FROM "team" WHERE id=($1->>'team')::int), "club"),
-        "city" = COALESCE((SELECT "city" FROM "team" WHERE id=($1->>'team')::int), "city"),
+        "team_id" = COALESCE(($1->>'team')::int, "team_id"),
         "updated_at" = now()
     WHERE "user_id" = ($1->>'id')::int;
 

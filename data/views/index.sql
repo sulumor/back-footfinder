@@ -104,8 +104,7 @@ CREATE VIEW scouts AS
         "firstname",
         "lastname",
         "email",
-        "club",
-        "city", 
+        (SELECT row_to_json(team_view) FROM team_view WHERE team_id = "scout"."team_id") as "team", 
         "gender"."label" as "gender",
         "nationality"."label" as "nationality",
         "role"
@@ -113,7 +112,7 @@ CREATE VIEW scouts AS
         JOIN "user" ON "scout"."user_id" = "user"."id"
         FULL JOIN "gender" ON "user"."gender_id" = "gender"."id"
         FULL JOIN "nationality" ON "user"."nationality_id" = "nationality"."id"
-    GROUP BY "user"."id", "scout"."club", "scout"."city", "scout"."id", "gender"."label", "nationality"."label";
+    GROUP BY "user"."id", "scout"."id", "gender"."label", "nationality"."label";
 
 CREATE VIEW players AS  
     SELECT "user"."id" AS "id",
@@ -174,8 +173,7 @@ CREATE VIEW scout_view AS
         "firstname",
         "lastname",
         "email",
-        "club",
-        "city", 
+        (SELECT row_to_json(team_view) FROM team_view WHERE team_id = "scout"."team_id") as "team",
         (WITH json_rows AS (SELECT jsonb_agg(row_to_json("players")) AS players FROM "players" WHERE "id" IN (SELECT "player_id" FROM "follow" WHERE "follow"."scout_id" = "scout"."user_id")) SELECT players from json_rows),
         "gender"."label" as "gender",
         "nationality"."label" as "nationality",
@@ -184,6 +182,6 @@ CREATE VIEW scout_view AS
         JOIN "user" ON "scout"."user_id" = "user"."id"
         FULL JOIN "gender" ON "user"."gender_id" = "gender"."id"
         FULL JOIN "nationality" ON "user"."nationality_id" = "nationality"."id"
-    GROUP BY "user"."id", "scout"."club", "scout"."city", "scout"."id", "gender"."label", "nationality"."label";
+    GROUP BY "user"."id", "scout"."id", "gender"."label", "nationality"."label";
 
 COMMIT;
