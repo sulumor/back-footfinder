@@ -53,16 +53,6 @@ CREATE TABLE "player" (
   UNIQUE("user_id")
 );
 
-CREATE TABLE "scout" (
-  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "club" TEXT NOT NULL DEFAULT '',
-  "city" TEXT NOT NULL DEFAULT '',
-  "user_id" INT NOT NULL REFERENCES "user"(id),
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ,
-  UNIQUE("user_id")
-);
-
 CREATE TABLE "team" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "club_name" TEXT NOT NULL,
@@ -76,6 +66,15 @@ CREATE TABLE "team" (
   "longitude" NUMERIC(8,6) NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE "scout" (
+  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "team_id" INT REFERENCES "team"(id),
+  "user_id" INT NOT NULL REFERENCES "user"(id),
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMPTZ,
+  UNIQUE("user_id")
 );
 
 CREATE TABLE "meet" (

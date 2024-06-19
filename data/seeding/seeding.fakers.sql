@@ -1,6 +1,6 @@
 BEGIN;
 
-TRUNCATE TABLE "user", "player", "scout", "team","meet", "play", "match", "link", "statistics", "follow" RESTART IDENTITY CASCADE;
+TRUNCATE TABLE "user", "player", "scout", "meet", "play", "match", "link", "statistics", "follow" RESTART IDENTITY CASCADE;
 
 INSERT INTO "user"(avatar,firstname,lastname, email, password, role, gender_id, nationality_id) VALUES
 ('https://bit.ly/dan-abramov','Jean', 'Dujardin', 'jean.dujardin@mail.io','$2b$12$jRVrTwaorAHZFzfiNI/ZJeAYKWHvxoYn0fJNtsAMbxL1jVwZ7b3dW', true,1,1),
@@ -67,45 +67,26 @@ INSERT INTO player(birth_date, height, weight, strong_foot, number_of_matches_pl
 ('1999-10-31', 202, 105, true, 67, 38, 9);
 
 
-INSERT INTO scout(club, city, user_id) VALUES
-('RC Lens', 'Lens', 2),
-('Olympique Marseille', 'Marseille', 4),
-('Real Madrid', 'Madrid', 7),
-('Paris Saint-Germain', 'Paris', 9),
-('Chelsea FC', 'London', 11),
-('AC Milan', 'Milan', 13),
-('Bayern Munich', 'Munich', 15),
-('RC Lens', 'Lens', 17),
-('RC Lens', 'Lens', 19),
-('FC Barcelona', 'Barcelona', 21),
-('Bayern Munich', 'Munich', 23),
-('Manchester City', 'Manchester', 25),
-('Juventus FC', 'Turin', 27),
-('Atletico Madrid', 'Madrid', 29),
-('Liverpool FC', 'Liverpool', 31),
-('Borussia Dortmund', 'Dortmund', 33),
-('Ajax Amsterdam', 'Amsterdam', 35),
-('AC Milan', 'Milan', 37),
-('Inter Milan', 'Milan', 39);
-
-INSERT INTO team(club_name, stadium_name,  logo, adress, zip_code, city, latitude, longitude) VALUES
-('RC Lens', 'Stade Bollaert-Delelis', 'SVG' ,'177 av. Alfred Maes', '62300', 'Lens', 50.253495, 24.83207),
-('Paris Saint-Germain', 'Parc des Princes', 'psg_logo.png', '123 Avenue des Champs-Élysées', '75008', 'Paris', 48.8566, 2.3522),
-('Olympique de Marseille', 'Stade Vélodrome', 'om_logo.png', '456 Rue de la République', '13001', 'Marseille', 43.2965, 5.3699),
-('Olympique Lyonnais', 'Groupama Stadium', 'ol_logo.png', '789 Rue de Gerland', '69007', 'Lyon', 45.7235, 4.8322),
-('AS Monaco', 'Stade Louis II', 'monaco_logo.png', '101 Avenue des Papalins', '98000', 'Monaco', 43.7325, 7.4188),
-('Lille OSC', 'Stade Pierre-Mauroy', 'lille_logo.png', '202 Rue de l''Hôtel de Ville', '59000', 'Lille', 50.6292, 3.0572),
-('FC Nantes', 'Stade de la Beaujoire', 'nantes_logo.png', '303 Quai Malakoff', '44000', 'Nantes', 47.2388, -1.5649),
-('Stade Rennais FC', 'Roazhon Park', 'rennes_logo.png', '404 Route de Lorient', '35000', 'Rennes', 48.1056, -1.6660),
-('OGC Nice', 'Allianz Riviera', 'nice_logo.png', '505 Boulevard des Jardiniers', '06200', 'Nice', 43.7034, 7.2663),
-('Strasbourg', 'Stade de la Meinau', 'strasbourg_logo.png', '606 Route du Polygone', '67100', 'Strasbourg', 48.5937, 7.7476),
-('Montpellier HSC', 'Stade de la Mosson', 'montpellier_logo.png', '707 Avenue du Mondial 98', '34080', 'Montpellier', 43.6022, 3.9085),
-('Bordeaux', 'Stade Matmut-Atlantique', 'bordeaux_logo.png', '808 Cours Jules Ladoumegue', '33300', 'Bordeaux', 44.9283, -0.5583),
-('Angers SCO', 'Stade Raymond Kopa', 'angers_logo.png', '909 Boulevard Pierre de Coubertin', '49000', 'Angers', 47.4647, -0.5513),
-('AS Saint-Étienne', 'Stade Geoffroy-Guichard', 'st_etienne_logo.png', '101 Rue du Collège', '42000', 'Saint-Étienne', 45.4507, 4.3875),
-('FC Metz', 'Stade Saint-Symphorien', 'metz_logo.png', '121 Rue Saint-Symphorien', '57050', 'Metz', 49.1128, 6.1774),
-('Dijon FCO', 'Stade Gaston Gérard', 'dijon_logo.png', '131 Rue du Stade', '21000', 'Dijon', 47.2322, 5.0415),
-('Nîmes Olympique', 'Stade des Costières', 'nimes_logo.png', '151 Avenue de la Bouvine', '30000', 'Nîmes', 43.8383, 4.3601);
+INSERT INTO scout(team_id, user_id) VALUES
+(1, 2),
+(2, 4),
+(3, 7),
+(4, 9),
+(5, 11),
+(6, 13),
+(7, 15),
+(8, 17),
+(9, 19),
+(10, 21),
+(11, 23),
+(12, 25),
+(13, 27),
+(14, 29),
+(15, 31),
+(16, 33),
+(17, 35),
+(1, 37),
+(1, 39);
 
 
 INSERT INTO meet(team_id_as_home, team_id_as_outside) VALUES
