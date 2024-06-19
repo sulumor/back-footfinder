@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { genderRegex, lettersRegex, passwordRegex } from "../utils/regex.schema.js";
+import { lettersRegex, passwordRegex } from "../utils/regex.schema.js";
 
 export default Joi.object({
   lastname: Joi.string()
@@ -34,12 +34,5 @@ export default Joi.object({
     .required(),
   confirmedPassword: Joi.ref("password"),
   role: Joi.boolean()
-    .required(),
-  gender: Joi.string()
-    .pattern(genderRegex)
-    .messages({
-      "string.empty": "Le genre est requis",
-      "string.pattern.base": "Le genre choisi ne correspond pas",
-    })
     .required(),
 }).required();
