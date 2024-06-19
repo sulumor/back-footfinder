@@ -27,7 +27,7 @@ CREATE TABLE "user" (
   "password" TEXT NOT NULL,
   "role" BOOLEAN NOT NULL DEFAULT true,
   "gender_id" INT NULL REFERENCES "gender"(id),
-  "nationality_id" INT REFERENCES "nationality"(id) DEFAULT 1,
+  "nationality_id" INT NULL REFERENCES "nationality"(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
