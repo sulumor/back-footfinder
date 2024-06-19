@@ -89,7 +89,7 @@ export default class AuthController extends CoreController {
       : await ScoutDatamapper.insertSQL(user);
 
     return res.status(201).json({
-      accessToken: createAccessToken(data),
+      accessToken: createAccessToken(user),
       refreshToken: createRefreshToken(person),
     });
   }

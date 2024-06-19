@@ -118,7 +118,6 @@ test("route POST /register", async () => {
       password: "Test1234!",
       confirmedPassword: "Test1234!",
       role: false,
-      gender: "Homme",
     })
     .expect("Content-Type", /json/)
     .expect(201);
@@ -145,7 +144,6 @@ test("route POST /register utilisateur existe déjà", async () => {
       password: "Test1234!",
       confirmedPassword: "Test1234!",
       role: false,
-      gender: "Homme",
     })
     .expect("Content-Type", /json/)
     .expect(400);

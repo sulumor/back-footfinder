@@ -15,4 +15,5 @@ export default Joi.object({
   position: Joi.string().pattern(positionRegex),
   height: Joi.number().integer(),
   weight: Joi.number().integer(),
+  team: Joi.number().integer(),
 }).min(1).required();

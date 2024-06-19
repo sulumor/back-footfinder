@@ -11,4 +11,5 @@ export default Joi.object({
   city: Joi.string(),
   nationality: Joi.string().pattern(nationalityRegex),
   gender: Joi.string().pattern(genderRegex),
+  team: Joi.number().integer(),
 }).min(1).required();

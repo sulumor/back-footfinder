@@ -21,12 +21,14 @@ $$ LANGUAGE sql STRICT;
 CREATE FUNCTION "update_match"(json) RETURNS "match_view" AS $$
 
   UPDATE "match" SET 
-    "score" = COALESCE(($1->>'score'), "score")
+    "score" = COALESCE(($1->>'score'), "score"),
+    "updated_at" = now()
   WHERE "id" = (($1->>'matchId')::int);
 
   UPDATE "meet" SET 
     "team_id_as_home" = COALESCE(($1->>'homeTeam')::int, "team_id_as_home"),
-    "team_id_as_outside" = COALESCE(($1->>'awayTeam')::int, "team_id_as_outside")
+    "team_id_as_outside" = COALESCE(($1->>'awayTeam')::int, "team_id_as_outside"),
+    "updated_at" = now()
   WHERE "id" = (SELECT "meet_id" FROM "match" WHERE "id" = (($1->>'matchId')::int));
 
   SELECT * FROM "match_view" WHERE "match_id" = ($1->>'matchId')::int;
@@ -51,6 +53,8 @@ CREATE FUNCTION "add_player"(json) RETURNS "player_view" AS $$
   INSERT INTO "player"("user_id") VALUES 
   (($1->>'id')::int);
 
+  INSERT INTO "link" ("player_id") VALUES ((SELECT "id" FROM "player" WHERE "user_id" = ($1->>'id')::int));
+
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
 
@@ -62,7 +66,8 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
     "email" = COALESCE($1->>'email', "email"),
     "password" = COALESCE($1->>'password', "password"),
     "nationality_id" = COALESCE((SELECT id FROM "nationality" WHERE "label"=$1->>'nationality')::int, "nationality_id"),
-    "gender_id" = COALESCE((SELECT id FROM "gender" WHERE "label"=$1->>'gender')::int, "gender_id")
+    "gender_id" = COALESCE((SELECT id FROM "gender" WHERE "label"=$1->>'gender')::int, "gender_id"),
+    "updated_at" = now()
   WHERE id = ($1->>'id')::int;
 
   UPDATE "player" SET 
@@ -71,9 +76,15 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
     "weight" = COALESCE(($1->>'weight')::int, "weight"),
     "strong_foot" = COALESCE(($1->>'strong_foot')::boolean, "strong_foot"),
     "number_of_matches_played" = COALESCE(($1->>'number_of_matches_played')::int, "number_of_matches_played"),
-    "position_id" = COALESCE((SELECT id FROM "position" WHERE "label"=$1->>'position')::int, "position_id")
+    "position_id" = COALESCE((SELECT id FROM "position" WHERE "label"=$1->>'position')::int, "position_id"),
+    "updated_at" = now()
   WHERE "user_id" = ($1->>'id')::int;
 
+  UPDATE "link" SET 
+    "team_id" = COALESCE(($1->>'team')::int, "team_id"),
+    "season" = COALESCE($1->>'season', '2023-2024'),
+    "updated_at" = now()
+  WHERE "player_id" = (SELECT "id" FROM "player" WHERE "user_id" = ($1->>'id')::int);
 
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
 $$ LANGUAGE sql STRICT;
@@ -94,12 +105,13 @@ CREATE FUNCTION "update_scout"(json) RETURNS "scout_view" AS $$
         "email" = COALESCE($1->>'email', "email"),
         "password" = COALESCE($1->>'password', "password"),
         "nationality_id" = COALESCE((SELECT id FROM "nationality" WHERE "label"=$1->>'nationality')::int, "nationality_id"),
-        "gender_id" = COALESCE((SELECT id FROM "gender" WHERE "label"=$1->>'gender')::int, "gender_id")
+        "gender_id" = COALESCE((SELECT id FROM "gender" WHERE "label"=$1->>'gender')::int, "gender_id"),
+        "updated_at" = now()
     WHERE id = ($1->>'id')::int;
 
     UPDATE "scout" SET
-        "club" = COALESCE($1->>'club', "club"),
-        "city" = COALESCE($1->>'city', "city"),
+        "club" = COALESCE((SELECT "club_name" FROM "team" WHERE id=($1->>'team')::int), "club"),
+        "city" = COALESCE((SELECT "city" FROM "team" WHERE id=($1->>'team')::int), "city"),
         "updated_at" = now()
     WHERE "user_id" = ($1->>'id')::int;
 
@@ -134,11 +146,13 @@ CREATE FUNCTION "update_statistics"(json) RETURNS "statistics_view" AS $$
     "yellow_card" = COALESCE(($1->>'yellow_card')::int, "yellow_card"), 
     "stops" = COALESCE(($1->>'stops')::int, "stops"), 
     "goals_conceded" = COALESCE(($1->>'goals_conceded')::int, "goals_conceded"), 
-    "fitness" = COALESCE($1->>'fitness', "fitness")
+    "fitness" = COALESCE($1->>'fitness', "fitness"),
+    "updated_at" = now()
   WHERE "match_id" = ($1->>'matchId')::int;
 
   UPDATE "match" SET 
-    "score" = COALESCE(($1->>'score'), "score")
+    "score" = COALESCE(($1->>'score'), "score"),
+    "updated_at" = now()
   WHERE "id" = (($1->>'matchId')::int);
 
   SELECT * FROM "statistics_view" WHERE "match_id" = ($1->>'matchId')::int;

@@ -26,7 +26,7 @@ CREATE TABLE "user" (
   "email" TEXT NOT NULL,
   "password" TEXT NOT NULL,
   "role" BOOLEAN NOT NULL DEFAULT true,
-  "gender_id" INT NOT NULL REFERENCES "gender"(id),
+  "gender_id" INT NULL REFERENCES "gender"(id),
   "nationality_id" INT REFERENCES "nationality"(id) DEFAULT 1,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
@@ -121,8 +121,8 @@ CREATE TABLE "statistics" (
 CREATE TABLE "link" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "player_id" INT REFERENCES player(id),
-  "team_id" INT REFERENCES team(id),
-  "season" TEXT NOT NULL,
+  "team_id" INT REFERENCES team(id) DEFAULT 1,
+  "season" TEXT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
