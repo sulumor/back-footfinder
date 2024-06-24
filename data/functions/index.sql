@@ -97,7 +97,7 @@ CREATE FUNCTION "update_player"(json) RETURNS "player_view" AS $$
     "team_id" = COALESCE(($1->>'team')::int, "team_id"),
     "season" = COALESCE($1->>'season', '2023-2024'),
     "updated_at" = now()
-  WHERE "player_id" = (SELECT "id" FROM "player" WHERE "user_id" = ($1->>'id')::int);
+  WHERE "player_id" = (SELECT "id" FROM "player" WHERE "user_id" = ($1->>'id')::int) AND "season" = '2023-2024';
 
   SELECT * FROM "player_view" WHERE "id" = ($1->>'id')::int;
 $$ LANGUAGE sql STRICT;

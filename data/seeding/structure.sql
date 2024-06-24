@@ -122,7 +122,7 @@ CREATE TABLE "link" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "player_id" INT REFERENCES player(id),
   "team_id" INT REFERENCES team(id) DEFAULT 1,
-  "season" TEXT NULL,
+  "season" TEXT DEFAULT '2023-2024',
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
