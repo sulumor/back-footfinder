@@ -67,6 +67,7 @@ CREATE VIEW statistics_view AS
         "match"."id" AS "match_id",
         "score",
         "date",
+        "time",
         (SELECT row_to_json(team_view) FROM team_view WHERE team_id = "team_id_as_home") as "home",
         (SELECT row_to_json(team_view) FROM team_view WHERE team_id = "team_id_as_outside") as "away",
         "assists",
@@ -89,6 +90,7 @@ CREATE VIEW match_view AS
     "match"."id" AS "match_id",
     "score",
     "date",
+    "time",
     (SELECT row_to_json(team_view) FROM team_view WHERE team_id = "team_id_as_home") as "home",
     (SELECT row_to_json(team_view) FROM team_view WHERE team_id = "team_id_as_outside") as "away"
   FROM "match"
