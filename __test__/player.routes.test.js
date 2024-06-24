@@ -221,6 +221,7 @@ test("route POST /player/match", async () => {
       homeTeam: 1,
       awayTeam: 2,
       date: "2024-12-31",
+      time: "20:00:00"
     })
     .expect("Content-Type", /json/)
     .expect(201);

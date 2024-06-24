@@ -8,4 +8,5 @@ export default Joi.object({
     .integer()
     .required(),
   date: Joi.string().required(),
+  time: Joi.string().required(),
 }).required();
