@@ -4,10 +4,12 @@ import AuthController from "../../controllers/auth.controller.js";
 // -------------- Schemas -----------------
 import loginSchema from "../../schemas/post/login.post.schemas.js";
 import registrationSchema from "../../schemas/post/registration.post.schemas.js";
+import forgotPasswordPostSchemas from "../../schemas/post/forgotPassword.post.schemas.js";
+import resetPasswordPostSchemas from "../../schemas/post/resetPassword.post.schemas.js";
 // -------------- Middlewares -----------------
 import controllerWrapper from "../../helpers/controller.wrapper.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
-import { authenticateToken } from "../../middlewares/jwt.middlewares.js";
+import { authenticateResetPasswordToken, authenticateToken } from "../../middlewares/jwt.middlewares.js";
 
 const authRouter = Router();
 
@@ -57,7 +59,6 @@ authRouter.post(
   controllerWrapper(AuthController.login.bind(AuthController)),
 );
 
-authRouter.route("/refresh_token")
 /**
  * GET /refresh_token
  * @summary Have a access token from a refresh token cookie
@@ -74,8 +75,63 @@ authRouter.route("/refresh_token")
  * {
  *  "error": "Internal Server Error"
  * }
+*/
+authRouter.post(
+  "/refresh_token",
+  controllerWrapper(AuthController.refreshToken.bind(AuthController)),
+);
+
+/**
+ * POST /forgot-password
+ * @summary Send a email with the link to update the user's password
+ * @tags Authentification
+ * @param { ForgotPasswordBody } request.body.required - User's email
+ * @return {} 204 - Success response
+ * @return { ApiJsonError } 401 - Unauthorized response - application/json
+ * @example response - 401 - example error response
+ * {
+ *  "error": "Utilisateur n'existe pas"
+ * }
+ * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+ * @example response - 500 - example error response
+ * {
+ *  "error": "Internal Server Error"
+ * }
+ * @return { ApiJsonError } 503 - Internal Server Error response - application/json
+ * @example response - 503 - example error response
+ * {
+ *  "error": "Email pas envoyé"
+ * }
  */
-  .post(controllerWrapper(AuthController.refreshToken.bind(AuthController)));
+authRouter.post(
+  "/forgot-password",
+  validationMiddleware("body", forgotPasswordPostSchemas),
+  controllerWrapper(AuthController.forgotPassword.bind(AuthController)),
+);
+
+/**
+ * POST /reset-password
+ * @summary Update the user's password
+ * @tags Authentification
+ * @param { ResetPasswordBody } request.body.required - User's new password to update
+ * @return {} 204 - Success response
+ * @return { ApiJsonError } 401 - Unauthorized response - application/json
+ * @example response - 401 - example error response
+ * {
+ *  "error": "Utilisateur n'existe pas"
+ * }
+ * @return { ApiJsonError } 500 - Internal Server Error response - application/json
+ * @example response - 500 - example error response
+ * {
+ *  "error": "Internal Server Error"
+ * }
+ */
+authRouter.post(
+  "/reset-password",
+  authenticateResetPasswordToken,
+  validationMiddleware("body", resetPasswordPostSchemas),
+  controllerWrapper(AuthController.resetPassword.bind(AuthController)),
+);
 
 /**
  * GET /user
@@ -99,7 +155,8 @@ authRouter.route("/refresh_token")
  * }
  */
 
-authRouter.route("/user").get(
+authRouter.get(
+  "/user",
   authenticateToken,
   controllerWrapper(AuthController.getUser.bind(AuthController)),
 );

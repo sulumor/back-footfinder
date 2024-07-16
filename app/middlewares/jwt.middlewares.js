@@ -20,6 +20,24 @@ function authenticateToken(req, _, next) {
   });
 }
 
+// eslint-disable-next-line consistent-return
+function authenticateResetPasswordToken(req, _, next) {
+  const authHeader = req.headers.authorization;// Bearer TOKEN
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return next(new ApiError("Token non disponible", { httpStatus: 401 }));
+  // eslint-disable-next-line consistent-return
+  jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET, async (error, user) => {
+    if (error) return next(new ApiError(error.message, { httpStatus: 403 }));
+    const [userExits] = await AuthDatamapper.findAll({
+      where:
+      { id: user.id },
+    });
+    if (!userExits) return next(new ApiError("Accès interdit", { httpStatus: 403 }));
+    req.user = user;
+    next();
+  });
+}
+
 function authorizationRoute({ originalUrl, user }, _, next) {
   const baseRoute = originalUrl.split("/")[1];
   // eslint-disable-next-line no-nested-ternary
@@ -28,4 +46,4 @@ function authorizationRoute({ originalUrl, user }, _, next) {
   return next();
 }
 
-export { authenticateToken, authorizationRoute };
+export { authenticateToken, authorizationRoute, authenticateResetPasswordToken };

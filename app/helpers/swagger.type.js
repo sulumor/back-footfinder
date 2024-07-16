@@ -97,6 +97,17 @@
  */
 
 /**
+ * @typedef { object } ForgotPasswordBody - Body to receive a user's email
+ * @property { string } email.required - email
+ */
+/**
+ * @typedef { object } ResetPasswordBody - Body to receive a new user's password
+ * @property { string } password.required - password
+ * @property { string } passwordConfirmed.required - password confirmed
+ * @property { string } id.required - user's id to update
+ */
+
+/**
  * @typedef { object } UserToken - Information from the access token
  * @property { boolean } role
  * @property { number } id

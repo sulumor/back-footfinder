@@ -5,7 +5,8 @@ import CoreController from "./core.controller.js";
 import AuthDatamapper from "../datamapper/auth.datamapper.js";
 import PlayerDatamapper from "../datamapper/player.datamapper.js";
 import ScoutDatamapper from "../datamapper/scout.datamapper.js";
-import { createAccessToken, createRefreshToken } from "../helpers/jwt.function.js";
+import { createAccessToken, createForgotPasswordToken, createRefreshToken } from "../helpers/jwt.function.js";
+import sendEmail from "../helpers/nodemailer.funtion.js";
 
 /**
  * Authentication controller
@@ -92,5 +93,35 @@ export default class AuthController extends CoreController {
       accessToken: createAccessToken(user),
       refreshToken: createRefreshToken(person),
     });
+  }
+
+  static async forgotPassword({ body }, res, next) {
+    const { email } = body;
+    const [existsUser] = await this.datamapper.findAll({ where: { email } });
+    if (!existsUser) return next(new ApiError("Utilisateur n'existe pas", { httpStatus: 401 }));
+
+    const token = createForgotPasswordToken(existsUser);
+    const response = await sendEmail({ email, id: existsUser.id, token });
+
+    if (!response) return next(new ApiError("Email pas envoyé", { httpStatus: 503 }));
+    return res.status(204).end();
+  }
+
+  static async resetPassword({ body, user }, res, next) {
+    const { id, password } = body;
+    const [existsUser] = await this.datamapper.findAll({ where: { id } });
+
+    if (!existsUser) return next(new ApiError("Utilisateur n'existe pas", { httpStatus: 401 }));
+    if (existsUser.id !== user.id) return next(new ApiError("Utilisateur n'existe pas", { httpStatus: 401 }));
+
+    const newPassword = await bcrypt.hash(password, Number.parseInt(process.env.BCRYPT_SALT, 10));
+
+    const dataToUpdated = { id, password: newPassword };
+    const [dataUpdated] = existsUser.role
+      ? await PlayerDatamapper.updateSQL(dataToUpdated)
+      : await ScoutDatamapper.updateSQL(dataToUpdated);
+
+    if (!dataUpdated) return next(new ApiError("Données pas mise à jour", { httpStatus: 500 }));
+    return res.status(204).end();
   }
 }

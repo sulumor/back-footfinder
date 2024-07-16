@@ -1,12 +1,16 @@
 import "../app/helpers/env.load.js";
 import request from "supertest";
 import app from "../app/index.app.js";
-import { createAccessToken, createRefreshToken } from "../app/helpers/jwt.function.js";
+import { createAccessToken, createForgotPasswordToken, createRefreshToken } from "../app/helpers/jwt.function.js";
 
 const TOKEN = createAccessToken({
   id: 1, firstname: "Jean", lastname: "Dujardin", role: true,
 });
 const REFRESHTOKEN = createRefreshToken({
+  id: 1, firstname: "Jean", lastname: "Dujardin", role: true,
+});
+
+const RESETPASSWORDTOKEN = createForgotPasswordToken({
   id: 1, firstname: "Jean", lastname: "Dujardin", role: true,
 });
 
@@ -170,4 +174,27 @@ test("route POST /refresh_token", async () => {
   expect(res.body).toHaveProperty("accessToken");
   expect(typeof res.body.accessToken).toBe("string");
   expect(res.body.accessToken).toMatch(/^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\./);
+});
+
+test("route POST /forgot-password", async () => {
+  await request(app)
+    .post("/forgot-password")
+    .set("Accept", "application/json")
+    .send({
+      email: "jean.dujardin@mail.io",
+    })
+    .expect(204);
+});
+
+test("route POST /reset-password", async () => {
+  await request(app)
+    .post("/reset-password")
+    .set("Accept", "application/json")
+    .auth(RESETPASSWORDTOKEN, { type: "bearer" })
+    .send({
+      id: "1",
+      password: "Test1234!",
+      confirmedPassword: "Test1234!",
+    })
+    .expect(204);
 });
