@@ -27,6 +27,7 @@
     "express-jsdoc-swagger": "^1.8.0",
     "joi": "^17.12.1",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.14",
     "pg": "^8.11.3"
   },
   "devDependencies": {
